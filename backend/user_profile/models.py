@@ -9,14 +9,21 @@ class User(AbstractUser):
     isResidenceManager = models.BooleanField
 
 
+class Location(models.Model):
+    streetName = models.CharField(max_length=100)
+    streetNum = models.CharField(max_length=20)
+    zipcode = models.CharField(max_length=6)
+
+
 class Residence(models.Model):
-    residenceName = models.CharField(max_length=100)
-    residenceManager = models.ForeignKey(User)
+    name = models.CharField(max_length=100)
+    manager = models.ManyToManyField(User)
+    location = models.OneToOneField(Location, on_delete=models.CASCADE)
+
 
 class Review(models.Model):
-    reviewTitle = models.CharField(max_length=100)
-    reviewContent = models.CharField(max_length=10000)
+    publishTime = models.DateTimeField(auto_now=True)
+    title = models.CharField(max_length=100)
+    content = models.CharField(max_length=10000)
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE)
-    reviewedResidence = models.ForeignKey(Residence, on_delete=models.CASCADE)
-
-
+    belongedResidence = models.ForeignKey(Residence, on_delete=models.CASCADE)
