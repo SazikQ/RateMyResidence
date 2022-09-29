@@ -27,3 +27,6 @@ class Review(models.Model):
     content = models.CharField(max_length=10000)
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE)
     belongedResidence = models.ForeignKey(Residence, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['publishTime']
