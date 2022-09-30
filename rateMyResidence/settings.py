@@ -112,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 #Change the default authentication model to our own User
-AUTH_USER_MODEL = 'backend.user_profile.User'
+AUTH_USER_MODEL = 'user_profile.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
