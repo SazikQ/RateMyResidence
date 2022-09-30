@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -114,6 +115,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+#Change the default authentication model to our own User
+AUTH_USER_MODEL = 'user_profile.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/

@@ -12,9 +12,12 @@ services:
       - POSTGRES_PASSWORD=postgres
   web:
     build: .
-    command: python manage.py runserver 0000:8000
+
     volumes:
       - .:/code
+
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0000:8000"
+
     ports:
       - "8000:8000"
     environment:
