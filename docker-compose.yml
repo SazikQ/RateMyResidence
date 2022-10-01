@@ -1,23 +1,50 @@
 version: '3'
 
 services:
+# Database
+# Server name: 307 Project
+# Host name: db
+# Port: 5432
+# Maintenance database: postgres
+# Username: postgres
+# Password: postgres
   db:
+    container_name: postgres_container
     image: postgres
-    # Set up volume to store the data locally - Save data between container resets
-    #volumes:
-    #  - ./data/db:/var/lib/postgresql/data
+    restart: always
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-  web:
-    build: .
+    ports:
+      - "5432:5432"
+    volumes: 
+      - postgres_data:/var/lib/postgresql/data/
 
+# pgAdmin
+# To login to pgAdmin, use default email and password below
+# Then make new server with database info above
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - "5051:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    depends_on:
+    - db
+
+# Django website
+# Makes migrations to database before running
+# Launches after database is set up on port 8000
+  web:
+    container_name: Django_container
+    build: .
     volumes:
       - .:/code
-
     command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0000:8000"
-
     ports:
       - "8000:8000"
     environment:
@@ -26,3 +53,8 @@ services:
       - POSTGRES_PASSWORD=postgres
     depends_on:
       - db
+      - pgadmin
+
+# Set up local storage for database
+volumes:
+  postgres_data:
