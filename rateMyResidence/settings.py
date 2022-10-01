@@ -45,10 +45,6 @@ INSTALLED_APPS = [
     'backend.user_profile',
 
 
-    #'backend.functions.apps.FunctionsConfig',
-    #'backend.user_authentication.apps.UserAuthenticationConfig',
-    #'backend.user_profile.apps.UserProfileConfig',
-
 ]
 
 MIDDLEWARE = [
@@ -140,9 +136,13 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 # Media Files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+#for testing only
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "home"
+
