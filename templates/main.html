@@ -32,6 +32,7 @@
            
             </ul>
             <div class="col-md-4 offset-md-7">
+<<<<<<< HEAD
               {% if request.user.is_authenticated %} 
               <a class = "btn btn-light btn-sm" href = "account.html" role = "button">Account</a>
               <a class="btn btn-outline-primary me-2 btn-sm" href = "#" role = "button">Sign Out</a>
@@ -39,6 +40,19 @@
                <a class="btn btn-outline-primary me-2 btn-sm" href = "./registration/login.html" role = "button">Sign In</a>
                <a class="btn btn-primary btn-sm" href = "./registration/signup.html" role = "button">Sign Up</a>
               {% endif %}
+=======
+
+                {% if user.is_authenticated %}
+                    <a style="color:black;"> Hi {{ user.username }}!</a>
+                    <a class = "btn btn-light btn-sm" href = "account.html" role = "button">Account</a>
+                    <a class="btn btn-outline-primary me-2 btn-sm" href = "{% url 'logout' %}" role = "button">Log Out</a>
+                {% else %}
+
+                    <a class="btn btn-outline-primary me-2 btn-sm" href = "{% url 'login' %}" role = "button">Sign In</a>
+                    <a class="btn btn-primary btn-sm" href = "{% url 'signup' %}" role = "button">Sign Up</a>
+                {% endif %}
+
+>>>>>>> b8c221fa002e47aa878927495a59a7fcf6472d68
             </div>
 
           </div>
