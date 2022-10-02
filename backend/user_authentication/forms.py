@@ -8,14 +8,12 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ("username", "email")
-        #fields = ("username", "email", "isVerifiedUser", "isResidenceManager")
+        fields = ("username", "email", "isVerifiedUser", "isResidenceManager")
 
 
 class CustomUserChangeForm(UserChangeForm):
 
     class Meta:
         model = User
-        fields = ("username", "email")
-        #fields = ("username", "email", "isVerifiedUser", "isResidenceManager")
+        fields = ("username", "email", "isVerifiedUser", "isResidenceManager")
 
