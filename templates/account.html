@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %} Account {% endblock %}
+
+{% block content %}
+<h1>Account Info</h1>
+<p>user name: {{user.username}}</p>
+<p>email: {{user.email}}</p>
+<a class = "btn" href = "{% url 'editProfile' %}"> Edit </a>
+
+<br>
+
+
+<!--{% if user.isVerifiedUser %}
+  <a class = "btn" > Create a new residence entry </a>
+{% else %}
+  <a class = "btn"> Request verification </a>
+{% endif %}-->
+
+
+{% endblock %}

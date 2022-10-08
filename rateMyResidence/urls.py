@@ -22,6 +22,7 @@ from backend.functions.views import add_residence
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", TemplateView.as_view(template_name="main.html"), name="home"),
+    path("profile/", include('backend.user_profile.urls')),
     path("accounts/", include("backend.user_authentication.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
     path('search/', SearchResultsView.as_view(), name='search_results'),
