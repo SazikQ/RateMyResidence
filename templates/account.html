@@ -8,9 +8,9 @@
 <button type = "button"> Edit Profile</button>
 
 {% if user.isVerifiedUser %}
-  <a href = "{% url '#' %}"> Click me to create a new residence entry </a>
+  <a> Click me to create a new residence entry </a>
 {% else %}
-  <a href = "{% url '#' %}"> Click me to request to be verified </a>
+  <a> Click me to request to be verified </a>
 {% endif %}
 
 
