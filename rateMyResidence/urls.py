@@ -16,11 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from backend.functions.views import SearchResultsView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", TemplateView.as_view(template_name="main.html"), name="home"),
     path("accounts/", include("backend.user_authentication.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
-
+    path('search/', SearchResultsView.as_view(), name='search_results'),
 ]
