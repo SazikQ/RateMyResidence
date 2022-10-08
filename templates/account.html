@@ -5,12 +5,13 @@
 <h1>Account Info</h1>
 <p>user name: {{user.username}}</p>
 <p>email: {{user.email}}</p>
-<button type = "button"> Edit Profile</button>
+<a class = "btn" href = "{% url 'editProfile' %}"> Edit </a>
+
 
 {% if user.isVerifiedUser %}
-  <a> Click me to create a new residence entry </a>
+  <a class = "btn" > Create a new residence entry </a>
 {% else %}
-  <a> Click me to request to be verified </a>
+  <a class = "btn"> Request verification </a>
 {% endif %}
 
 
