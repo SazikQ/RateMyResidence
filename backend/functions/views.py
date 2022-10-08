@@ -1,8 +1,8 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from backend.functions.forms import SearchForm
-
+#from backend.functions.forms import SearchForm
+from backend.user_profile.models import *
+from django.views.generic import TemplateView, ListView
 
 # Create your views here.
 
@@ -21,3 +21,11 @@ def search(request):
         form = SearchForm()
 
     return render(request, 'name.html', {'form': form})
+
+class SearchResultsView(ListView):
+    model = Residence
+    template_name = 'residence_temp.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        return Residence.objects.filter(name__icontains=query)

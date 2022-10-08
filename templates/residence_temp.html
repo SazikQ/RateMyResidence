@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<ul>
+  {% if object_list %}
+    {% for Residence in object_list %}
+    <li>
+      {{Residence.name}}
+      <ul>
+        <li>{{Residence.manager.username}}</li>
+        <li>{{Residence.location.streetName}}</li>
+        <li>{{Residence.location.streetNum}}</li>
+        <li>{{Residence.location.zipcode}}</li>
+      </ul>
+    </li>
+    {% endfor %}
+  {% else %}
+
+  {% endif %}
+</html>
