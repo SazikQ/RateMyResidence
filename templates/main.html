@@ -35,7 +35,7 @@
 
                 {% if user.is_authenticated %}
                     <a style="color:black;"> Hi {{ user.username }}!</a>
-                    <a class = "btn btn-light btn-sm" href = "account.html" role = "button">Account</a>
+                    <a class = "btn btn-light btn-sm" href = "{% url 'profile'%}" role = "button">Account</a>
                     <a class="btn btn-outline-primary me-2 btn-sm" href = "{% url 'logout' %}" role = "button">Log Out</a>
                 {% else %}
 
