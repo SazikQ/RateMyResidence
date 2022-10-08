@@ -28,4 +28,5 @@ class SearchResultsView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get('q')
-        return Residence.objects.filter(name__icontains=query)
+        object_list = Residence.objects.filter(name__icontains=query)
+        return object_list

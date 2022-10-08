@@ -6,7 +6,14 @@
     <li>
       {{Residence.name}}
       <ul>
-        <li>{{Residence.manager.username}}</li>
+        <li>Managers</li>
+        {% if Residence.manager.all %}
+          <ul>
+            {% for manager in Residence.manager.all %}
+              <li>{{manager}}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
         <li>{{Residence.location.streetName}}</li>
         <li>{{Residence.location.streetNum}}</li>
         <li>{{Residence.location.zipcode}}</li>
