@@ -7,12 +7,14 @@
 <p>email: {{user.email}}</p>
 <a class = "btn" href = "{% url 'editProfile' %}"> Edit </a>
 
+<br>
 
-{% if user.isVerifiedUser %}
+
+<!--{% if user.isVerifiedUser %}
   <a class = "btn" > Create a new residence entry </a>
 {% else %}
   <a class = "btn"> Request verification </a>
-{% endif %}
+{% endif %}-->
 
 
 {% endblock %}
