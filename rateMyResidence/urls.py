@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 from backend.functions.views import SearchResultsView
 from backend.functions.views import add_residence
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,4 +28,5 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path('search/', SearchResultsView.as_view(), name='search_results'),
     path('addResidence/', add_residence, name='add_residence'),
+    path('changePassword/', auth_views.PasswordChangeView.as_view()),
 ]
