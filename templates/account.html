@@ -5,8 +5,8 @@
 <h1>Account Info</h1>
 <p>user name: {{user.username}}</p>
 <p>email: {{user.email}}</p>
-<button type = "button"> Edit </button>
-<a href = "{% url '#' %}"> Click me to reset password </a>
+<button type = "button"> Edit Profile</button>
+
 {% if user.isVerifiedUser %}
   <a href = "{% url '#' %}"> Click me to create a new residence entry </a>
 {% else %}
