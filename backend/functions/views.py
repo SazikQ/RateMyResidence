@@ -13,7 +13,7 @@ from django.contrib import messages
 @login_required
 def add_review(request):
     if request.method == 'POST':
-        form = ReviewForm(request.post)
+        form = ReviewForm(request.POST)
         if form.is_valid():
             review = Review(title=form.cleaned_data['title'], content=form.cleaned_data['content'], reviewer=request.user)
             review.save()
