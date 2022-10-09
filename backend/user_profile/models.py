@@ -22,12 +22,16 @@ class Residence(models.Model):
 
 
 class Review(models.Model):
-    publishTime = models.DateTimeField(auto_now=True)
+    # publishTime = models.DateTimeField(auto_now=True)
+    publishTime = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=100)
-    content = models.CharField(max_length=10000)
+    content = models.CharField(max_length=500)
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE)
-    belongedResidence = models.ForeignKey(Residence, on_delete=models.CASCADE)
-
+    # residence = models.ForeignKey(Residence, related_name = 'comments', on_delete=models.CASCADE)
+    belongedResidence = models.ForeignKey(Residence, related_name = 'comments', on_delete=models.CASCADE)
     class Meta:
         ordering = ['publishTime']
-
+    
+    def __str__(self):
+        # return super().__str__()
+        return '%s - %s' % (self.belongedResidence.name, self.reviewer)
