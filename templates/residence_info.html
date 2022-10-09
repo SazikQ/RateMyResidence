@@ -1,5 +1,9 @@
-<!DOCTYPE html>
-<html>
-    <h1><Residence class="name"></Residence></h1>
-    <h1>Residence name</h1>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Residence Page{% endblock %}
+
+{% block content %}
+<h2> Residence name: {{ object.name }} </h2>
+<h2> Residence manager: {{ object.manager }} </h2>
+<h2> Residence adress: {{ object.location.streetNum }} {{ object.location.streetName }} {{ object.location.zipcode }} </h2>
+{% endblock %}

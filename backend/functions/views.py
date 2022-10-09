@@ -38,3 +38,9 @@ class AddResidenceView(DetailView):
     model = Residence
     template_name = 'residence_info.html'
     # fields = '__all__'
+    # def index(request):
+    #     name = request.name
+    #     manager = request.manager
+    #     streetName = request.location.streetName
+    #     content = {'name': name, 'manager':manager, 'streetName':streetName}
+    #     return render(request, 'residence_info.html', content)

@@ -30,7 +30,7 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path('search/', SearchResultsView.as_view(), name='search_results'),
     path('list/', ResidenceListView.as_view(), name = 'list_residence'),
-    path('residence/<int:pk>', AddResidenceView.as_view(), name='residence_info'),
+    path('residence/<str:pk>', AddResidenceView.as_view(), name='residence_info'),
     path('addResidence/', add_residence, name='add_residence'),
     path("profile/password/", change_password, name="changePassword"),
 ]
