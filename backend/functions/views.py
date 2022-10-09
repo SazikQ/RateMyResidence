@@ -23,7 +23,7 @@ def add_residence(request):
 
 class SearchResultsView(ListView):
     model = Residence
-    template_name = 'residence_temp.html'
+    template_name = 'residence_list.html'
 
     def get_queryset(self):
         query = self.request.GET.get('q')
