@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from backend.functions.forms import ResidenceForm
-from django.views.generic import TemplateView, ListView, CreateView
+from django.views.generic import TemplateView, ListView, DetailView
 from backend.user_profile.models import Residence, Location
 from django.urls import reverse
 
@@ -29,11 +29,12 @@ class SearchResultsView(ListView):
         query = self.request.GET.get('q')
         object_list = Residence.objects.filter(name__icontains=query)
         return object_list
+
 class ResidenceListView(ListView):
     model = Residence
     template_name = 'residence_list.html'
-    
-class AddResidenceView(CreateView):
+
+class AddResidenceView(DetailView):
     model = Residence
-    template_name = 'residence_temp.html'
-    fields = '__all__'
+    template_name = 'residence_info.html'
+    # fields = '__all__'

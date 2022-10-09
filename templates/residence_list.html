@@ -5,6 +5,7 @@
     {% for Residence in object_list %}
     <li>
       {{Residence.name}}
+      <a class = "btn" href = "{% url 'residence_info' Residence.pk %}" role = "button">Residence Detail</a>
     </li>
     {% endfor %}
   {% else %}
