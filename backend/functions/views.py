@@ -1,12 +1,24 @@
+from turtle import title
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect
-from backend.functions.forms import ResidenceForm
+from backend.functions.forms import ResidenceForm, ReviewForm
 from django.views.generic import TemplateView, ListView, DetailView
-from backend.user_profile.models import Residence, Location
+from backend.user_profile.models import Residence, Location, Review
 from django.urls import reverse
 from django.contrib import messages
 
 # Create your views here.
+
+def add_review(request):
+    if request.method == 'POST':
+        form = ReviewForm(request.post)
+        if form.is_valid():
+            review = Review(title = form.cleaned_data['title'], content = form.cleaned_data['content'])
+            review.save()
+            return HttpResponseRedirect("/")
+    else:
+        form = ReviewForm()
+    return render(request, 'addReview.html', {'form': form.as_p()})
 
 def add_residence(request):
     if request.method == 'POST':
@@ -53,10 +65,3 @@ class ResidenceListView(ListView):
 class AddResidenceView(DetailView):
     model = Residence
     template_name = 'residence_info.html'
-    # fields = '__all__'
-    # def index(request):
-    #     name = request.name
-    #     manager = request.manager
-    #     streetName = request.location.streetName
-    #     content = {'name': name, 'manager':manager, 'streetName':streetName}
-    #     return render(request, 'residence_info.html', content)
