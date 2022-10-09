@@ -1,14 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add New Review</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Log In{% endblock %}
+
+{% block content %}
+<h2>Add comment</h2>
+<div class = "form-group">
 <form method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Submit">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <!-- <button type="submit">Log In</button> -->
+  <!-- <input type="submit" value="Submit"> -->
+  <button class = 'btn btn-secondary'>Add Comment</button>
 </form>
-</body>
-</html>
+</div>
+{% endblock %}
