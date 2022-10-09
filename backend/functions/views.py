@@ -3,7 +3,7 @@ from django.shortcuts import render
 from backend.functions.forms import ResidenceForm
 from django.views.generic import TemplateView, ListView, CreateView
 from backend.user_profile.models import Residence, Location
-
+from django.urls import reverse
 
 # Create your views here.
 
@@ -15,7 +15,7 @@ def add_residence(request):
             saved_location.save()
             residence = Residence(name=form.cleaned_data['name'], location=saved_location)
             residence.save()
-            return HttpResponse('thanks')
+            return HttpResponseRedirect("/")
     else:
         form = ResidenceForm()
     return render(request, 'addResidence.html', {'form': form.as_p()})

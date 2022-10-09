@@ -6,3 +6,5 @@ class ResidenceForm(forms.Form):
     streetName = forms.CharField(max_length=100)
     streetNum = forms.CharField(max_length=20)
     zipcode = forms.CharField(max_length=6)
+
+
