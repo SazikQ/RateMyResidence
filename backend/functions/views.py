@@ -11,6 +11,25 @@ from django.contrib import messages
 
 # Create your views here.
 @login_required
+def add_review(request, pk):
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        pk = request.session['pk']
+        if pk == '':
+            raise Http404
+        if form.is_valid():
+            review = Review(title=form.cleaned_data['title'], content=form.cleaned_data['content'], reviewer=request.user, belongedResidence=Residence.objects.get(pk=pk))
+            review.save()
+            redirectUrl = "/residence/" + pk
+            return HttpResponseRedirect(redirectUrl)
+    else:
+        if pk == '':
+            raise Http404
+        request.session['pk'] = pk
+        form = ReviewForm()
+    return render(request, 'addReview.html', {'form': form.as_p()})
+
+
 def add_residence(request):
     if request.method == 'POST':
         form = ResidenceForm(request.POST)
@@ -59,19 +78,19 @@ class ResidenceDetail(DetailView):
     model = Residence
     template_name = 'residence_info.html'
 
-class AddReview(CreateView):
-    model = Review
-    form_class = ReviewForm
-    template_name = 'addReview.html'
-    # fields = '__all__'
+# class AddReview(CreateView):
+#     model = Review
+#     # form_class = ReviewForm
+#     template_name = 'addReview.html'
+#     fields = '__all__'
 
-    def add_review(self):
-        if self.method == 'POST':
-            form = ReviewForm(self.POST)
-            if form.is_valid():
-                review = Review(title=form.cleaned_data['title'], content=form.cleaned_data['content'])
-                review.save()
-                return HttpResponseRedirect("/")
-        else:
-            form = ReviewForm()
-        return render(self, 'addReview.html', {'form': form.as_p()})
+#     def add_review(self):
+#         if self.method == 'POST':
+#             form = ReviewForm(self.POST)
+#             if form.is_valid():
+#                 review = Review(title=form.cleaned_data['title'], content=form.cleaned_data['content'])
+#                 review.save()
+#                 return HttpResponseRedirect("/")
+#         else:
+#             form = ReviewForm()
+#         return render(self, 'addReview.html', {'form': form.as_p()})
