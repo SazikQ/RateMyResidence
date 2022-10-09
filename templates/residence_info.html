@@ -27,8 +27,10 @@
       </form>
 {% else %}
     {% for comment in object.comments.all %}
-        <strong>{{ comment.title }}</strong>
-        {{ comment.publishTime }}
+        <strong>{{ comment.title }} {{ comment.publishTime }} </strong>
+        {{ comment.reviewer }}<br>
+        {{ comment.belongedResidence }}<br>
+        {{ comment.content }}<br>
     {% endfor %}
 {% endif %}
 

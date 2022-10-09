@@ -1,16 +1,20 @@
 {% extends "base.html" %}
 
-{% block title %}Log In{% endblock %}
+{% block title %}Add Comment{% endblock %}
 
 {% block content %}
-<h2>Add comment</h2>
-<div class = "form-group">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add New Comment</title>
+</head>
+<body>
 <form method="post">
   {% csrf_token %}
-  {{ form.as_p }}
-  <!-- <button type="submit">Log In</button> -->
-  <!-- <input type="submit" value="Submit"> -->
+  {{ form }}
   <button class = 'btn btn-secondary'>Add Comment</button>
 </form>
-</div>
+</body>
+</html>
 {% endblock %}
