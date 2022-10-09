@@ -21,6 +21,10 @@ def add_residence(request):
         form = ResidenceForm()
     return render(request, 'addResidence.html', {'form': form.as_p()})
 
+def autocomplete(request):
+    residences = Residence.objects.all()
+    return render(request, 'main.html', {'resnames': residences})
+
 
 class SearchResultsView(ListView):
     allow_empty = False

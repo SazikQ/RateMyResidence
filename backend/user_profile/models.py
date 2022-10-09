@@ -20,6 +20,9 @@ class Residence(models.Model):
     manager = models.ManyToManyField(User)
     location = models.OneToOneField(Location, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
 
 class Review(models.Model):
     publishTime = models.DateTimeField(auto_now=True)

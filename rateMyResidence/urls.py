@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-from backend.functions.views import AddResidenceView, SearchResultsView, add_residence, ResidenceListView
+from backend.functions.views import AddResidenceView, SearchResultsView, add_residence, ResidenceListView, autocomplete
 from django.contrib.auth import views as auth_views
 from backend.functions.views import SearchResultsView
 from backend.functions.views import add_residence
@@ -24,7 +24,7 @@ from backend.user_authentication.views import change_password
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", TemplateView.as_view(template_name="main.html"), name="home"),
+    path("", autocomplete, name="home"),
     path("profile/", include('backend.user_profile.urls')),
     path("accounts/", include("backend.user_authentication.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
