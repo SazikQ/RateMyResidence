@@ -2,7 +2,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 #from backend.functions.forms import SearchForm
 from backend.user_profile.models import *
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, CreateView
+
+from backend.user_profile.models import Residence
+
 
 # Create your views here.
 
@@ -30,3 +33,8 @@ class SearchResultsView(ListView):
         query = self.request.GET.get('q')
         object_list = Residence.objects.filter(name__icontains=query)
         return object_list
+
+class AddResidenceView(CreateView):
+    model = Residence
+    template_name: str = 'add_residence.html'
+    fields = '__all__'

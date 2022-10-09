@@ -18,8 +18,8 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
+    #volumes:
+    #  - postgres_data:/var/lib/postgresql/data/
 
 # pgAdmin
 # To login to pgAdmin, use default email and password below
@@ -56,5 +56,5 @@ services:
       - pgadmin
 
 # Set up local storage for database
-volumes:
-  postgres_data:
+#volumes:
+#  postgres_data:
