@@ -5,7 +5,7 @@
 {% block content %}
 <h2> Residence name: {{ object.name }} </h2>
 <form>
-  <button formaction="/addReview?pk={{object.pk}}">Write a review</button>
+  <button formaction="/addReview/{{object.pk}}">Write a review</button>
 </form>
 {% if object.manager.all %}
     <h2> Residence managers: 

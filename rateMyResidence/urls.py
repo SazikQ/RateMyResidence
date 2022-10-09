@@ -32,6 +32,6 @@ urlpatterns = [
     path('list/', ResidenceListView.as_view(), name = 'list_residence'),
     path('residence/<str:pk>', ResidenceDetail.as_view(), name='residence_info'),
     path('addResidence/', add_residence, name='add_residence'),
-    path('addReview/', add_review, name='add_review'),
+    path('addReview/<str:pk>', add_review, name='add_review'),
     path("profile/password/", change_password, name="changePassword"),
 ]

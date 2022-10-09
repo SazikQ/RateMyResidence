@@ -11,23 +11,22 @@ from django.contrib import messages
 
 # Create your views here.
 @login_required
-def add_review(request):
+def add_review(request, pk):
     if request.method == 'POST':
         form = ReviewForm(request.POST)
-        key = request.session['pk']
-        if key == '':
+        pk = request.session['pk']
+        if pk == '':
             raise Http404
         if form.is_valid():
-            review = Review(title=form.cleaned_data['title'], content=form.cleaned_data['content'], reviewer=request.user, belongedResidence=Residence.objects.get(pk=key))
+            review = Review(title=form.cleaned_data['title'], content=form.cleaned_data['content'], reviewer=request.user, belongedResidence=Residence.objects.get(pk=pk))
             review.save()
-            return HttpResponseRedirect("/")
+            redirectUrl = "/residence/" + pk
+            return HttpResponseRedirect(redirectUrl)
     else:
-        key = request.GET.get('pk', '')
-        if key == '':
+        if pk == '':
             raise Http404
-        request.session['pk'] = key
+        request.session['pk'] = pk
         form = ReviewForm()
-        go_url = 'addReview.html?pk=' + key
     return render(request, 'addReview.html', {'form': form.as_p()})
 
 
