@@ -1,9 +1,10 @@
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.shortcuts import render, redirect
 from backend.functions.forms import ResidenceForm
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
 from backend.user_profile.models import Residence, Location
 from django.urls import reverse
+from django.contrib import messages
 
 # Create your views here.
 
@@ -22,10 +23,40 @@ def add_residence(request):
 
 
 class SearchResultsView(ListView):
+    allow_empty = False
     model = Residence
-    template_name = 'residence_temp.html'
+    template_name = 'residence_list.html'
+    valid_input = True
 
     def get_queryset(self):
         query = self.request.GET.get('q')
-        object_list = Residence.objects.filter(name__icontains=query)
-        return object_list
+        if (query == ''):
+            messages.info(self.request, ('Please enter a keyword or letter to search for.'))
+            self.valid_input = False
+            return Residence.objects.exclude(name__icontains=query)
+        else:
+            object_list = Residence.objects.filter(name__icontains=query)
+            return object_list
+    
+    def dispatch(self, *args, **kwargs):
+        try:
+            return super().dispatch(*args, **kwargs)
+        except Http404:
+            if (self.valid_input):
+                messages.error(self.request, ('There are no residences that match your search request!'))
+            return redirect("/")
+
+class ResidenceListView(ListView):
+    model = Residence
+    template_name = 'residence_list.html'
+
+class AddResidenceView(DetailView):
+    model = Residence
+    template_name = 'residence_info.html'
+    # fields = '__all__'
+    # def index(request):
+    #     name = request.name
+    #     manager = request.manager
+    #     streetName = request.location.streetName
+    #     content = {'name': name, 'manager':manager, 'streetName':streetName}
+    #     return render(request, 'residence_info.html', content)

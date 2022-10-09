@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Residence Page{% endblock %}
+
+{% block content %}
+<h2> Residence name: {{ object.name }} </h2>
+{% if object.manager.all %}
+    <h2> Residence managers: 
+    {% for manager in object.manager.all %}    
+        {{manager}}
+    {% endfor %}  
+    </h2>        
+{% endif %}
+<h2> Residence adress: {{ object.location.streetNum }} {{ object.location.streetName }} {{ object.location.zipcode }} </h2>
+{% endblock %}

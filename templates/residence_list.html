@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<ul>
+  {% if object_list %}
+    {% for Residence in object_list %}
+    <li>
+      <a href = "{%url 'residence_info' Residence.pk%}">{{Residence.name}}</a>
+      <!-- <a class = "btn" href = "{% url 'residence_info' Residence.pk %}" role = "button">Residence Detail</a> -->
+    </li>
+    {% endfor %}
+  {% else %}
+
+  {% endif %}
+</html>

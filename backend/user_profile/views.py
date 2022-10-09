@@ -6,8 +6,6 @@ from django.views.generic.edit import CreateView
 from backend.user_authentication.forms import CustomUserChangeForm
 from django.contrib import messages
 
-
-
 def profile(request):
     return render(request, 'account.html')
 

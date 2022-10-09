@@ -58,4 +58,3 @@ services:
 # Set up local storage for database
 #volumes:
 #  postgres_data:
-
