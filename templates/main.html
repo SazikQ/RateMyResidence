@@ -75,6 +75,17 @@
         </div>
       </div>
 
-
+      <!-- Alert for error in seaching -->
+      <div class = "row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+          {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger{% else %}{{ message.tags }}{% endif %}{% endif %}" role="alert">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+        <div class="col-lg-3"></div>
+      </div>
 </body>
 </html>
