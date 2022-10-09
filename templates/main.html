@@ -61,12 +61,16 @@
         <div class = "row justify-content-md-center">
             <!-- I'dont know why this is working but please keep it like this  -->
             <form role="search" action={% url 'search_results' %} method='get'>
+              <div class = "row">
+                <div class="col-lg-2"></div>
                 <div class = "col col-lg-6 ">
                     <input type="search" class="form-control ms-5" placeholder="Enter residence name" aria-label="Search" name='q'>
                 </div>
-            <div class = "col col-lg-2">
-                <button type="submit" class="btn btn-primary btn-sm">SEARCH</button>
-            </div>
+                <div class = "col col-lg-2">
+                  <button type="submit" class="btn btn-primary btn-sm">SEARCH</button>
+                </div>
+                <div class="col-lg-2"></div>
+              </div>
             </form>
         </div>
       </div>
