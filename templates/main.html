@@ -44,7 +44,7 @@
 
                 {% if user.is_authenticated %}
                     <a style="color:black;"> Hi {{ user.username }}!</a>
-                    <a class = "btn btn-light btn-sm" href = "account.html" role = "button">Account</a>
+                    <a class = "btn btn-light btn-sm" href = "{% url 'profile'%}" role = "button">Account</a>
                     <a class="btn btn-outline-primary me-2 btn-sm" href = "{% url 'logout' %}" role = "button">Log Out</a>
                 {% else %}
 
@@ -70,8 +70,8 @@
       <div class = "container text-center">
         <div class = "row justify-content-md-center">
           <div class = "col col-lg-6 ">
-            <form role="search">
-              <input type="search" class="form-control ms-5" placeholder="Enter residence name" aria-label="Search">
+            <form role="search" action={% url 'search_results' %} method='get'>
+              <input type="search" class="form-control ms-5" placeholder="Enter residence name" aria-label="Search" name='q'>
           </form>
           </div>
           <div class = "col col-lg-2">

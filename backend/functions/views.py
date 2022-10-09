@@ -1,23 +1,31 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from backend.functions.forms import SearchForm
+from backend.functions.forms import ResidenceForm
+from django.views.generic import TemplateView, ListView
+from backend.user_profile.models import Residence, Location
 
 
 # Create your views here.
 
-def search(request):
-    # if this is a POST request we need to process the form data
+def add_residence(request):
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = SearchForm(request.POST)
-        # check whether it's valid:
+        form = ResidenceForm(request.POST)
         if form.is_valid():
-            print("hello")
-            return HttpResponse("/thanks/")
-
-    # if a GET (or any other method) we'll create a blank form
+            saved_location = Location(streetName=form.cleaned_data['streetName'], streetNum=form.cleaned_data['streetNum'], zipcode=form.cleaned_data['zipcode'])
+            saved_location.save()
+            residence = Residence(name=form.cleaned_data['name'], location=saved_location)
+            residence.save()
+            return HttpResponse('thanks')
     else:
-        form = SearchForm()
+        form = ResidenceForm()
+    return render(request, 'addResidence.html', {'form': form.as_p()})
 
-    return render(request, 'name.html', {'form': form})
+
+class SearchResultsView(ListView):
+    model = Residence
+    template_name = 'residence_temp.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        object_list = Residence.objects.filter(name__icontains=query)
+        return object_list
