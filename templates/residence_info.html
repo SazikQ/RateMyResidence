@@ -17,19 +17,15 @@
 <form>
     <button formaction="/addReview/{{object.pk}}">Write a review</button>
   </form>
-<h2>Comment Section</h2>
+<h2>Review Section</h2>
 
 {% if not object.comments.all %}
     <small>No comment yet</small>
     <!-- <a href = "{%url 'add_review' object.pk %}">Add comment here</a> -->
-    <form>
-        <button formaction="/addReview/{{object.pk}}">Write a review</button>
-      </form>
 {% else %}
     {% for comment in object.comments.all %}
-        <strong>{{ comment.title }} {{ comment.publishTime }} </strong>
-        {{ comment.reviewer }}<br>
-        {{ comment.belongedResidence }}<br>
+        <strong>{{ comment.title }} | {{ comment.publishTime }} </strong>
+     by {{ comment.reviewer }}<br>
         {{ comment.content }}<br>
     {% endfor %}
 {% endif %}
