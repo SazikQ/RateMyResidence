@@ -1,5 +1,6 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
+{% block title %}Residence{% endblock %}
+{% block content %}
 <ul>
   {% if object_list %}
     {% for Residence in object_list %}
@@ -23,4 +24,4 @@
   {% else %}
 
   {% endif %}
-</html>
+{% endblock %}
