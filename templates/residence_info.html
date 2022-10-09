@@ -4,6 +4,9 @@
 
 {% block content %}
 <h2> Residence name: {{ object.name }} </h2>
+<form>
+  <button formaction="/addReview?pk={{object.pk}}">Write a review</button>
+</form>
 {% if object.manager.all %}
     <h2> Residence managers: 
     {% for manager in object.manager.all %}    

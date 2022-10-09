@@ -14,12 +14,20 @@ from django.contrib import messages
 def add_review(request):
     if request.method == 'POST':
         form = ReviewForm(request.POST)
+        key = request.session['pk']
+        if key == '':
+            raise Http404
         if form.is_valid():
-            review = Review(title=form.cleaned_data['title'], content=form.cleaned_data['content'], reviewer=request.user)
+            review = Review(title=form.cleaned_data['title'], content=form.cleaned_data['content'], reviewer=request.user, belongedResidence=Residence.objects.get(pk=key))
             review.save()
             return HttpResponseRedirect("/")
     else:
+        key = request.GET.get('pk', '')
+        if key == '':
+            raise Http404
+        request.session['pk'] = key
         form = ReviewForm()
+        go_url = 'addReview.html?pk=' + key
     return render(request, 'addReview.html', {'form': form.as_p()})
 
 
