@@ -4,6 +4,7 @@
 
 {% block content %}
 <h2> Residence name: {{ object.name }} </h2>
+
 {% if object.manager.all %}
     <h2> Residence managers: 
     {% for manager in object.manager.all %}    
@@ -12,4 +13,25 @@
     </h2>        
 {% endif %}
 <h2> Residence adress: {{ object.location.streetNum }} {{ object.location.streetName }} {{ object.location.zipcode }} </h2>
+<!-- <a href = "{%url 'add_review' object.pk %}">Add comment here</a> -->
+<form>
+    <button formaction="/addReview/{{object.pk}}">Write a review</button>
+  </form>
+<h2>Comment Section</h2>
+
+{% if not object.comments.all %}
+    <small>No comment yet</small>
+    <!-- <a href = "{%url 'add_review' object.pk %}">Add comment here</a> -->
+    <form>
+        <button formaction="/addReview/{{object.pk}}">Write a review</button>
+      </form>
+{% else %}
+    {% for comment in object.comments.all %}
+        <strong>{{ comment.title }} {{ comment.publishTime }} </strong>
+        {{ comment.reviewer }}<br>
+        {{ comment.belongedResidence }}<br>
+        {{ comment.content }}<br>
+    {% endfor %}
+{% endif %}
+
 {% endblock %}
