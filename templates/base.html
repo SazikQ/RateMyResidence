@@ -4,12 +4,23 @@
 <head>
   <meta charset="utf-8">
   <title>{% block title %}Hello World {% endblock %}</title>
+  <script
+  src="https://code.jquery.com/jquery-3.6.1.min.js"
+  integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+  crossorigin="anonymous">
+  </script>
+  <script>
+    $(function(){
+      $('#header').load('nav_bar.html');
+    });
+  </script>
 </head>
 <body>
-<a href = "{% url 'home' %}"> HOME </a>
+  <div id = "nav_bar"></div>
+<!-- <a href = "{% url 'home' %}"> HOME </a> -->
   <main>
     {% block content %}
     {% endblock %}
-  </main>
+  </main> 
 </body>
 </html>
