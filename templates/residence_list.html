@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<ul>
+  {% if object_list %}
+    {% for Residence in object_list %}
+    <li>
+      {{Residence.name}}
+    </li>
+    {% endfor %}
+  {% else %}
+
+  {% endif %}
+</html>

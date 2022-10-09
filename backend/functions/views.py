@@ -29,8 +29,11 @@ class SearchResultsView(ListView):
         query = self.request.GET.get('q')
         object_list = Residence.objects.filter(name__icontains=query)
         return object_list
-
+class ResidenceListView(ListView):
+    model = Residence
+    template_name = 'residence_list.html'
+    
 class AddResidenceView(CreateView):
     model = Residence
-    template_name: str = 'residence_temp.html'
+    template_name = 'residence_temp.html'
     fields = '__all__'
