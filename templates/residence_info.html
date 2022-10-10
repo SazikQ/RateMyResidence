@@ -24,9 +24,15 @@
     <!-- <a href = "{%url 'add_review' object.pk %}">Add comment here</a> -->
 {% else %}
     {% for comment in object.comments.all %}
-        <strong>{{ comment.title }} | {{ comment.publishTime }} </strong>
-     by {{ comment.reviewer }}<br>
-        {{ comment.content }}<br>
+        {% if comment.isAnonymous %}
+            <strong>{{ comment.title }} | {{ comment.publishTime }} </strong>
+            by Anonymous User<br>
+            {{ comment.content }}<br>
+        {% else %}
+             <strong>{{ comment.title }} | {{ comment.publishTime }} </strong>
+            by {{ comment.reviewer }}<br>
+            {{ comment.content }}<br>
+        {% endif %}
     {% endfor %}
 {% endif %}
 
