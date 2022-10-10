@@ -5,6 +5,8 @@
 <h1>Account Info</h1>
 <p>user name: {{user.username}}</p>
 <p>email: {{user.email}}</p>
+<p>verification status: {{user.isVerifiedUser}}</p>
+<p>Residence Manager status: {{user.isResidenceManager}}</p>
 <a class = "btn" href = "{% url 'editProfile' %}"> Edit </a>
 
 <br>

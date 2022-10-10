@@ -2,20 +2,12 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, FormView
 from backend.user_authentication.forms import CustomUserChangeForm
 from django.contrib import messages
 
 def profile(request):
     return render(request, 'account.html')
-
-
-# class EditProfileView(CreateView):
-#     form_class = CustomUserChangeForm
-#     success_url = reverse_lazy('profile')
-#     template_name = "editprofile.html"
-
-
 
 
 @login_required
