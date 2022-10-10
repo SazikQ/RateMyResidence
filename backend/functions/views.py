@@ -18,8 +18,11 @@ def add_review(request, pk):
         if pk == '':
             raise Http404
         if form.is_valid():
+            m_tags = form.cleaned_data['m_tags']
             review = Review(title=form.cleaned_data['title'], content=form.cleaned_data['content'], reviewer=request.user, belongedResidence=Residence.objects.get(pk=pk))
             review.save()
+            for m_tag in m_tags:
+                review.tags.add(m_tag)
             redirectUrl = "/residence/" + pk
             return HttpResponseRedirect(redirectUrl)
     else:
@@ -43,6 +46,7 @@ def add_residence(request):
     else:
         form = ResidenceForm()
     return render(request, 'addResidence.html', {'form': form.as_p()})
+
 
 def autocomplete(request):
     residences = Residence.objects.all()
@@ -77,6 +81,7 @@ class SearchResultsView(ListView):
 class ResidenceListView(ListView):
     model = Residence
     template_name = 'residence_list.html'
+
 
 class ResidenceDetail(DetailView):
     model = Residence

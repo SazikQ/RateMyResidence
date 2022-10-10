@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+from taggit.managers import TaggableManager
 
 # Create your models here.
 
@@ -25,13 +25,13 @@ class Residence(models.Model):
 
 
 class Review(models.Model):
-    # publishTime = models.DateTimeField(auto_now=True)
     publishTime = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=100)
     content = models.CharField(max_length=500)
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE)
-    # residence = models.ForeignKey(Residence, related_name = 'comments', on_delete=models.CASCADE)
     belongedResidence = models.ForeignKey(Residence, related_name = 'comments', on_delete=models.CASCADE)
+    tags = TaggableManager()
+
     class Meta:
         ordering = ['publishTime']
     
