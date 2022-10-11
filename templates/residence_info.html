@@ -4,9 +4,12 @@
 
 {% block content %}
 <h2> Residence name: {{ object.name }} </h2>
-{% if object.tags %}
-    <h2> tags: {{object.tags}} </h2>
-{% endif %}
+<h2> Tags:
+    {% for tag in tags %}
+        {{tag}}
+    {% endfor %}
+</h2>
+
 
 {% if object.manager.all %}
     <h2> Residence managers: 

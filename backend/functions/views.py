@@ -88,6 +88,12 @@ class ResidenceDetail(DetailView):
     model = Residence
     template_name = 'residence_info.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        targetResidence = Residence.objects.get(pk=self.object.pk)
+        context['tags'] = targetResidence.tags.names()
+        return context
+
 # class AddReview(CreateView):
 #     model = Review
 #     # form_class = ReviewForm
