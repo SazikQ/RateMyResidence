@@ -17,8 +17,7 @@ def add_review(request, pk):
         if pk == '':
             raise Http404
         if form.is_valid():
-            belonged_residence = Residence.objects.get(pk=pk)
-            review = Review(title=form.cleaned_data['title'], content=form.cleaned_data['content'], reviewer=request.user, belongedResidence=belonged_residence)
+            review = Review(title=form.cleaned_data['title'], content=form.cleaned_data['content'], isAnonymous=form.cleaned_data['isAnonymous'], reviewer=request.user, belongedResidence=Residence.objects.get(pk=pk))
             review.save()
             redirectUrl = "/residence/" + pk
             return HttpResponseRedirect(redirectUrl)

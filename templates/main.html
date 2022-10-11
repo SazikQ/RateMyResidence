@@ -24,7 +24,9 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
+                {% if user.isVerifiedUser %}
                 <a class="nav-link active" aria-current="page" href="addResidence">Add Residence</a>
+                {% endif %}
               </li>
               <li class="nav-item">
                 <a class="nav-link" href = "{%url 'list_residence'%}">Residence List</a>
