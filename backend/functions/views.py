@@ -3,11 +3,10 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect
 from backend.functions.forms import ResidenceForm, ReviewForm
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
-from backend.user_profile.models import Residence, Location, Review
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib import messages
-
+from backend.user_profile.models import Residence, Review, Location
 
 # Create your views here.
 @login_required
@@ -39,10 +38,15 @@ def add_residence(request):
             saved_location.save()
             residence = Residence(name=form.cleaned_data['name'], location=saved_location)
             residence.save()
+            m_tags = form.cleaned_data['residence_tags']
+            for m_tag in m_tags:
+                residence.tags.add(m_tag)
+            residence.save()
             return HttpResponseRedirect("/")
     else:
         form = ResidenceForm()
     return render(request, 'addResidence.html', {'form': form.as_p()})
+
 
 def autocomplete(request):
     residences = Residence.objects.all()
@@ -78,9 +82,16 @@ class ResidenceListView(ListView):
     model = Residence
     template_name = 'residence_list.html'
 
+
 class ResidenceDetail(DetailView):
     model = Residence
     template_name = 'residence_info.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        targetResidence = Residence.objects.get(pk=self.object.pk)
+        context['tags'] = targetResidence.tags.names()
+        return context
 
 # class AddReview(CreateView):
 #     model = Review

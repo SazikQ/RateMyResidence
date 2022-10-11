@@ -1,7 +1,7 @@
 from email.policy import default
 from pickle import FALSE
 from django import forms
-from backend.user_profile.models import Review
+from taggit.forms import *
 
 
 class ResidenceForm(forms.Form):
@@ -9,6 +9,8 @@ class ResidenceForm(forms.Form):
     streetName = forms.CharField(max_length=100)
     streetNum = forms.CharField(max_length=20)
     zipcode = forms.CharField(max_length=6)
+    residence_tags = TagField()
+
 
 class ReviewForm(forms.Form):
     title = forms.CharField(max_length=100)
