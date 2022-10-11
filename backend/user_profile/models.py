@@ -4,6 +4,7 @@ from taggit.managers import TaggableManager
 
 # Create your models here.
 
+
 class User(AbstractUser):
     isVerifiedUser = models.BooleanField(default=False)
     isResidenceManager = models.BooleanField(default=False)
@@ -19,6 +20,7 @@ class Residence(models.Model):
     name = models.CharField(max_length=100)
     manager = models.ManyToManyField(User)
     location = models.OneToOneField(Location, on_delete=models.CASCADE)
+    tags = TaggableManager()
 
     def __str__(self):
         return self.name
@@ -30,7 +32,6 @@ class Review(models.Model):
     content = models.CharField(max_length=500)
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE)
     belongedResidence = models.ForeignKey(Residence, related_name = 'comments', on_delete=models.CASCADE)
-    tags = TaggableManager()
 
     class Meta:
         ordering = ['publishTime']

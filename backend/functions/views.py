@@ -3,11 +3,10 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect
 from backend.functions.forms import ResidenceForm, ReviewForm
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
-from backend.user_profile.models import Residence, Location, Review
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib import messages
-
+from backend.user_profile.models import Residence, Review, Location
 
 # Create your views here.
 @login_required
@@ -18,11 +17,9 @@ def add_review(request, pk):
         if pk == '':
             raise Http404
         if form.is_valid():
-            m_tags = form.cleaned_data['m_tags']
-            review = Review(title=form.cleaned_data['title'], content=form.cleaned_data['content'], reviewer=request.user, belongedResidence=Residence.objects.get(pk=pk))
+            belonged_residence = Residence.objects.get(pk=pk)
+            review = Review(title=form.cleaned_data['title'], content=form.cleaned_data['content'], reviewer=request.user, belongedResidence=belonged_residence)
             review.save()
-            for m_tag in m_tags:
-                review.tags.add(m_tag)
             redirectUrl = "/residence/" + pk
             return HttpResponseRedirect(redirectUrl)
     else:
@@ -41,6 +38,10 @@ def add_residence(request):
                                       streetNum=form.cleaned_data['streetNum'], zipcode=form.cleaned_data['zipcode'])
             saved_location.save()
             residence = Residence(name=form.cleaned_data['name'], location=saved_location)
+            residence.save()
+            m_tags = form.cleaned_data['residence_tags']
+            for m_tag in m_tags:
+                residence.tags.add(m_tag)
             residence.save()
             return HttpResponseRedirect("/")
     else:
