@@ -30,7 +30,7 @@
     <!-- <a href = "{%url 'add_review' object.pk %}">Add comment here</a> -->
 {% else %}
     {% for comment in object.comments.all %}
-        {% if comment.isAnonymous %}
+        {% if comment.isAnonymous and comment.reviewer != user %}
             <strong>{{ comment.title }} | {{ comment.publishTime }} </strong>
             by Anonymous User<br>
             {{ comment.content }}<br>
