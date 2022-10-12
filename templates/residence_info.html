@@ -39,6 +39,9 @@
             by {{ comment.reviewer }}<br>
             {{ comment.content }}<br>
         {% endif %}
+
+        <a href = "/changecomment/{{comment.pk}}/">Update Comment</a><br>
+        
     {% endfor %}
 {% endif %}
 

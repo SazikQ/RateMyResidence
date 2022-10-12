@@ -1,8 +1,8 @@
 from turtle import title
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect
-from backend.functions.forms import ResidenceForm, ReviewForm
-from django.views.generic import TemplateView, ListView, DetailView, CreateView
+from backend.functions.forms import ResidenceForm, ReviewForm, EditReview
+from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -10,6 +10,33 @@ from backend.user_profile.models import Residence, Review, Location
 
 # Create your views here.
 @login_required
+def edit_profile(request, pk):
+    if request.method == 'POST':
+        form = EditReview(request.POST)
+        pk = request.session['pk']
+        if pk == '':
+            raise Http404
+        if form.is_valid():
+            # review_form = Review(title=form.cleaned_data['title'], content=form.cleaned_data['content'], isAnonymous=form.cleaned_data['isAnonymous'], reviewer=request.user, belongedResidence=Residence.objects.get(pk=pk))
+            # review_form.save()
+            review_form = Review.objects.get(pk=pk)
+            residence_info = review_form.belongedResidence
+            review_form.title = form.cleaned_data['title']
+            review_form.content = form.cleaned_data['content']
+            review_form.isAnonymous = form.cleaned_data['isAnonymous']
+            review_form.save(update_fields = ['title'])
+            review_form.save(update_fields = ['content'])
+            review_form.save(update_fields = ['isAnonymous'])
+            redirectUrl = "/residence/" + str(residence_info.pk)
+            return HttpResponseRedirect(redirectUrl)
+    else:
+        if pk == '':
+            raise Http404
+        request.session['pk'] = pk
+        form = EditReview()
+    return render(request, 'editreview.html', {'review_form': form.as_p()})
+
+
 def add_review(request, pk):
     if request.method == 'POST':
         form = ReviewForm(request.POST)
@@ -92,20 +119,3 @@ class ResidenceDetail(DetailView):
         targetResidence = Residence.objects.get(pk=self.object.pk)
         context['tags'] = targetResidence.tags.names()
         return context
-
-# class AddReview(CreateView):
-#     model = Review
-#     # form_class = ReviewForm
-#     template_name = 'addReview.html'
-#     fields = '__all__'
-
-#     def add_review(self):
-#         if self.method == 'POST':
-#             form = ReviewForm(self.POST)
-#             if form.is_valid():
-#                 review = Review(title=form.cleaned_data['title'], content=form.cleaned_data['content'])
-#                 review.save()
-#                 return HttpResponseRedirect("/")
-#         else:
-#             form = ReviewForm()
-#         return render(self, 'addReview.html', {'form': form.as_p()})

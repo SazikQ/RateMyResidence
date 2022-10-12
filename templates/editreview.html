@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Comment{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Comment</title>
+</head>
+<body>
+<form method="post">
+  {% csrf_token %}
+  {{ review_form }}
+  <button class = 'btn btn-secondary'>Save</button>
+</form>
+</body>
+</html>
+{% endblock %}
