@@ -16,11 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-from backend.functions.views import ResidenceDetail, SearchResultsView, add_residence, ResidenceListView, add_review, autocomplete
+from backend.functions.views import ResidenceDetail, SearchResultsView, add_residence, ResidenceListView, add_review, \
+    autocomplete
 from django.contrib.auth import views as auth_views
 from backend.functions.views import SearchResultsView
 from backend.functions.views import add_residence
 from backend.user_authentication.views import change_password
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,9 +33,11 @@ urlpatterns = [
     path("accounts/", include("backend.user_authentication.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
     path('search/', SearchResultsView.as_view(), name='search_results'),
-    path('list/', ResidenceListView.as_view(), name = 'list_residence'),
+    path('list/', ResidenceListView.as_view(), name='list_residence'),
     path('residence/<int:pk>', ResidenceDetail.as_view(), name='residence_info'),
     path('addResidence/', add_residence, name='add_residence'),
     path('addReview/<str:pk>', add_review, name='add_review'),
     path("profile/password/", change_password, name="changePassword"),
-]
+
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
