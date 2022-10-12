@@ -5,4 +5,4 @@ close: ; docker-compose down
 # Restart Website
 restart: ; docker-compose down ; docker-compose build ; docker-compose up
 # Remove local database
-clean: ; docker volume rm ratemyresidence_postgres_data
+clean: ; docker-compose down ; docker volume rm ratemyresidence_postgres_data

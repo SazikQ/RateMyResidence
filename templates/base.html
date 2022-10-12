@@ -6,10 +6,19 @@
   <title>{% block title %}Hello World {% endblock %}</title>
 </head>
 <body>
-<a href = "{% url 'home' %}"> HOME </a>
+<button onclick="likeToLeave()">HOME</button>
   <main>
     {% block content %}
     {% endblock %}
   </main>
+  <script language="JavaScript">
+    function likeToLeave()
+    {
+      let text = "Returning home will delete any unsaved data.";
+      if (confirm(text) == true) {
+        window.location.href = "{% url 'home' %}";
+      }
+    }
+  </script>
 </body>
 </html>
