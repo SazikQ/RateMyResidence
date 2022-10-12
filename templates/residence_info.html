@@ -40,7 +40,7 @@
             {{ comment.content }}<br>
         {% endif %}
 
-        <a href = "/changecomment/{{comment.pk}}/">Update Comment</a><br>
+        <a href = "/changecomment/{{comment.pk}}/">Update Comment</a> <a href="/deletecomment/{{comment.pk}}">  Delete Comment</a><br>
         
     {% endfor %}
 {% endif %}
