@@ -1,7 +1,7 @@
 from turtle import title
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect
-from backend.functions.forms import ResidenceForm, ReviewForm, EditReview
+from backend.functions.forms import ResidenceForm, ReviewForm, EditReview, DeleteReview
 from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
@@ -10,6 +10,38 @@ from backend.user_profile.models import Residence, Review, Location
 
 # Create your views here.
 @login_required
+def delete_review(request, pk):
+    review_form = Review.objects.get(pk=pk)
+    residence_info = review_form.belongedResidence
+    redirectUrl = "/residence/" + str(residence_info.pk)
+
+    if request.user != review_form.reviewer:
+        return HttpResponseRedirect(redirectUrl)
+
+    if request.method == 'POST':
+        form = DeleteReview(request.POST)
+        pk = request.session['pk']
+        if pk == '':
+            raise Http404
+        if form.is_valid():
+            if form.cleaned_data["isDelete"] == True and form.cleaned_data["notDelete"] == False:
+                review_form = Review.objects.get(pk=pk)
+                review_form.delete()
+                residence_info = review_form.belongedResidence
+                redirectUrl = "/residence/" + str(residence_info.pk)
+            else:
+                review_form = Review.objects.get(pk=pk)
+                residence_info = review_form.belongedResidence
+                redirectUrl = "/residence/" + str(residence_info.pk)
+            return HttpResponseRedirect(redirectUrl)
+    else:
+        if pk == '':
+            raise Http404
+        request.session['pk'] = pk
+        form = DeleteReview()
+    return render(request, 'deletereview.html', {'form': form.as_p()})
+
+
 def edit_profile(request, pk):
     review_form = Review.objects.get(pk=pk)
     residence_info = review_form.belongedResidence
