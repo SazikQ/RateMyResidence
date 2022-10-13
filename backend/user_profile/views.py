@@ -26,9 +26,6 @@ def edit_profile(request):
     else:
         user_form = CustomUserChangeForm(instance=request.user)
 
-<<<<<<< Updated upstream
-    return render(request, 'editprofile.html', {'edit_form': user_form})
-=======
     return render(request, 'editprofile.html', {'edit_form': user_form})
 
 
@@ -60,4 +57,4 @@ def account_verify(request):
         request.session['hashcode'] = hashcode
 
     return render(request, 'user_verify.html', {'form': verificationForm.as_p()})
->>>>>>> Stashed changes
+
