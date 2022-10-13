@@ -1,0 +1,13 @@
+<!-- templates/registration/login.html -->
+{% extends "base.html" %}
+
+{% block title %}Edit Residence{% endblock %}
+
+{% block content %}
+<h2>Edit Residence</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form }}
+  <button type="submit">Update Residence</button>
+</form>
+{% endblock %}

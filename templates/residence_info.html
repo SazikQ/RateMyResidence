@@ -3,6 +3,15 @@
 {% block title %}Residence Page{% endblock %}
 
 {% block content %}
+{% if user.isResidenceManager %}
+<button onclick="Edit()">Edit Residence</button>
+ <script language="JavaScript">
+    function Edit()
+    {
+        window.location.href = "/residence/{{object.pk}}/edit";
+    }
+  </script>
+{% endif %}
 <h2> Residence name: {{ object.name }} </h2>
 <h2> Tags:
     {% for tag in tags %}
