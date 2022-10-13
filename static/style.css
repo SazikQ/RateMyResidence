@@ -1,9 +1,5 @@
 @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css);
 
-ok{
-    color: brown;
-}
-
 *{
 	margin: 0;
 	padding: 0;
@@ -21,23 +17,39 @@ body{
 
 .container{
 	display: flex;
-	align-items: center;
-	justify-content: center;
+	align-items: left;
+	justify-content: left;
 	height: 100%;
 }
 
 .rating-wrap{
-	max-width: 480px;
-	margin: auto;
+
 	padding: 15px;
 	box-shadow: 0 0 3px 0 rgba(0,0,0,.2);
-	text-align: center;
+	text-align: left;
 }
 
 .center{
-	width: 162px; 
+	width: 162px;
 	margin: auto;
 }
+
+.left {
+  position: absolute;
+  left: 0px;
+  width: 300px;
+  border: 3px solid #73AD21;
+  padding: 10px;
+}
+
+.right {
+  position: absolute;
+  right: 0px;
+  width: 300px;
+  border: 3px solid #73AD21;
+  padding: 10px;
+}
+
 
 
 #rating-value{	
@@ -83,12 +95,12 @@ body{
 .rating > input:checked ~ label,
 .rating:not(:checked) > label:hover, 
 .rating:not(:checked) > label:hover ~ label{
-	color: #2ce679;
+	color: #FFE800;
 }
 
 .rating > input:checked + label:hover,
 .rating > input:checked ~ label:hover,
 .rating > label:hover ~ input:checked ~ label,
 .rating > input:checked ~ label:hover ~ label{
-	color: #2ddc76;
+	color: #FFFF00;
 }
