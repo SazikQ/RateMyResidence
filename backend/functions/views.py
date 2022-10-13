@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib import messages
 from backend.user_profile.models import Residence, Review, Location
+from taggit.forms import *
 
 # Create your views here.
 @login_required
@@ -145,8 +146,8 @@ def edit_residence(request, pk):
     instance = Residence.objects.get(pk=pk)
     redirectUrl = "/residence/" + str(pk)
 
-    if request.user != instance.manager:
-        return HttpResponseRedirect(redirectUrl)
+    #if request.user != instance.manager:
+        #return HttpResponseRedirect(redirectUrl)
 
     if request.method == 'POST':
         form = ResidenceEditForm(request.POST)
@@ -160,6 +161,11 @@ def edit_residence(request, pk):
             instance.location.save(update_fields=['streetName', 'streetNum', 'zipcode'])
             instance.name=form.cleaned_data['name']
             instance.save(update_fields=['name'])
+            instance.tags.clear()
+            m_tags = form.cleaned_data['residence_tags']
+            for m_tag in m_tags:
+                instance.tags.add(m_tag)
+            instance.save()
 
             return HttpResponseRedirect(redirectUrl)
     else:
