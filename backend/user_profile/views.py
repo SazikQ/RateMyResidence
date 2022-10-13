@@ -1,10 +1,14 @@
+import hashlib
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-
-from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView, FormView
 from backend.user_authentication.forms import CustomUserChangeForm
 from django.contrib import messages
+from django.urls import reverse_lazy
+import random
+
+from backend.user_profile.forms import EmailVerificationForm
+
 
 def profile(request):
     return render(request, 'account.html')
@@ -22,4 +26,38 @@ def edit_profile(request):
     else:
         user_form = CustomUserChangeForm(instance=request.user)
 
+<<<<<<< Updated upstream
     return render(request, 'editprofile.html', {'edit_form': user_form})
+=======
+    return render(request, 'editprofile.html', {'edit_form': user_form})
+
+
+@login_required
+def account_verify(request):
+    if request.method == 'POST':
+        verificationForm = EmailVerificationForm(request.POST)
+        if verificationForm.is_valid():
+            verificationCode = verificationForm.cleaned_data['verificationCode']
+            actualHashcode = hashlib.sha256(verificationCode.encode('utf-8')).hexdigest()
+            correctHashcode = request.session['hashcode']
+            if actualHashcode == correctHashcode:
+                request.user.isVerifiedUser = True
+                request.user.save()
+                messages.success(request, 'You account is now verified')
+                return redirect(to='profile')
+            else:
+                messages.error(request, 'wrong verification code')
+                return redirect(to='profile')
+    else:
+        verificationCode = '123456'
+        '''
+        for _ in range(6) :
+            verificationCode = verificationCode + str(random.randint(0,9))
+        request.user.email_user('Email Verification', verificationCode, from_email=None)
+        '''
+        verificationForm = EmailVerificationForm()
+        hashcode = hashlib.sha256(verificationCode.encode('utf-8')).hexdigest()
+        request.session['hashcode'] = hashcode
+
+    return render(request, 'user_verify.html', {'form': verificationForm.as_p()})
+>>>>>>> Stashed changes
