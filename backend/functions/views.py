@@ -1,7 +1,7 @@
 from turtle import title
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect
-from backend.functions.forms import ResidenceForm, ReviewForm, EditReview, DeleteReview
+from backend.functions.forms import ResidenceForm, ReviewForm, EditReview, DeleteReview, ResidenceEditForm
 from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
@@ -140,6 +140,34 @@ class SearchResultsView(ListView):
                 messages.error(self.request, ('There are no residences that match your search request!'))
             return redirect("/")
 
+
+def edit_residence(request, pk):
+    instance = Residence.objects.get(pk=pk)
+    redirectUrl = "/residence/" + str(pk)
+
+    if request.user != instance.manager:
+        return HttpResponseRedirect(redirectUrl)
+
+    if request.method == 'POST':
+        form = ResidenceEditForm(request.POST)
+        pk = request.session['pk']
+        if pk == '':
+            raise Http404
+        if form.is_valid():
+            instance.location.streetName=form.cleaned_data['streetName']
+            instance.location.streetNum=form.cleaned_data['streetNum']
+            instance.location.zipcode=form.cleaned_data['zipcode']                          
+            instance.location.save(update_fields=['streetName', 'streetNum', 'zipcode'])
+            instance.name=form.cleaned_data['name']
+            instance.save(update_fields=['name'])
+
+            return HttpResponseRedirect(redirectUrl)
+    else:
+        if pk == '':
+            raise Http404
+        request.session['pk'] = pk
+        form = ResidenceEditForm()
+    return render(request, 'editResidence.html', {'form': form.as_p()})
 
 class ResidenceListView(ListView):
     model = Residence

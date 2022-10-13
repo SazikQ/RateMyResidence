@@ -12,6 +12,11 @@ class ResidenceForm(forms.Form):
     zipcode = forms.CharField(max_length=6)
     residence_tags = TagField()
 
+class ResidenceEditForm(forms.Form):
+    name = forms.CharField(label='Residence name', max_length=100)
+    streetName = forms.CharField(max_length=100)
+    streetNum = forms.CharField(max_length=20)
+    zipcode = forms.CharField(max_length=6)
 
 class ReviewForm(forms.Form):
     title = forms.CharField(max_length=100)
