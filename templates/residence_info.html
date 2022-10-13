@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_without_popup.html" %}
 
 {% block title %}Residence Page{% endblock %}
 
@@ -30,6 +30,7 @@
     <!-- <a href = "{%url 'add_review' object.pk %}">Add comment here</a> -->
 {% else %}
     {% for comment in object.comments.all %}
+
         <br>
         <strong> <------------------------------------------------></strong>
         <h3>{{ comment.title }}</h3><br>
@@ -37,11 +38,16 @@
         {{ comment.content }}<br>
         {% if comment.isAnonymous %}
             by Anonymous User
+
         {% else %}
             by {{ comment.reviewer }}
         {% endif %}
         | {{ comment.publishTime }} <br>
         <strong> <-----------------------------------------------></strong>
+
+
+        <a href = "/changecomment/{{comment.pk}}/">Update Comment</a> <a href="/deletecomment/{{comment.pk}}">  Delete Comment</a><br>
+
     {% endfor %}
 {% endif %}
 

@@ -1,13 +1,12 @@
 <!-- templates/base.html -->
 <!DOCTYPE html>
-{% load static %}
 <html>
 <head>
   <meta charset="utf-8">
   <title>{% block title %}Hello World {% endblock %}</title>
 </head>
 <body>
-<button onclick="likeToLeave()">HOME</button>
+ <button onclick="likeToLeave()">HOME</button>
   <main>
     {% block content %}
     {% endblock %}
@@ -15,10 +14,7 @@
   <script language="JavaScript">
     function likeToLeave()
     {
-      let text = "Returning home will delete any unsaved data.";
-      if (confirm(text) == true) {
         window.location.href = "{% url 'home' %}";
-      }
     }
   </script>
 </body>
