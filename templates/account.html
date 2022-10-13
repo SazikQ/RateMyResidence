@@ -7,9 +7,8 @@
 <p>email: {{user.email}}</p>
 <p>verification status: {{user.isVerifiedUser}}</p>
 <p>Residence Manager status: {{user.isResidenceManager}}</p>
-<<<<<<< Updated upstream
 <a class = "btn" href = "{% url 'editProfile' %}"> Edit </a>
-=======
+
 
 <button onclick="window.location.href = '{% url 'editProfile' %}'"> Edit </button>
 <button onclick="Verification()">Request Verification</button>
@@ -19,7 +18,6 @@
         window.location.href = "{% url 'verifyUser'%}";
     }
   </script>
->>>>>>> Stashed changes
 
 <br>
 
