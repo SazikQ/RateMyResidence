@@ -24,6 +24,8 @@ class EditReview(forms.Form):
     title = forms.CharField(max_length=100)
     content = forms.CharField(max_length=500)
     isAnonymous = forms.BooleanField(label = "Post Anonymously?", initial=False, required=False)
+    rating = forms.DecimalField(min_value=0, max_value=5)
+
 
 class DeleteReview(forms.Form):
     isDelete = forms.BooleanField(label="Delete post", initial=False, required=False)
