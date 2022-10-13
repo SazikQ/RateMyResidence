@@ -21,6 +21,9 @@ from django.contrib.auth import views as auth_views
 from backend.functions.views import SearchResultsView
 from backend.functions.views import add_residence
 from backend.user_authentication.views import change_password
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,7 +32,7 @@ urlpatterns = [
     path("accounts/", include("backend.user_authentication.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
     path('search/', SearchResultsView.as_view(), name='search_results'),
-    path('list/', ResidenceListView.as_view(), name = 'list_residence'),
+    path('list/', ResidenceListView.as_view(), name='list_residence'),
     path('residence/<int:pk>', ResidenceDetail.as_view(), name='residence_info'),
     path('residence/<int:pk>/edit/', edit_residence, name = 'editResidence'),
     path('addResidence/', add_residence, name='add_residence'),
@@ -37,4 +40,6 @@ urlpatterns = [
     path("profile/password/", change_password, name="changePassword"),
     path("changecomment/<int:pk>/", edit_profile, name="changeComment"),
     path("deletecomment/<int:pk>", delete_review, name = "deleteReview")
-]
+
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
