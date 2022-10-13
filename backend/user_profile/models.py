@@ -34,7 +34,7 @@ class Review(models.Model):
     isAnonymous = models.BooleanField(default=False)
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE)
     belongedResidence = models.ForeignKey(Residence, related_name='comments', on_delete=models.CASCADE)
-    rating = models.FloatField()
+    rating = models.FloatField(default=0)
 
     class Meta:
         ordering = ['publishTime']

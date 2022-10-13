@@ -1,5 +1,3 @@
-function getStar(){
-
 let star = document.querySelectorAll('input');
 let showValue = document.querySelector('#rating-value');
 for (let i = 0; i < star.length; i++) {
@@ -10,5 +8,3 @@ for (let i = 0; i < star.length; i++) {
 	});
 }
 
-return i
-}
