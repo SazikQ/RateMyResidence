@@ -57,14 +57,14 @@ def edit_profile(request, pk):
         if pk == '':
             raise Http404
         if form.is_valid():
-            # review_form = Review(title=form.cleaned_data['title'], content=form.cleaned_data['content'], isAnonymous=form.cleaned_data['isAnonymous'], reviewer=request.user, belongedResidence=Residence.objects.get(pk=pk))
-            # review_form.save()
             review_form.title = form.cleaned_data['title']
             review_form.content = form.cleaned_data['content']
             review_form.isAnonymous = form.cleaned_data['isAnonymous']
+            review_form.rating = form.cleaned_data['rating']
             review_form.save(update_fields = ['title'])
             review_form.save(update_fields = ['content'])
             review_form.save(update_fields = ['isAnonymous'])
+            review_form.save(update_fields = ['rating'])
             return HttpResponseRedirect(redirectUrl)
     else:
         if pk == '':
@@ -81,7 +81,9 @@ def add_review(request, pk):
         if pk == '':
             raise Http404
         if form.is_valid():
-            review = Review(title=form.cleaned_data['title'], content=form.cleaned_data['content'], isAnonymous=form.cleaned_data['isAnonymous'], reviewer=request.user, belongedResidence=Residence.objects.get(pk=pk))
+            review = Review(title=form.cleaned_data['title'], content=form.cleaned_data['content'],
+                            isAnonymous=form.cleaned_data['isAnonymous'], reviewer=request.user,
+                            belongedResidence=Residence.objects.get(pk=pk), rating=form.cleaned_data['rating'])
             review.save()
             redirectUrl = "/residence/" + pk
             return HttpResponseRedirect(redirectUrl)
