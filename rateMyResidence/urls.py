@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-from backend.functions.views import ResidenceDetail, SearchResultsView, add_residence, ResidenceListView, add_review, autocomplete, edit_profile, delete_review
+from backend.functions.views import ResidenceDetail, SearchResultsView, add_residence, ResidenceListView, add_review, autocomplete, edit_profile, delete_review, edit_residence
 from django.contrib.auth import views as auth_views
 from backend.functions.views import SearchResultsView
 from backend.functions.views import add_residence
@@ -31,6 +31,7 @@ urlpatterns = [
     path('search/', SearchResultsView.as_view(), name='search_results'),
     path('list/', ResidenceListView.as_view(), name = 'list_residence'),
     path('residence/<int:pk>', ResidenceDetail.as_view(), name='residence_info'),
+    path('residence/<int:pk>/edit/', edit_residence, name = 'editResidence'),
     path('addResidence/', add_residence, name='add_residence'),
     path('addReview/<str:pk>', add_review, name='add_review'),
     path("profile/password/", change_password, name="changePassword"),
