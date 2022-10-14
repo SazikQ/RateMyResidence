@@ -73,7 +73,7 @@ def edit_review(request, pk):
         form = EditReview()
     return render(request, 'editreview.html', {'review_form': form.as_p()})
 
-
+@login_required
 def add_review(request, pk):
     if request.method == 'POST':
         form = ReviewForm(request.POST)
