@@ -41,7 +41,6 @@
     {% for comment in object.comments.all %}
 
         <br>
-        <strong> <------------------------------------------------></strong>
         <h3>{{ comment.title }}</h3><br>
         rating: {{ comment.rating }}  <br>
         {{ comment.content }}<br>
@@ -52,10 +51,15 @@
             by {{ comment.reviewer }}
         {% endif %}
         | {{ comment.publishTime }} <br>
-        <strong> <-----------------------------------------------></strong>
+        <br>
+        <form>
+            <button formaction="/changecomment/{{comment.pk}}/"> Update Comment</button>
+            <button formaction="/deletecomment/{{comment.pk}}">  Delete Comment</button>
+        </form>
+        <strong> <-----------------------------------------------------------------------></strong>
 
 
-        <a href = "/changecomment/{{comment.pk}}/">Update Comment</a> <a href="/deletecomment/{{comment.pk}}">  Delete Comment</a><br>
+        <!-- <a href = "/changecomment/{{comment.pk}}/">Update Comment</a> <a href="/deletecomment/{{comment.pk}}">  Delete Comment</a><br> -->
 
     {% endfor %}
 {% endif %}
