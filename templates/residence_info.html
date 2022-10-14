@@ -45,7 +45,7 @@
         <h3>{{ comment.title }}</h3><br>
         rating: {{ comment.rating }}  <br>
         {{ comment.content }}<br>
-        {% if comment.isAnonymous %}
+        {% if comment.isAnonymous and comment.reviewer != user %}
             by Anonymous User
 
         {% else %}
