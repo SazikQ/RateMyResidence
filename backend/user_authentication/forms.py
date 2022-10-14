@@ -8,14 +8,14 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ("username", "email", "isVerifiedUser", "isResidenceManager")
+        fields = ("username", "email", "isResidenceManager")
 
 
 class CustomUserChangeForm(UserChangeForm):
 
     class Meta:
         model = User
-        fields = ("username", "email", "isVerifiedUser", "isResidenceManager")
+        fields = ("username", "email", "isResidenceManager")
 
 
 class MyPasswordChangeForm(PasswordChangeForm):

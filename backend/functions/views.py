@@ -43,7 +43,7 @@ def delete_review(request, pk):
     return render(request, 'deletereview.html', {'form': form.as_p()})
 
 
-def edit_profile(request, pk):
+def edit_review(request, pk):
     review_form = Review.objects.get(pk=pk)
     residence_info = review_form.belongedResidence
     redirectUrl = "/residence/" + str(residence_info.pk)
