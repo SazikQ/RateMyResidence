@@ -71,7 +71,7 @@ def edit_review(request, pk):
             raise Http404
         request.session['pk'] = pk
         form = EditReview()
-    return render(request, 'editreview.html', {'review_form': form.as_p()})
+    return render(request, 'editreview.html', {'review_form': form.as_p(), 'comment': review_form})
 
 
 def add_review(request, pk):

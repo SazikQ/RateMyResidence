@@ -12,6 +12,11 @@
   <title>Edit Comment</title>
 </head>
 <body>
+    <h3>{{ comment.title }}</h3><br>
+        rating: {{ comment.rating }}  <br>
+        {{ comment.content }}<br>
+        | {{ comment.publishTime }} <br>
+        <br>
 <form method="post">
     {% csrf_token %}
     <div class="container">
@@ -38,11 +43,11 @@
     <script src="{% static 'star-ratings.js' %}"></script>
     <br>
     <p><label for="id_title">Title:</label>
-        <input id="id_title" maxlength="100" name="title" required type="text"></p>
+        <input id="id_title" maxlength="100" name="title" required type="text" value = "{{ comment.title }}"></p>
     <p><label for="id_content">Content:</label>
-        <textarea id="id_content" name="content" required></textarea></p>
+        <textarea id="id_content" name="content" required>{{ comment.content }}</textarea></p>
     <p><label for="id_is_anonymous">post review anonymously</label>
-        <input id="id_is_anonymous" name="isAnonymous" type="checkbox"></p>
+        <input id="id_is_anonymous" name="isAnonymous" type="checkbox" {% if comment.isAnonymous %}checked{% endif %}/></p>
     <button class='btn btn-secondary' type="submit">Add Comment</button>
 </form>
 </body>
