@@ -174,7 +174,12 @@ def edit_residence(request, pk):
         if pk == '':
             raise Http404
         request.session['pk'] = pk
-        form = ResidenceEditForm()
+        form = ResidenceEditForm({
+            'name': instance.name,
+            'streetName': instance.location.streetName,
+            'streetNum': instance.location.streetNum,
+            'zipcode': instance.location.zipcode,
+        })
     return render(request, 'editResidence.html', {'form': form.as_p()})
 
 class ResidenceListView(ListView):
