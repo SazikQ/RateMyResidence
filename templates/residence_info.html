@@ -42,6 +42,13 @@
 
         <br>
         <h3>{{ comment.title }}</h3><br>
+        time lived: {{ comment.time_lived }} <br>
+        rent: $ {{comment.rent }} / month <br>
+        {% if comment.live_again %}
+            Would live again: Yes
+        {% else %}
+            Would live again: No
+        {% endif %} <br>
         rating: {{ comment.rating }}  <br>
         {{ comment.content }}<br>
         {% if comment.isAnonymous and comment.reviewer != user %}

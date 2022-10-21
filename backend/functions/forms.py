@@ -24,6 +24,10 @@ class ReviewForm(forms.Form):
     content = forms.CharField(max_length=500)
     isAnonymous = forms.BooleanField(label = "Post Anonymously?", initial=False, required=False)
     rating = forms.DecimalField(min_value=0, max_value=5)
+    time_lived = forms.IntegerField(label= "How long have you been living in this residence (semester)?", required=False)
+    live_again = forms.BooleanField(label= "Would you live in this residence again?", initial=False, required=False)
+    rent = forms.IntegerField(label="How much are you paying for your residence a month?", required=False)
+
 
 
 class EditReview(forms.Form):
