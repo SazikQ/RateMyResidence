@@ -83,7 +83,9 @@ def add_review(request, pk):
         if form.is_valid():
             review = Review(title=form.cleaned_data['title'], content=form.cleaned_data['content'],
                             isAnonymous=form.cleaned_data['isAnonymous'], reviewer=request.user,
-                            belongedResidence=Residence.objects.get(pk=pk), rating=form.cleaned_data['rating'])
+                            belongedResidence=Residence.objects.get(pk=pk), rating=form.cleaned_data['rating'],
+                            time_lived = form.cleaned_data['time_lived'], live_again = form.cleaned_data['live_again'],
+                            rent = form.cleaned_data['rent'])
             review.save()
             redirectUrl = "/residence/" + pk
             return HttpResponseRedirect(redirectUrl)
