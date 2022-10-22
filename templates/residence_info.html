@@ -41,7 +41,8 @@
     <!-- <a href = "{%url 'add_review' object.pk %}">Add comment here</a> -->
 {% else %}
     <br>
-    <button id = "hlbtn" onclick="replace()">sort</button>
+    <button id = "lhbtn" onclick="ascending()">sort by low to high ratings</button>
+    <button id = "hlbtn" onclick="descending()">sort by high to low ratings</button>
     <div id = "original">
     {% for comment in object.comments.all %}
         <br>
@@ -74,7 +75,7 @@
     {% endfor %}
     </div>
 
-    <div id = "hlrating" style = "display:none">
+    <div id = "lhrating" style = "display:none">
     {% for comment in object.comments.all|dictsort:"rating" %}
         <br>
         <h3>{{ comment.title }}</h3><br>
@@ -100,16 +101,63 @@
             <button formaction="/deletecomment/{{comment.pk}}">  Delete Comment</button>
         </form>
         <strong> <-----------------------------------------------------------------------></strong>
+        
+        {% endfor %}
+    </div>
+
+    <div id = "hlrating" style = "display:none">
+    {% for comment in object.comments.all|dictsortreversed:"rating" %}
+        <br>
+        <h3>{{ comment.title }}</h3><br>
+        time lived: {{ comment.time_lived }} <br>
+        rent: $ {{comment.rent }} / month <br>
+        {% if comment.live_again %}
+            Would live again: Yes
+        {% else %}
+            Would live again: No
+        {% endif %} <br>
+        rating: {{ comment.rating }}  <br>
+        {{ comment.content }}<br>
+        {% if comment.isAnonymous and comment.reviewer != user %}
+            by Anonymous User
+
+        {% else %}
+            by {{ comment.reviewer }}
+        {% endif %}
+        | {{ comment.publishTime }} <br>
+        <br>
+        <form>
+            <button formaction="/changecomment/{{comment.pk}}/"> Update Comment</button>
+            <button formaction="/deletecomment/{{comment.pk}}">  Delete Comment</button>
+        </form>
+        <strong> <-----------------------------------------------------------------------></strong>
+        
         {% endfor %}
     </div>
     
     {% endif %}
     <script type="text/javaScript">
-        function replace() {
-            document.getElementById("original").style.display = "none";
+        function ascending() {
+            var orig =  document.getElementById("original");
+            var ratehl = document.getElementById("hlrating");
+            if (orig.style.display != "none" || ratehl.style.display != "none") {
+                orig.style.display = "none";
+                ratehl.style.display = "none";
+            }
+            document.getElementById("lhrating").style.display = "block";
+        }
+        function descending() {
+            var orig =  document.getElementById("original");
+            var ratelh = document.getElementById("lhrating");
+            if (orig.style.display != "none" || ratelh.style.display != "none") {
+                orig.style.display = "none";
+                ratelh.style.display = "none";
+            }
             document.getElementById("hlrating").style.display = "block";
         }
     </script>
+
+    
        
     
 
