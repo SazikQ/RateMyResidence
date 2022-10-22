@@ -1,5 +1,5 @@
 {% extends "base_without_popup.html" %}
-
+ <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 {% block title %}Residence Page{% endblock %}
 
 {% block content %}
@@ -33,13 +33,17 @@
     <button formaction="/addReview/{{object.pk}}">Write a review</button>
   </form>
 <h2>Review Section</h2>
+<strong> <-----------------------------------------------------------------------></strong>
+
 
 {% if not object.comments.all %}
     <small>No comment yet</small>
     <!-- <a href = "{%url 'add_review' object.pk %}">Add comment here</a> -->
 {% else %}
+    <br>
+    <button id = "hlbtn" onclick="replace()">sort</button>
+    <div id = "original">
     {% for comment in object.comments.all %}
-
         <br>
         <h3>{{ comment.title }}</h3><br>
         time lived: {{ comment.time_lived }} <br>
@@ -67,8 +71,19 @@
 
 
         <!-- <a href = "/changecomment/{{comment.pk}}/">Update Comment</a> <a href="/deletecomment/{{comment.pk}}">  Delete Comment</a><br> -->
-
     {% endfor %}
+    </div>
+
+    <div id = "hlrating" style = "display:none">
+    <p>replacing content</p>
+    </div>
+
+    <script type="text/javaScript">
+        function replace() {
+            document.getElementById("original").style.display = "none";
+            document.getElementById("hlrating").style.display = "block";
+        }
+    </script>
 {% endif %}
 
 {% endblock %}
