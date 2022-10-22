@@ -9,6 +9,7 @@ from django.contrib import messages
 from backend.user_profile.models import Residence, Review, Location
 from taggit.forms import *
 
+
 # Create your views here.
 @login_required
 def delete_review(request, pk):
@@ -61,10 +62,10 @@ def edit_review(request, pk):
             review_form.content = form.cleaned_data['content']
             review_form.isAnonymous = form.cleaned_data['isAnonymous']
             review_form.rating = form.cleaned_data['rating']
-            review_form.save(update_fields = ['title'])
-            review_form.save(update_fields = ['content'])
-            review_form.save(update_fields = ['isAnonymous'])
-            review_form.save(update_fields = ['rating'])
+            review_form.save(update_fields=['title'])
+            review_form.save(update_fields=['content'])
+            review_form.save(update_fields=['isAnonymous'])
+            review_form.save(update_fields=['rating'])
             return HttpResponseRedirect(redirectUrl)
     else:
         if pk == '':
@@ -74,6 +75,7 @@ def edit_review(request, pk):
     return render(request, 'editreview.html', {'review_form': form.as_p()})
 
 
+@login_required
 def add_review(request, pk):
     if request.method == 'POST':
         form = ReviewForm(request.POST)
@@ -84,8 +86,8 @@ def add_review(request, pk):
             review = Review(title=form.cleaned_data['title'], content=form.cleaned_data['content'],
                             isAnonymous=form.cleaned_data['isAnonymous'], reviewer=request.user,
                             belongedResidence=Residence.objects.get(pk=pk), rating=form.cleaned_data['rating'],
-                            time_lived = form.cleaned_data['time_lived'], live_again = form.cleaned_data['live_again'],
-                            rent = form.cleaned_data['rent'])
+                            time_lived=form.cleaned_data['time_lived'], live_again=form.cleaned_data['live_again'],
+                            rent=form.cleaned_data['rent'])
             review.save()
             redirectUrl = "/residence/" + pk
             return HttpResponseRedirect(redirectUrl)
@@ -150,8 +152,8 @@ def edit_residence(request, pk):
     instance = Residence.objects.get(pk=pk)
     redirectUrl = "/residence/" + str(pk)
 
-    #if request.user != instance.manager:
-        #return HttpResponseRedirect(redirectUrl)
+    # if request.user != instance.manager:
+    # return HttpResponseRedirect(redirectUrl)
 
     if request.method == 'POST':
         form = ResidenceEditForm(request.POST)
@@ -159,11 +161,11 @@ def edit_residence(request, pk):
         if pk == '':
             raise Http404
         if form.is_valid():
-            instance.location.streetName=form.cleaned_data['streetName']
-            instance.location.streetNum=form.cleaned_data['streetNum']
-            instance.location.zipcode=form.cleaned_data['zipcode']                          
+            instance.location.streetName = form.cleaned_data['streetName']
+            instance.location.streetNum = form.cleaned_data['streetNum']
+            instance.location.zipcode = form.cleaned_data['zipcode']
             instance.location.save(update_fields=['streetName', 'streetNum', 'zipcode'])
-            instance.name=form.cleaned_data['name']
+            instance.name = form.cleaned_data['name']
             instance.save(update_fields=['name'])
             instance.tags.clear()
             m_tags = form.cleaned_data['residence_tags']
@@ -178,6 +180,7 @@ def edit_residence(request, pk):
         request.session['pk'] = pk
         form = ResidenceEditForm()
     return render(request, 'editResidence.html', {'form': form.as_p()})
+
 
 class ResidenceListView(ListView):
     model = Residence
