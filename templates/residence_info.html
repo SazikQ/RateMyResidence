@@ -75,15 +75,42 @@
     </div>
 
     <div id = "hlrating" style = "display:none">
-    <p>replacing content</p>
-    </div>
+    {% for comment in object.comments.all|dictsort:"rating" %}
+        <br>
+        <h3>{{ comment.title }}</h3><br>
+        time lived: {{ comment.time_lived }} <br>
+        rent: $ {{comment.rent }} / month <br>
+        {% if comment.live_again %}
+            Would live again: Yes
+        {% else %}
+            Would live again: No
+        {% endif %} <br>
+        rating: {{ comment.rating }}  <br>
+        {{ comment.content }}<br>
+        {% if comment.isAnonymous and comment.reviewer != user %}
+            by Anonymous User
 
+        {% else %}
+            by {{ comment.reviewer }}
+        {% endif %}
+        | {{ comment.publishTime }} <br>
+        <br>
+        <form>
+            <button formaction="/changecomment/{{comment.pk}}/"> Update Comment</button>
+            <button formaction="/deletecomment/{{comment.pk}}">  Delete Comment</button>
+        </form>
+        <strong> <-----------------------------------------------------------------------></strong>
+        {% endfor %}
+    </div>
+    
+    {% endif %}
     <script type="text/javaScript">
         function replace() {
             document.getElementById("original").style.display = "none";
             document.getElementById("hlrating").style.display = "block";
         }
     </script>
-{% endif %}
+       
+    
 
 {% endblock %}
