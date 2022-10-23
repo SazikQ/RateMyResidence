@@ -158,14 +158,18 @@ class SearchResultsView(ListView):
             object_list = Residence.objects.filter(
                 Q(name__icontains=query) &
                 Q(rating_average__lte=maxRate) &
-                Q(rating_average__gte=minRate)
+                Q(rating_average__gte=minRate) &
+                Q(rent_min__lte=maxPrice) &
+                Q(rent_max__gte=minPrice)
             ).order_by(*order_list)
             return object_list
         else:
             object_list = Residence.objects.filter(
                 Q(name__icontains=query) &
                 Q(rating_average__lte=maxRate) &
-                Q(rating_average__gte=minRate)
+                Q(rating_average__gte=minRate) &
+                Q(rent_min__lte=maxPrice) &
+                Q(rent_max__gte=minPrice)
             )
             return object_list
 

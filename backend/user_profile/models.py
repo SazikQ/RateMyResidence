@@ -23,6 +23,9 @@ class Residence(models.Model):
     manager = models.ManyToManyField(User)
     location = models.OneToOneField(Location, on_delete=models.CASCADE)
     rating_average = models.FloatField(default=0)
+    rent_average = models.FloatField(default=0)
+    rent_min = models.FloatField(default=0)
+    rent_max = models.FloatField(default=0)
     review_count = models.IntegerField(default=0)
     tags = TaggableManager()
 
@@ -33,8 +36,11 @@ class Residence(models.Model):
         reviews = self.comments.all()
         #reviews = Review.objects.filter(id=self.id)
         self.rating_average = reviews.aggregate(models.Avg('rating')).get('rating__avg')
+        self.rent_average = reviews.aggregate(models.Avg('rent')).get('rent__avg')
+        self.rent_min = reviews.aggregate(models.Min('rent')).get('rent__min')
+        self.rent_max = reviews.aggregate(models.Max('rent')).get('rent__max')
         self.review_count = reviews.count()
-        self.save(update_fields=['rating_average', 'review_count'])
+        self.save(update_fields=['rating_average', 'rent_average','rent_min','rent_max','review_count'])
 
 class Review(models.Model):
     publishTime = models.DateTimeField(auto_now_add=True)
