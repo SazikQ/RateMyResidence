@@ -58,8 +58,8 @@ LIKE_CHOICES = (
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     review = models.ForeignKey(Review, on_delete = models.CASCADE)
-    value = models.CharField(choices=LIKE_CHOICES, default = 'Like', max_length=100)
+    # value = models.CharField(choices=LIKE_CHOICES, default = 'Like', max_length=100)
 
-    def __str__(self):
-         return str(self.review)
+    # def __str__(self):
+    #      return str(self.review)
      

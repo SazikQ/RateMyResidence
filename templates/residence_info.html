@@ -67,8 +67,14 @@
         <form>
             <button formaction="/changecomment/{{comment.pk}}/"> Update Comment</button>
             <button formaction="/deletecomment/{{comment.pk}}">  Delete Comment</button>
-            <button formaction="/residence/{{object.pk}}", type = "submit", name = "review_id", value = "{{ comment.id }}"> Like</button>
-            <strong> {{ comment.likes }} likes </strong>
+            <!-- <button formaction="/residence/{{object.pk}}", type = "submit", name = "review_id", value = "{{ comment.id }}"> Like</button>
+            <strong> {{ comment.likes }} likes </strong> -->
+        </form>
+
+        <form action = "{% url 'likeReview' object.pk %}">
+            {% csrf_token %}
+            <button type = "submit", name = "review_id", value = "{{ comment.id }}">Like</button>
+            <strong> {{ commment.likes }} likes </strong>
         </form>
         <strong> <-----------------------------------------------------------------------></strong>
 

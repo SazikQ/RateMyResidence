@@ -17,13 +17,13 @@ def like_view(request, pk):
     # post = get_list_or_404(Review, id=request.POST.get('review_id'))
     # post.likes.add(request.user)
     user = request.user
-    rid = request.get('review_id')
+    rid = request.POST.get('review_id')
     review = Review.objects.get(id = rid)
     current_likes = review.likes
 
     residence = review.belongedResidence
     rpk = residence.pk
-    redirectUrl = "/residence/" + str(rpk)
+    redirectUrl = "/residence/" + str(pk)
 
     liked = Like.objects.filter(user = user, review = review).count()
 
@@ -31,17 +31,17 @@ def like_view(request, pk):
         like = Like.objects.create(user = user, review = review)
         like.save()
         current_likes = current_likes + 1
+        # messages.success(request, 'Liked')
     else:
         Like.objects.filter(user = user, review = review).delete()
         current_likes = current_likes - 1
+        # messages.success(request, 'Unliked')
 
     review.likes = current_likes
     review.save(update_fields=['likes'])
 
-    # return redirect("review:likeReview")
-    # return HttpResponseRedirect(reverse('residence_info'), args=[str(pk)])
-
     return HttpResponseRedirect(redirectUrl)
+
 
 def delete_review(request, pk):
     review_form = Review.objects.get(pk=pk)
