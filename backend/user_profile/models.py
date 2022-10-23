@@ -44,6 +44,9 @@ class Review(models.Model):
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE)
     belongedResidence = models.ForeignKey(Residence, related_name='comments', on_delete=models.CASCADE)
     rating = models.FloatField(default=0)
+    time_lived = models.IntegerField(default=0)
+    live_again = models.BooleanField(default=False)
+    rent = models.IntegerField(default=0)
 
     class Meta:
         ordering = ['publishTime']

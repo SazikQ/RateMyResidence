@@ -1,0 +1,16 @@
+{% extends "base_without_popup.html" %}
+
+{% block title %}Past Review{% endblock %}
+
+{% block content %}
+<h1>Review</h1>
+<ul>
+{% for Review in object_list %}
+<li>
+  <a href = "{%url 'review_detail' Review.pk%}">{{Review.title}}</a>
+</li>
+{% empty %}
+<li>No reviews yet.</li>
+</ul>
+{% endfor %}
+{% endblock %}
