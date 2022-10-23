@@ -41,7 +41,7 @@ class Review(models.Model):
     live_again = models.BooleanField(default=False)
     rent = models.IntegerField(default=0)
 
-    likes = models.ManyToManyField(User, related_name = 'reviews')
+    likes = models.IntegerField(default = 0)
     class Meta:
         ordering = ['publishTime']
     
