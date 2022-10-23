@@ -8,6 +8,7 @@
 <p>verification status: {{user.isVerifiedUser}}</p>
 <p>Residence Manager status: {{user.isResidenceManager}}</p>
 <button onclick="window.location.href = '{% url 'editProfile' %}'"> Edit </button>
+<button onclick="window.location.href = '{% url 'past_review' %}'"> Past Review </button>
 <button onclick="Verification()">Request Verification</button>
  <script language="JavaScript">
     function Verification()
