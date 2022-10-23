@@ -160,7 +160,11 @@ class SearchResultsView(ListView):
             ).order_by(*order_list)
             return object_list
         else:
-            object_list = Residence.objects.filter(name__icontains=query, rating_average__lte=maxRate, rating_average__gte=minRate)
+            object_list = Residence.objects.filter(
+                Q(name__icontains=query) &
+                Q(rating_average__lte=maxRate) &
+                Q(rating_average__gte=minRate)
+            )
             return object_list
 
     def dispatch(self, *args, **kwargs):
