@@ -61,10 +61,16 @@ def edit_review(request, pk):
             review_form.content = form.cleaned_data['content']
             review_form.isAnonymous = form.cleaned_data['isAnonymous']
             review_form.rating = form.cleaned_data['rating']
+            review_form.time_lived = form.cleaned_data['time_lived']
+            review_form.live_again = form.cleaned_data['live_again']
+            review_form.rent = form.cleaned_data['rent']
             review_form.save(update_fields = ['title'])
             review_form.save(update_fields = ['content'])
             review_form.save(update_fields = ['isAnonymous'])
             review_form.save(update_fields = ['rating'])
+            review_form.save(update_fields = ['time_lived'])
+            review_form.save(update_fields = ['live_again'])
+            review_form.save(update_fields = ['rent'])
             return HttpResponseRedirect(redirectUrl)
     else:
         if pk == '':
