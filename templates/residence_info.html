@@ -63,6 +63,7 @@
             by {{ comment.reviewer }}
         {% endif %}
         | {{ comment.publishTime }} <br>
+        {{ comment.likes }} likes <br>
         <br>
         <form>
             <button formaction="/changecomment/{{comment.pk}}/"> Update Comment</button>
@@ -74,7 +75,6 @@
         <form action = "{% url 'likeReview' object.pk %}">
             {% csrf_token %}
             <button type = "submit", name = "review_id", value = "{{ comment.id }}">Like</button>
-            <strong> {{ commment.likes }} likes </strong>
         </form>
         <strong> <-----------------------------------------------------------------------></strong>
 

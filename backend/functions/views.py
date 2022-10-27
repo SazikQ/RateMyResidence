@@ -8,7 +8,7 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
-from backend.user_profile.models import Residence, Review, Location, Like
+from backend.user_profile.models import Residence, Review, Location, User
 from taggit.forms import *
 
 # Create your views here.
@@ -19,26 +19,29 @@ def like_view(request, pk):
     user = request.user
     rid = request.POST.get('review_id')
     review = Review.objects.get(id = rid)
+    # actual_user = Review.objects.filter(liked__id = user.id)
     current_likes = review.likes
 
-    residence = review.belongedResidence
-    rpk = residence.pk
     redirectUrl = "/residence/" + str(pk)
 
-    liked = Like.objects.filter(user = user, review = review).count()
+    liked = review.filter(liked = user).count()
 
     if not liked:
-        like = Like.objects.create(user = user, review = review)
-        like.save()
-        current_likes = current_likes + 1
+        review.liked.add(user)
+        review.save()
+        review.likes = current_likes + 1
+        review.save()
         # messages.success(request, 'Liked')
     else:
-        Like.objects.filter(user = user, review = review).delete()
-        current_likes = current_likes - 1
+        review.liked.remove(user)
+        review.save()
+        review.likes = current_likes - 1
+        review.save()
         # messages.success(request, 'Unliked')
 
-    review.likes = current_likes
-    review.save(update_fields=['likes'])
+    # review.likes = current_likes
+    # review.save(update_fields=['likes'])
+    # review.save(update_fields=['liked'])
 
     return HttpResponseRedirect(redirectUrl)
 

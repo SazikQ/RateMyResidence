@@ -28,6 +28,9 @@ class Residence(models.Model):
     def __str__(self):
         return self.name
 
+# class Like(models.Model):
+#     user = models.ForeignKey(User, on_delete = models.CASCADE)
+#     review = models.ForeignKey(Review, on_delete = models.CASCADE)
 
 class Review(models.Model):
     publishTime = models.DateTimeField(auto_now_add=True)
@@ -42,24 +45,16 @@ class Review(models.Model):
     rent = models.IntegerField(default=0)
 
     likes = models.IntegerField(default = 0)
+    liked = models.ManyToManyField(User, related_name = 'liked')
     class Meta:
         ordering = ['publishTime']
     
     def __str__(self):
         # return super().__str__()
-            return '%s - %s' % (self.belongedResidence.name, self.reviewer)
+        return '%s - %s' % (self.belongedResidence.name, self.reviewer)
 
 
 LIKE_CHOICES = (
     ('Like', 'Like'),
     ('Unlike', 'Unlike'),
 )
-
-class Like(models.Model):
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
-    review = models.ForeignKey(Review, on_delete = models.CASCADE)
-    # value = models.CharField(choices=LIKE_CHOICES, default = 'Like', max_length=100)
-
-    # def __str__(self):
-    #      return str(self.review)
-     
