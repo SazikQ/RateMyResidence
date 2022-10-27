@@ -1,16 +1,48 @@
+from audioop import reverse
+import re
 from turtle import title
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_list_or_404
 from backend.functions.forms import ResidenceForm, ReviewForm, EditReview, DeleteReview, ResidenceEditForm
 from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib import messages
-from backend.user_profile.models import Residence, Review, Location
+from backend.user_profile.models import Residence, Review, Location, Like
 from taggit.forms import *
 
 # Create your views here.
 @login_required
+def like_view(request, pk):
+    # post = get_list_or_404(Review, id=request.POST.get('review_id'))
+    # post.likes.add(request.user)
+    user = request.user
+    rid = request.POST.get('review_id')
+    review = Review.objects.get(id = rid)
+    current_likes = review.likes
+
+    residence = review.belongedResidence
+    rpk = residence.pk
+    redirectUrl = "/residence/" + str(pk)
+
+    liked = Like.objects.filter(user = user, review = review).count()
+
+    if not liked:
+        like = Like.objects.create(user = user, review = review)
+        like.save()
+        current_likes = current_likes + 1
+        # messages.success(request, 'Liked')
+    else:
+        Like.objects.filter(user = user, review = review).delete()
+        current_likes = current_likes - 1
+        # messages.success(request, 'Unliked')
+
+    review.likes = current_likes
+    review.save(update_fields=['likes'])
+
+    return HttpResponseRedirect(redirectUrl)
+
+
 def delete_review(request, pk):
     review_form = Review.objects.get(pk=pk)
     residence_info = review_form.belongedResidence
@@ -61,10 +93,16 @@ def edit_review(request, pk):
             review_form.content = form.cleaned_data['content']
             review_form.isAnonymous = form.cleaned_data['isAnonymous']
             review_form.rating = form.cleaned_data['rating']
+            review_form.time_lived = form.cleaned_data['time_lived']
+            review_form.live_again = form.cleaned_data['live_again']
+            review_form.rent = form.cleaned_data['rent']
             review_form.save(update_fields = ['title'])
             review_form.save(update_fields = ['content'])
             review_form.save(update_fields = ['isAnonymous'])
             review_form.save(update_fields = ['rating'])
+            review_form.save(update_fields = ['time_lived'])
+            review_form.save(update_fields = ['live_again'])
+            review_form.save(update_fields = ['rent'])
             return HttpResponseRedirect(redirectUrl)
     else:
         if pk == '':

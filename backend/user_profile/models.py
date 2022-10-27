@@ -1,4 +1,6 @@
 from email.policy import default
+from pyexpat import model
+from random import choices
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from taggit.managers import TaggableManager
@@ -39,10 +41,25 @@ class Review(models.Model):
     live_again = models.BooleanField(default=False)
     rent = models.IntegerField(default=0)
 
+    likes = models.IntegerField(default = 0)
     class Meta:
         ordering = ['publishTime']
     
     def __str__(self):
         # return super().__str__()
             return '%s - %s' % (self.belongedResidence.name, self.reviewer)
+
+
+LIKE_CHOICES = (
+    ('Like', 'Like'),
+    ('Unlike', 'Unlike'),
+)
+
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    review = models.ForeignKey(Review, on_delete = models.CASCADE)
+    # value = models.CharField(choices=LIKE_CHOICES, default = 'Like', max_length=100)
+
+    # def __str__(self):
+    #      return str(self.review)
      
