@@ -8,39 +8,20 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
-from backend.user_profile.models import Residence, Review, Location, Like
+from backend.user_profile.models import Residence, Review, Location
 from taggit.forms import *
 
 # Create your views here.
 @login_required
 def like_view(request, pk):
-    # post = get_list_or_404(Review, id=request.POST.get('review_id'))
-    # post.likes.add(request.user)
-    user = request.user
-    rid = request.POST.get('review_id')
-    review = Review.objects.get(id = rid)
-    current_likes = review.likes
-
-    residence = review.belongedResidence
-    rpk = residence.pk
-    redirectUrl = "/residence/" + str(pk)
-
-    liked = Like.objects.filter(user = user, review = review).count()
-
-    if not liked:
-        like = Like.objects.create(user = user, review = review)
-        like.save()
-        current_likes = current_likes + 1
-        # messages.success(request, 'Liked')
-    else:
-        Like.objects.filter(user = user, review = review).delete()
-        current_likes = current_likes - 1
-        # messages.success(request, 'Unliked')
-
-    review.likes = current_likes
-    review.save(update_fields=['likes'])
-
+    rev = Review.objects.get(pk=request.GET.get('review_id'))
+    #test = request.GET.get('review_id') + '/' + type(request.GET.get('review_id'))
+    redirectUrl = '/residence/' + str(pk)
+    #redirectUrl = test
+    rev.likes.add(request.user)
     return HttpResponseRedirect(redirectUrl)
+    
+    #get_list_or_404(Review, id=request.POST.get('review_id'))
 
 
 def delete_review(request, pk):

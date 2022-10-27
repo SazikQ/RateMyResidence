@@ -40,8 +40,8 @@ class Review(models.Model):
     time_lived = models.IntegerField(default=0)
     live_again = models.BooleanField(default=False)
     rent = models.IntegerField(default=0)
+    likes = models.ManyToManyField(User, related_name='liked_user')
 
-    likes = models.IntegerField(default = 0)
     class Meta:
         ordering = ['publishTime']
     
@@ -49,17 +49,4 @@ class Review(models.Model):
         # return super().__str__()
             return '%s - %s' % (self.belongedResidence.name, self.reviewer)
 
-
-LIKE_CHOICES = (
-    ('Like', 'Like'),
-    ('Unlike', 'Unlike'),
-)
-
-class Like(models.Model):
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
-    review = models.ForeignKey(Review, on_delete = models.CASCADE)
-    # value = models.CharField(choices=LIKE_CHOICES, default = 'Like', max_length=100)
-
-    # def __str__(self):
-    #      return str(self.review)
      

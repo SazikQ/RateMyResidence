@@ -40,7 +40,7 @@ urlpatterns = [
     path("profile/password/", change_password, name="changePassword"),
     path("changecomment/<int:pk>/", edit_review, name="changeComment"),
     path("deletecomment/<int:pk>", delete_review, name = "deleteReview"),
-    path("residence/<int:pk>", like_view, name = "likeReview"),
+    path("residence/like/<int:pk>", like_view, name = "likeReview"),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
