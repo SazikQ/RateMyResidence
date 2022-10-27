@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-from backend.functions.views import ResidenceDetail, SearchResultsView, add_residence, ResidenceListView, add_review, autocomplete, edit_review, delete_review, edit_residence, like_view
+from backend.functions.views import ResidenceDetail, SearchResultsView, add_residence, ResidenceListView, add_review, autocomplete, edit_review, delete_review, edit_residence, like_view, dislike_view
 from django.contrib.auth import views as auth_views
 from backend.functions.views import SearchResultsView
 from backend.functions.views import add_residence
@@ -41,6 +41,7 @@ urlpatterns = [
     path("changecomment/<int:pk>/", edit_review, name="changeComment"),
     path("deletecomment/<int:pk>", delete_review, name = "deleteReview"),
     path("residence/like/<int:pk>", like_view, name = "likeReview"),
+    path("residence/dislike/<int:pk>", dislike_view, name = "dislikeReview"),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

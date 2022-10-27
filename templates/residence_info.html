@@ -77,6 +77,12 @@
             <button type = "submit", name = "review_id", value = "{{ comment.id }}">Like</button>
             <strong> {{ comment.likes.count }} likes </strong>
         </form>
+
+        <form action = "{% url 'dislikeReview' object.pk %}">
+            {% csrf_token %}
+            <button type = "submit", name = "review_id", value = "{{ comment.id }}">Dislike</button>
+            <strong> {{ comment.dislikes.count }} Dislikes </strong>
+        </form>
         <strong> <-----------------------------------------------------------------------></strong>
 
 
@@ -115,6 +121,12 @@
             <button type = "submit", name = "review_id", value = "{{ comment.id }}">Like</button>
             <strong> {{ comment.likes.count }} likes </strong>
         </form>
+
+        <form action = "{% url 'dislikeReview' object.pk %}">
+            {% csrf_token %}
+            <button type = "submit", name = "review_id", value = "{{ comment.id }}">Dislike</button>
+            <strong> {{ comment.likes.count }} Dislikes </strong>
+        </form>
         <strong> <-----------------------------------------------------------------------></strong>
         
         {% endfor %}
@@ -149,6 +161,12 @@
             {% csrf_token %}
             <button type = "submit", name = "review_id", value = "{{ comment.id }}">Like</button>
             <strong> {{ comment.likes.count }} likes </strong>
+        </form>
+
+        <form action = "{% url 'dislikeReview' object.pk %}">
+            {% csrf_token %}
+            <button type = "submit", name = "review_id", value = "{{ comment.id }}">Dislike</button>
+            <strong> {{ comment.likes.count }} Dislikes </strong>
         </form>
         <strong> <-----------------------------------------------------------------------></strong>
         

@@ -13,10 +13,22 @@ from taggit.forms import *
 
 # Create your views here.
 @login_required
+def dislike_view(request, pk):
+    rev = Review.objects.get(pk=request.GET.get('review_id'))
+    redirectUrl = '/residence/' + str(pk)
+    if rev.dislikes.filter(id = request.user.id).exists():
+        rev.dislikes.remove(request.user)
+    else:
+        rev.dislikes.add(request.user)
+    return HttpResponseRedirect(redirectUrl)
+
 def like_view(request, pk):
     rev = Review.objects.get(pk=request.GET.get('review_id'))
     redirectUrl = '/residence/' + str(pk)
-    rev.likes.add(request.user)
+    if rev.likes.filter(id = request.user.id).exists():
+        rev.likes.remove(request.user)
+    else:
+        rev.likes.add(request.user)
     return HttpResponseRedirect(redirectUrl)
     
     #get_list_or_404(Review, id=request.POST.get('review_id'))
