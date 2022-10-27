@@ -24,26 +24,22 @@ def like_view(request, pk):
 
     redirectUrl = "/residence/" + str(pk)
 
-    liked = review.filter(liked = user).count()
-
-    if not liked:
-        review.liked.add(user)
-        review.save()
-        review.likes = current_likes + 1
-        review.save()
-        # messages.success(request, 'Liked')
-    else:
-        review.liked.remove(user)
-        review.save()
-        review.likes = current_likes - 1
-        review.save()
-        # messages.success(request, 'Unliked')
-
-    # review.likes = current_likes
-    # review.save(update_fields=['likes'])
-    # review.save(update_fields=['liked'])
-
-    return HttpResponseRedirect(redirectUrl)
+    if request.method == 'POST':
+        pk = request.session['pk']
+        if pk == '':
+            raise Http404
+        user_liked = review.filter(liked = user).count()
+        if not user_liked:
+            review.liked.add(user)
+            review.save()
+            review.likes = current_likes + 1
+            review.save()
+        else:
+            review.liked.remove(user)
+            review.save()
+            review.likes = current_likes - 1
+            review.save()
+        return HttpResponseRedirect(redirectUrl)
 
 
 def delete_review(request, pk):
