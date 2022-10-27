@@ -15,9 +15,7 @@ from taggit.forms import *
 @login_required
 def like_view(request, pk):
     rev = Review.objects.get(pk=request.GET.get('review_id'))
-    #test = request.GET.get('review_id') + '/' + type(request.GET.get('review_id'))
     redirectUrl = '/residence/' + str(pk)
-    #redirectUrl = test
     rev.likes.add(request.user)
     return HttpResponseRedirect(redirectUrl)
     
