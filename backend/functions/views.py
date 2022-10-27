@@ -8,38 +8,18 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
-from backend.user_profile.models import Residence, Review, Location, User
+from backend.user_profile.models import Residence, Review, Location
 from taggit.forms import *
 
 # Create your views here.
 @login_required
 def like_view(request, pk):
-    # post = get_list_or_404(Review, id=request.POST.get('review_id'))
-    # post.likes.add(request.user)
-    user = request.user
-    rid = request.POST.get('review_id')
-    review = Review.objects.get(id = rid)
-    # actual_user = Review.objects.filter(liked__id = user.id)
-    current_likes = review.likes
-
-    redirectUrl = "/residence/" + str(pk)
-
-    if request.method == 'POST':
-        pk = request.session['pk']
-        if pk == '':
-            raise Http404
-        user_liked = review.filter(liked = user).count()
-        if not user_liked:
-            review.liked.add(user)
-            review.save()
-            review.likes = current_likes + 1
-            review.save()
-        else:
-            review.liked.remove(user)
-            review.save()
-            review.likes = current_likes - 1
-            review.save()
-        return HttpResponseRedirect(redirectUrl)
+    rev = Review.objects.get(pk=request.GET.get('review_id'))
+    redirectUrl = '/residence/' + str(pk)
+    rev.likes.add(request.user)
+    return HttpResponseRedirect(redirectUrl)
+    
+    #get_list_or_404(Review, id=request.POST.get('review_id'))
 
 
 def delete_review(request, pk):
