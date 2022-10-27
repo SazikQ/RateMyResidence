@@ -2,12 +2,15 @@ import hashlib
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
+
 from backend.user_authentication.forms import CustomUserChangeForm
 from django.contrib import messages
+from backend.user_profile.models import Review
 from django.urls import reverse_lazy
 import random
-
 from backend.user_profile.forms import EmailVerificationForm
+from django.views.generic import TemplateView, ListView, DetailView
 
 
 def profile(request):
@@ -56,3 +59,18 @@ def account_verify(request):
 
     return render(request, 'user_verify.html', {'form': verificationForm.as_p()})
 
+
+@method_decorator(login_required, name='dispatch')
+class ReviewHistoryView(ListView):
+    model = Review
+    paginate_by = 20
+    template_name = 'review_list.html'
+
+    def get_queryset(self):
+        object_list = Review.objects.filter(reviewer=self.request.user)
+        return object_list
+
+
+class ReviewDetail(DetailView):
+    model = Review
+    template_name = 'review_info.html'

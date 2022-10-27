@@ -1,0 +1,26 @@
+{% extends "base_without_popup.html" %}
+
+{% block title %}Review Page{% endblock %}
+
+{% block content %}
+<h2> Review title: {{ object.title }} </h2>
+<h2> BelongedResidence: {{ object.belongedResidence.name }} </h2>
+        <br>
+        time lived: {{ object.time_lived }} <br>
+        rent: $ {{object.rent }} / month <br>
+        {% if object.live_again %}
+            Would live again: Yes
+        {% else %}
+            Would live again: No
+        {% endif %} <br>
+        rating: {{ object.rating }}  <br>
+        --------------------------------- <br>
+        {{ object.content }}<br>
+        --------------------------------- <br>
+        {{ object.publishTime }} <br>
+        <br>
+        <form>
+            <button formaction="/changecomment/{{object.pk}}/"> Update Comment</button>
+            <button formaction="/deletecomment/{{object.pk}}">  Delete Comment</button>
+        </form>
+{% endblock %}
