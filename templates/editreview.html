@@ -41,6 +41,12 @@
     </div>
     <script src="{% static 'star-ratings.js' %}"></script>
     <br>
+    <p><label for="id_time_lived">Time Lived:</label>
+        <input id="id_time_lived" maxlength="5" name="time_lived" required type="number"></p>
+    <p><label for="id_live_again">Live Again:</label>
+        <input id="id_live_again" name="live_again" type="checkbox"></p>
+    <p><label for="id_rent">Rent ($ per month):</label>
+        <input id="id_rent" maxlength="5" name="rent" required type="number"></p>
     <p><label for="id_title">Title:</label>
         <input id="id_title" maxlength="100" name="title" required type="text" value = "{{ comment.title }}"></p>
     <p><label for="id_content">Content:</label>

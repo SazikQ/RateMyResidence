@@ -1,4 +1,6 @@
 from email.policy import default
+from pyexpat import model
+from random import choices
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models import Avg
@@ -53,6 +55,8 @@ class Review(models.Model):
     time_lived = models.IntegerField(default=0)
     live_again = models.BooleanField(default=False)
     rent = models.IntegerField(default=0)
+    likes = models.ManyToManyField(User, related_name='liked_user')
+    dislikes = models.ManyToManyField(User, related_name='disliked_user')
 
     class Meta:
         ordering = ['publishTime']
@@ -64,4 +68,4 @@ class Review(models.Model):
     def save(self, *args, **kwargs):
         super(Review, self).save(*args, **kwargs)
         self.belongedResidence.update_review_fields()
-     
+    

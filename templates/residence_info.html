@@ -61,13 +61,26 @@
         {% else %}
             by {{ comment.reviewer }}
         {% endif %}
-        | {{ comment.publishTime }}<br>
-        {% if comment.reviewer == user %}
-            <form>
-                <button formaction="/changecomment/{{comment.pk}}/"> Update Comment</button>
-                <button formaction="/deletecomment/{{comment.pk}}">  Delete Comment</button>
-            </form>
-        {% endif %}
+        | {{ comment.publishTime }} <br>
+        <br>
+        <form>
+            <button formaction="/changecomment/{{comment.pk}}/"> Update Comment</button>
+            <button formaction="/deletecomment/{{comment.pk}}">  Delete Comment</button>
+            <!-- <button formaction="/residence/{{object.pk}}", type = "submit", name = "review_id", value = "{{ comment.id }}"> Like</button>
+            <strong> {{ comment.likes }} likes </strong> -->
+        </form>
+
+        <form action = "{% url 'likeReview' object.pk %}">
+            {% csrf_token %}
+            <button type = "submit", name = "review_id", value = "{{ comment.id }}">Like</button>
+            <strong> {{ comment.likes.count }} likes </strong>
+        </form>
+
+        <form action = "{% url 'dislikeReview' object.pk %}">
+            {% csrf_token %}
+            <button type = "submit", name = "review_id", value = "{{ comment.id }}">Dislike</button>
+            <strong> {{ comment.dislikes.count }} Dislikes </strong>
+        </form>
         <strong> <-----------------------------------------------------------------------></strong>
 
 
@@ -100,6 +113,17 @@
             <button formaction="/changecomment/{{comment.pk}}/"> Update Comment</button>
             <button formaction="/deletecomment/{{comment.pk}}">  Delete Comment</button>
         </form>
+        <form action = "{% url 'likeReview' object.pk %}">
+            {% csrf_token %}
+            <button type = "submit", name = "review_id", value = "{{ comment.id }}">Like</button>
+            <strong> {{ comment.likes.count }} likes </strong>
+        </form>
+
+        <form action = "{% url 'dislikeReview' object.pk %}">
+            {% csrf_token %}
+            <button type = "submit", name = "review_id", value = "{{ comment.id }}">Dislike</button>
+            <strong> {{ comment.dislikes.count }} Dislikes </strong>
+        </form>
         <strong> <-----------------------------------------------------------------------></strong>
         
         {% endfor %}
@@ -129,6 +153,17 @@
         <form>
             <button formaction="/changecomment/{{comment.pk}}/"> Update Comment</button>
             <button formaction="/deletecomment/{{comment.pk}}">  Delete Comment</button>
+        </form>
+        <form action = "{% url 'likeReview' object.pk %}">
+            {% csrf_token %}
+            <button type = "submit", name = "review_id", value = "{{ comment.id }}">Like</button>
+            <strong> {{ comment.likes.count }} likes </strong>
+        </form>
+
+        <form action = "{% url 'dislikeReview' object.pk %}">
+            {% csrf_token %}
+            <button type = "submit", name = "review_id", value = "{{ comment.id }}">Dislike</button>
+            <strong> {{ comment.dislikes.count }} Dislikes </strong>
         </form>
         <strong> <-----------------------------------------------------------------------></strong>
         
