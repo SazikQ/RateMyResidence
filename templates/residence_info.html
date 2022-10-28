@@ -58,7 +58,6 @@
         {{ comment.content }}<br>
         {% if comment.isAnonymous and comment.reviewer != user %}
             by Anonymous User
-
         {% else %}
             by {{ comment.reviewer }}
         {% endif %}

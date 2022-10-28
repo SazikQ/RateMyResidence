@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from backend.user_profile.models import Residence, Review, Location
+from django.db.models import Q
 from taggit.forms import *
 
 # Create your views here.
@@ -100,7 +101,7 @@ def edit_review(request, pk):
             raise Http404
         request.session['pk'] = pk
         form = EditReview()
-    return render(request, 'editreview.html', {'review_form': form.as_p()})
+    return render(request, 'editreview.html', {'review_form': form.as_p(), 'comment': review_form})
 
 @login_required
 def add_review(request, pk):
@@ -158,12 +159,47 @@ class SearchResultsView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get('q')
+        order_list = []
+        rating_order = self.request.GET.get('ratingRange')
+        if (rating_order != "None"):
+            order_list.append(rating_order)
+        price_order = self.request.GET.get('priceRange')
+        if (price_order != "None"):
+            order_list.append(price_order)
+        minRate = self.request.GET.get('rating_min')
+        if (not minRate.isnumeric()):
+            minRate = 0
+        maxRate = self.request.GET.get('rating_max')
+        if (not maxRate.isnumeric()):
+            maxRate = 5
+        minPrice = self.request.GET.get('price_min')
+        if (not minPrice.isnumeric()):
+            minPrice = 0
+        maxPrice = self.request.GET.get('price_max')
+        if (not maxPrice.isnumeric()):
+            maxPrice = float('inf')
+
         if (query == ''):
             messages.info(self.request, ('Please enter a keyword or letter to search for.'))
             self.valid_input = False
             return Residence.objects.exclude(name__icontains=query)
+        if order_list:
+            object_list = Residence.objects.filter(
+                Q(name__icontains=query) &
+                Q(rating_average__lte=maxRate) &
+                Q(rating_average__gte=minRate) &
+                Q(rent_min__lte=maxPrice) &
+                Q(rent_max__gte=minPrice)
+            ).order_by(*order_list)
+            return object_list
         else:
-            object_list = Residence.objects.filter(name__icontains=query)
+            object_list = Residence.objects.filter(
+                Q(name__icontains=query) &
+                Q(rating_average__lte=maxRate) &
+                Q(rating_average__gte=minRate) &
+                Q(rent_min__lte=maxPrice) &
+                Q(rent_max__gte=minPrice)
+            )
             return object_list
 
     def dispatch(self, *args, **kwargs):
@@ -205,7 +241,12 @@ def edit_residence(request, pk):
         if pk == '':
             raise Http404
         request.session['pk'] = pk
-        form = ResidenceEditForm()
+        form = ResidenceEditForm({
+            'name': instance.name,
+            'streetName': instance.location.streetName,
+            'streetNum': instance.location.streetNum,
+            'zipcode': instance.location.zipcode,
+        })
     return render(request, 'editResidence.html', {'form': form.as_p()})
 
 class ResidenceListView(ListView):

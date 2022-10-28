@@ -17,22 +17,26 @@
     <div class="container">
         <div class="rating-wrap">
             <h2>new rating</h2>
-
             <fieldset class="rating">
-                <input id="star5" name="rating" type="radio" value="5"/><label class="full" for="star5" ></label>
+                <input id="star5" name="rating" type="radio" value="5" {% if comment.rating == 5 %}checked{% endif %}/>
+                <label class="full" for="star5" ></label>
 <!--                <input id="star4.5" name="rating" type="radio" value="4.5"/><label class="half" for="star4.5"></label>-->
-                <input id="star4" name="rating" type="radio" value="4"/><label class="full" for="star4"></label>
+                <input id="star4" name="rating" type="radio" value="4" {% if comment.rating == 4 %}checked{% endif %}/>
+                <label class="full" for="star4"></label>
 <!--                <input id="star3.5" name="rating" type="radio" value="3.5"/><label class="half" for="star3.5"></label>-->
-                <input id="star3" name="rating" type="radio" value="3"/><label class="full" for="star3"></label>
+                <input id="star3" name="rating" type="radio" value="3" {% if comment.rating == 3 %}checked{% endif %}/>
+                <label class="full" for="star3"></label>
 <!--                <input id="star2.5" name="rating" type="radio" value="2.5"/><label class="half" for="star2.5"></label>-->
-                <input id="star2" name="rating" type="radio" value="2"/><label class="full" for="star2"></label>
+                <input id="star2" name="rating" type="radio" value="2" {% if comment.rating == 2 %}checked{% endif %}/>
+                <label class="full" for="star2"></label>
 <!--                <input id="star1.5" name="rating" type="radio" value="1.5"/><label class="half" for="star1.5"></label>-->
-                <input id="star1" name="rating" type="radio" value="1"/><label class="full" for="star1"></label>
+                <input id="star1" name="rating" type="radio" value="1" {% if comment.rating == 1 %}checked{% endif %}/>
+                <label class="full" for="star1"></label>
 <!--                <input id="star0.5" name="rating" type="radio" value="0.5"/><label class="half" for="star0.5"></label>-->
             </fieldset>
 
 
-            <h4 id="rating-value"></h4>
+            <h4 id="rating-value">{{ comment.rating|floatformat:"0"}} out of 5</h4>
         </div>
     </div>
     <script src="{% static 'star-ratings.js' %}"></script>
@@ -44,11 +48,11 @@
     <p><label for="id_rent">Rent ($ per month):</label>
         <input id="id_rent" maxlength="5" name="rent" required type="number"></p>
     <p><label for="id_title">Title:</label>
-        <input id="id_title" maxlength="100" name="title" required type="text"></p>
+        <input id="id_title" maxlength="100" name="title" required type="text" value = "{{ comment.title }}"></p>
     <p><label for="id_content">Content:</label>
-        <textarea id="id_content" name="content" required></textarea></p>
+        <textarea id="id_content" name="content" required>{{ comment.content }}</textarea></p>
     <p><label for="id_is_anonymous">post review anonymously</label>
-        <input id="id_is_anonymous" name="isAnonymous" type="checkbox"></p>
+        <input id="id_is_anonymous" name="isAnonymous" type="checkbox" {% if comment.isAnonymous %}checked{% endif %}/></p>
     <button class='btn btn-secondary' type="submit">Add Comment</button>
 </form>
 </body>

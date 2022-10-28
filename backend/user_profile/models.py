@@ -3,6 +3,7 @@ from pyexpat import model
 from random import choices
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models import Avg
 from taggit.managers import TaggableManager
 
 # Create your models here.
@@ -23,11 +24,25 @@ class Residence(models.Model):
     name = models.CharField(max_length=100)
     manager = models.ManyToManyField(User)
     location = models.OneToOneField(Location, on_delete=models.CASCADE)
+    rating_average = models.FloatField(default=0)
+    rent_average = models.FloatField(default=0)
+    rent_min = models.FloatField(default=0)
+    rent_max = models.FloatField(default=0)
+    review_count = models.IntegerField(default=0)
     tags = TaggableManager()
 
     def __str__(self):
         return self.name
 
+    def update_review_fields(self):
+        reviews = self.comments.all()
+        #reviews = Review.objects.filter(id=self.id)
+        self.rating_average = reviews.aggregate(models.Avg('rating')).get('rating__avg')
+        self.rent_average = reviews.aggregate(models.Avg('rent')).get('rent__avg')
+        self.rent_min = reviews.aggregate(models.Min('rent')).get('rent__min')
+        self.rent_max = reviews.aggregate(models.Max('rent')).get('rent__max')
+        self.review_count = reviews.count()
+        self.save(update_fields=['rating_average', 'rent_average','rent_min','rent_max','review_count'])
 
 class Review(models.Model):
     publishTime = models.DateTimeField(auto_now_add=True)
@@ -49,5 +64,8 @@ class Review(models.Model):
     def __str__(self):
         # return super().__str__()
             return '%s - %s' % (self.belongedResidence.name, self.reviewer)
-
-     
+    
+    def save(self, *args, **kwargs):
+        super(Review, self).save(*args, **kwargs)
+        self.belongedResidence.update_review_fields()
+    
