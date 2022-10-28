@@ -58,16 +58,16 @@
         {{ comment.content }}<br>
         {% if comment.isAnonymous and comment.reviewer != user %}
             by Anonymous User
-
         {% else %}
             by {{ comment.reviewer }}
         {% endif %}
-        | {{ comment.publishTime }} <br>
-        <br>
-        <form>
-            <button formaction="/changecomment/{{comment.pk}}/"> Update Comment</button>
-            <button formaction="/deletecomment/{{comment.pk}}">  Delete Comment</button>
-        </form>
+        | {{ comment.publishTime }}<br>
+        {% if comment.reviewer == user %}
+            <form>
+                <button formaction="/changecomment/{{comment.pk}}/"> Update Comment</button>
+                <button formaction="/deletecomment/{{comment.pk}}">  Delete Comment</button>
+            </form>
+        {% endif %}
         <strong> <-----------------------------------------------------------------------></strong>
 
 
