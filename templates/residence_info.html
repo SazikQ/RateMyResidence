@@ -41,10 +41,12 @@
     
 {% else %}
     <br>
-    <button id = "lhbtn" onclick="ascending()">sort by low to high ratings</button>
-    <button id = "hlbtn" onclick="descending()">sort by high to low ratings</button>
+    <!--button id = "lhbtn" onclick="ascending()">sort by low to high ratings</button>
+    <button id = "hlbtn" onclick="descending()">sort by high to low ratings</button-->
     
     <a href= "{% url 'residence_info' object.pk %}"><button type = "button">default</button></a>
+    <a href = "{% url 'residence_info' object.pk %}?sort=lhratings"><button type = "button">sort by low to high ratings</button></a>
+    <a href = "{% url 'residence_info' object.pk %}?sort=hlratings"><button type = "button">sort by high to low ratings</button></a>
     <a href= "{% url 'residence_info' object.pk %}?sort=likes"><button type = "button">sort by likes</button></a>
     <a href= "{% url 'residence_info' object.pk %}?sort=dislikes"><button type = "button">sort by dislikes</button></a>
     
@@ -86,119 +88,8 @@
             <button type = "submit", name = "review_id", value = "{{ comment.id }}">Dislike</button>
             <strong> {{ comment.dislikes.count }} Dislikes </strong>
         </form>
-        <strong> <-----------------------------------------------------------------------></strong>
-
-
-        
+        <strong> <-----------------------------------------------------------------------></strong> 
     {% endfor %}
     </div>
-
-    <div id = "lhrating" style = "display:none">
-    {% for comment in object.comments.all|dictsort:"rating" %}
-        <br>
-        <h3>{{ comment.title }}</h3><br>
-        time lived: {{ comment.time_lived }} <br>
-        rent: $ {{comment.rent }} / month <br>
-        {% if comment.live_again %}
-            Would live again: Yes
-        {% else %}
-            Would live again: No
-        {% endif %} <br>
-        rating: {{ comment.rating }}  <br>
-        {{ comment.content }}<br>
-        {% if comment.isAnonymous and comment.reviewer != user %}
-            by Anonymous User
-
-        {% else %}
-            by {{ comment.reviewer }}
-        {% endif %}
-        | {{ comment.publishTime }} <br>
-        <br>
-        <form>
-            <button formaction="/changecomment/{{comment.pk}}/"> Update Comment</button>
-            <button formaction="/deletecomment/{{comment.pk}}">  Delete Comment</button>
-        </form>
-        <form action = "{% url 'likeReview' object.pk %}">
-            {% csrf_token %}
-            <button type = "submit", name = "review_id", value = "{{ comment.id }}">Like</button>
-            <strong> {{ comment.likes.count }} likes </strong>
-        </form>
-
-        <form action = "{% url 'dislikeReview' object.pk %}">
-            {% csrf_token %}
-            <button type = "submit", name = "review_id", value = "{{ comment.id }}">Dislike</button>
-            <strong> {{ comment.dislikes.count }} Dislikes </strong>
-        </form>
-        <strong> <-----------------------------------------------------------------------></strong>
-        
-        {% endfor %}
-    </div>
-
-    <div id = "hlrating" style = "display:none">
-    {% for comment in object.comments.all|dictsortreversed:"rating" %}
-        <br>
-        <h3>{{ comment.title }}</h3><br>
-        time lived: {{ comment.time_lived }} <br>
-        rent: $ {{comment.rent }} / month <br>
-        {% if comment.live_again %}
-            Would live again: Yes
-        {% else %}
-            Would live again: No
-        {% endif %} <br>
-        rating: {{ comment.rating }}  <br>
-        {{ comment.content }}<br>
-        {% if comment.isAnonymous and comment.reviewer != user %}
-            by Anonymous User
-
-        {% else %}
-            by {{ comment.reviewer }}
-        {% endif %}
-        | {{ comment.publishTime }} <br>
-        <br>
-        <form>
-            <button formaction="/changecomment/{{comment.pk}}/"> Update Comment</button>
-            <button formaction="/deletecomment/{{comment.pk}}">  Delete Comment</button>
-        </form>
-        <form action = "{% url 'likeReview' object.pk %}">
-            {% csrf_token %}
-            <button type = "submit", name = "review_id", value = "{{ comment.id }}">Like</button>
-            <strong> {{ comment.likes.count }} likes </strong>
-        </form>
-
-        <form action = "{% url 'dislikeReview' object.pk %}">
-            {% csrf_token %}
-            <button type = "submit", name = "review_id", value = "{{ comment.id }}">Dislike</button>
-            <strong> {{ comment.dislikes.count }} Dislikes </strong>
-        </form>
-        <strong> <-----------------------------------------------------------------------></strong>
-        
-        {% endfor %}
-    </div>
-    
     {% endif %}
-    <script type="text/javaScript">
-        function ascending() {
-            var orig =  document.getElementById("original");
-            var ratehl = document.getElementById("hlrating");
-            if (orig.style.display != "none" || ratehl.style.display != "none") {
-                orig.style.display = "none";
-                ratehl.style.display = "none";
-            }
-            document.getElementById("lhrating").style.display = "block";
-        }
-        function descending() {
-            var orig =  document.getElementById("original");
-            var ratelh = document.getElementById("lhrating");
-            if (orig.style.display != "none" || ratelh.style.display != "none") {
-                orig.style.display = "none";
-                ratelh.style.display = "none";
-            }
-            document.getElementById("hlrating").style.display = "block";
-        }
-    </script>
-
-    
-       
-    
-
 {% endblock %}

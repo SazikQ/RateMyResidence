@@ -271,6 +271,10 @@ class ResidenceDetail(DetailView):
             review_order = review_list.annotate(num_like = Count('likes')).order_by('-num_like')
         elif (sort == 'dislikes'):
             review_order = review_list.annotate(num_dislike = Count('dislikes')).order_by('-num_dislike')
+        elif(sort == 'lhratings'):
+            review_order = review_list.order_by('rating')
+        elif(sort == 'hlratings'):
+            review_order = review_list.order_by('-rating')
         else:
             review_order = review_list.order_by('pk')
 
