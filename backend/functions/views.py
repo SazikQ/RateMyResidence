@@ -35,7 +35,7 @@ def like_view(request, pk):
         rev.dislikes.remove(request.user)
         rev.likes.add(request.user)
         return HttpResponseRedirect(redirectUrl)
-    
+
     if rev.likes.filter(id = request.user.id).exists():
         rev.likes.remove(request.user)
     else:
@@ -53,6 +53,10 @@ def delete_review(request, pk):
     if request.user != review_form.reviewer:
         return HttpResponseRedirect(redirectUrl)
 
+    review_form.delete()
+    return HttpResponseRedirect(redirectUrl)
+
+    """
     if request.method == 'POST':
         form = DeleteReview(request.POST)
         pk = request.session['pk']
@@ -75,6 +79,7 @@ def delete_review(request, pk):
         request.session['pk'] = pk
         form = DeleteReview()
     return render(request, 'deletereview.html', {'form': form.as_p()})
+    """
 
 
 def edit_review(request, pk):
