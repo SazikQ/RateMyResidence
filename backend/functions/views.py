@@ -17,6 +17,11 @@ from taggit.forms import *
 def dislike_view(request, pk):
     rev = Review.objects.get(pk=request.GET.get('review_id'))
     redirectUrl = '/residence/' + str(pk)
+    if rev.likes.filter(id = request.user.id).exists():
+        rev.likes.remove(request.user)
+        rev.dislikes.add(request.user)
+        return HttpResponseRedirect(redirectUrl)
+
     if rev.dislikes.filter(id = request.user.id).exists():
         rev.dislikes.remove(request.user)
     else:
@@ -26,6 +31,11 @@ def dislike_view(request, pk):
 def like_view(request, pk):
     rev = Review.objects.get(pk=request.GET.get('review_id'))
     redirectUrl = '/residence/' + str(pk)
+    if rev.dislikes.filter(id = request.user.id).exists():
+        rev.dislikes.remove(request.user)
+        rev.likes.add(request.user)
+        return HttpResponseRedirect(redirectUrl)
+    
     if rev.likes.filter(id = request.user.id).exists():
         rev.likes.remove(request.user)
     else:
