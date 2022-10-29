@@ -28,23 +28,29 @@
     </h2>        
 {% endif %}
 <h2> Residence adress: {{ object.location.streetNum }} {{ object.location.streetName }} {{ object.location.zipcode }} </h2>
-<!-- <a href = "{%url 'add_review' object.pk %}">Add comment here</a> -->
+
 <form>
     <button formaction="/addReview/{{object.pk}}">Write a review</button>
-  </form>
+</form>
 <h2>Review Section</h2>
 <strong> <-----------------------------------------------------------------------></strong>
 
 
 {% if not object.comments.all %}
     <small>No comment yet</small>
-    <!-- <a href = "{%url 'add_review' object.pk %}">Add comment here</a> -->
+    
 {% else %}
     <br>
     <button id = "lhbtn" onclick="ascending()">sort by low to high ratings</button>
     <button id = "hlbtn" onclick="descending()">sort by high to low ratings</button>
+    
+    <a href= "{% url 'residence_info' object.pk %}">default</a>
+    <a href= "{% url 'residence_info' object.pk %}?sort=likes">sort by likes</a>
+    <a href= "{% url 'residence_info' object.pk %}?sort=dislikes">sort by dislikes</a>
+    
+    
     <div id = "original">
-    {% for comment in object.comments.all %}
+    {% for comment in reviews.all %}
         <br>
         <h3>{{ comment.title }}</h3><br>
         time lived: {{ comment.time_lived }} <br>
@@ -66,8 +72,7 @@
         <form>
             <button formaction="/changecomment/{{comment.pk}}/"> Update Comment</button>
             <button formaction="/deletecomment/{{comment.pk}}">  Delete Comment</button>
-            <!-- <button formaction="/residence/{{object.pk}}", type = "submit", name = "review_id", value = "{{ comment.id }}"> Like</button>
-            <strong> {{ comment.likes }} likes </strong> -->
+            
         </form>
 
         <form action = "{% url 'likeReview' object.pk %}">
@@ -84,7 +89,7 @@
         <strong> <-----------------------------------------------------------------------></strong>
 
 
-        <!-- <a href = "/changecomment/{{comment.pk}}/">Update Comment</a> <a href="/deletecomment/{{comment.pk}}">  Delete Comment</a><br> -->
+        
     {% endfor %}
     </div>
 
