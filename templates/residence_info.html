@@ -44,9 +44,9 @@
     <button id = "lhbtn" onclick="ascending()">sort by low to high ratings</button>
     <button id = "hlbtn" onclick="descending()">sort by high to low ratings</button>
     
-    <a href= "{% url 'residence_info' object.pk %}">default</a>
-    <a href= "{% url 'residence_info' object.pk %}?sort=likes">sort by likes</a>
-    <a href= "{% url 'residence_info' object.pk %}?sort=dislikes">sort by dislikes</a>
+    <a href= "{% url 'residence_info' object.pk %}"><button type = "button">default</button></a>
+    <a href= "{% url 'residence_info' object.pk %}?sort=likes"><button type = "button">sort by likes</button></a>
+    <a href= "{% url 'residence_info' object.pk %}?sort=dislikes"><button type = "button">sort by dislikes</button></a>
     
     
     <div id = "original">
