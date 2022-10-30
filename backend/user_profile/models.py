@@ -57,6 +57,9 @@ class Review(models.Model):
     rent = models.IntegerField(default=0)
     likes = models.ManyToManyField(User, related_name='liked_user')
     dislikes = models.ManyToManyField(User, related_name='disliked_user')
+    quietness_rating = models.FloatField(default=0)
+    location_rating = models.FloatField(default=0)
+    quality_rating = models.FloatField(default=0)
 
     class Meta:
         ordering = ['publishTime']

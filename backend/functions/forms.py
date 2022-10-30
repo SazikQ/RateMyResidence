@@ -27,9 +27,9 @@ class ReviewForm(forms.Form):
     time_lived = forms.IntegerField(label= "How long have you been living in this residence (semester)?", required=False)
     live_again = forms.BooleanField(label= "Would you live in this residence again?", initial=False, required=False)
     rent = forms.IntegerField(label="How much are you paying for your residence a month?", required=False)
-    #location_rating = forms.DecimalField(min_value=0, max_value=5)
-    #quietness_rating = forms.DecimalField(min_value=0, max_value=5)
-    #quality_rating = forms.DecimalField(min_value=0, max_value=5)
+    location_rating = forms.DecimalField(min_value=0, max_value=5)
+    quietness_rating = forms.DecimalField(min_value=0, max_value=5)
+    quality_rating = forms.DecimalField(min_value=0, max_value=5)
 
 
 

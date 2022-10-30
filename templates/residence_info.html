@@ -62,7 +62,12 @@
         {% else %}
             Would live again: No
         {% endif %} <br>
-        rating: {{ comment.rating }}  <br>
+
+        overall rating: {{ comment.rating }}  <br>
+        location rating: {{ comment.location_rating }}  <br>
+        quietness rating: {{ comment.quietness_rating }}  <br>
+        quality rating: {{ comment.quality_rating }}  <br>
+
         {{ comment.content }}<br>
         {% if comment.isAnonymous and comment.reviewer != user %}
             by Anonymous User
