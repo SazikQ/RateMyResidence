@@ -1,9 +1,10 @@
+<!DOCTYPE html>
 {% extends "base.html" %}
 
 {% block title %}Edit Comment{% endblock %}
 
 {% block content %}
-<!DOCTYPE html>
+
 {% load static %}
 <link href=" {% static 'style.css' %} " rel="stylesheet" type="text/css">
 <html lang="en">
@@ -14,32 +15,118 @@
 <body>
 <form method="post">
     {% csrf_token %}
+    <h2>Edit Your Comment</h2>
     <div class="container">
         <div class="rating-wrap">
-            <h2>new rating</h2>
+            <h2>Overall</h2>
             <fieldset class="rating">
                 <input id="star5" name="rating" type="radio" value="5" {% if comment.rating == 5 %}checked{% endif %}/>
                 <label class="full" for="star5" ></label>
-<!--                <input id="star4.5" name="rating" type="radio" value="4.5"/><label class="half" for="star4.5"></label>-->
+                <input id="star4.5" name="rating" type="radio" value="4.5"{% if comment.rating == 4.5 %}checked{% endif %}/>
+                <label class="half" for="star4.5"></label>
                 <input id="star4" name="rating" type="radio" value="4" {% if comment.rating == 4 %}checked{% endif %}/>
                 <label class="full" for="star4"></label>
-<!--                <input id="star3.5" name="rating" type="radio" value="3.5"/><label class="half" for="star3.5"></label>-->
+                <input id="star3.5" name="rating" type="radio" value="3.5"{% if comment.rating == 3.5 %}checked{% endif %}/>
+                <label class="half" for="star3.5"></label>
                 <input id="star3" name="rating" type="radio" value="3" {% if comment.rating == 3 %}checked{% endif %}/>
                 <label class="full" for="star3"></label>
-<!--                <input id="star2.5" name="rating" type="radio" value="2.5"/><label class="half" for="star2.5"></label>-->
+                <input id="star2.5" name="rating" type="radio" value="2.5"{% if comment.rating == 2.5 %}checked{% endif %}/>
+                <label class="half" for="star2.5"></label>
                 <input id="star2" name="rating" type="radio" value="2" {% if comment.rating == 2 %}checked{% endif %}/>
                 <label class="full" for="star2"></label>
-<!--                <input id="star1.5" name="rating" type="radio" value="1.5"/><label class="half" for="star1.5"></label>-->
+                <input id="star1.5" name="rating" type="radio" value="1.5"{% if comment.rating == 1.5 %}checked{% endif %}/>
+                <label class="half" for="star1.5"></label>
                 <input id="star1" name="rating" type="radio" value="1" {% if comment.rating == 1 %}checked{% endif %}/>
                 <label class="full" for="star1"></label>
-<!--                <input id="star0.5" name="rating" type="radio" value="0.5"/><label class="half" for="star0.5"></label>-->
+                <input id="star0.5" name="rating" type="radio" value="0.5"{% if comment.rating == 0.5 %}checked{% endif %}/>
+                <label class="half" for="star0.5"></label>
             </fieldset>
-
-
-            <h4 id="rating-value">{{ comment.rating|floatformat:"0"}} out of 5</h4>
         </div>
     </div>
-    <script src="{% static 'star-ratings.js' %}"></script>
+        <div class="container">
+        <div class="rating-wrap">
+            <h2>Location</h2>
+            <fieldset class="rating">
+                <input id="location_star5" name="location_rating" type="radio" value="5" {% if comment.location_rating == 5 %}checked{% endif %}/>
+                <label class="full" for="location_star5" ></label>
+                <input id="location_star4.5" name="location_rating" type="radio" value="4.5"{% if comment.location_rating == 4.5 %}checked{% endif %}/>
+                <label class="half" for="location_star4.5"></label>
+                <input id="location_star4" name="location_rating" type="radio" value="4" {% if comment.location_rating == 4 %}checked{% endif %}/>
+                <label class="full" for="location_star4"></label>
+                <input id="location_star3.5" name="location_rating" type="radio" value="3.5"{% if comment.location_rating == 3.5 %}checked{% endif %}/>
+                <label class="half" for="location_star3.5"></label>
+                <input id="location_star3" name="location_rating" type="radio" value="3" {% if comment.location_rating == 3 %}checked{% endif %}/>
+                <label class="full" for="location_star3"></label>
+                <input id="location_star2.5" name="location_rating" type="radio" value="2.5"{% if comment.location_rating == 2.5 %}checked{% endif %}/>
+                <label class="half" for="location_star2.5"></label>
+                <input id="location_star2" name="location_rating" type="radio" value="2" {% if comment.location_rating == 2 %}checked{% endif %}/>
+                <label class="full" for="location_star2"></label>
+                <input id="location_star1.5" name="location_rating" type="radio" value="1.5"{% if comment.location_rating == 1.5 %}checked{% endif %}/>
+                <label class="half" for="location_star1.5"></label>
+                <input id="location_star1" name="location_rating" type="radio" value="1" {% if comment.location_rating == 1 %}checked{% endif %}/>
+                <label class="full" for="location_star1"></label>
+                <input id="location_star0.5" name="location_rating" type="radio" value="0.5"{% if comment.location_rating == 0.5 %}checked{% endif %}/>
+                <label class="half" for="location_star0.5"></label>
+            </fieldset>
+        </div>
+    </div>
+    <div class="container">
+        <div class="rating-wrap">
+            <h2>Quietness</h2>
+            <fieldset class="rating">
+                <input id="quietness_star5" name="quietness_rating" type="radio" value="5" {% if comment.quietness_rating == 5 %}checked{% endif %}/>
+                <label class="full" for="quietness_star5" ></label>
+                <input id="quietness_star4.5" name="quietness_rating" type="radio" value="4.5"{% if comment.quietness_rating == 4.5 %}checked{% endif %}/>
+                <label class="half" for="quietness_star4.5"></label>
+                <input id="quietness_star4" name="quietness_rating" type="radio" value="4" {% if comment.quietness_rating == 4 %}checked{% endif %}/>
+                <label class="full" for="quietness_star4"></label>
+                <input id="quietness_star3.5" name="quietness_rating" type="radio" value="3.5"{% if comment.quietness_rating == 3.5 %}checked{% endif %}/>
+                <label class="half" for="quietness_star3.5"></label>
+                <input id="quietness_star3" name="quietness_rating" type="radio" value="3" {% if comment.quietness_rating == 3 %}checked{% endif %}/>
+                <label class="full" for="quietness_star3"></label>
+                <input id="quietness_star2.5" name="quietness_rating" type="radio" value="2.5"{% if comment.quietness_rating == 2.5 %}checked{% endif %}/>
+                <label class="half" for="quietness_star2.5"></label>
+                <input id="quietness_star2" name="quietness_rating" type="radio" value="2" {% if comment.quietness_rating == 2 %}checked{% endif %}/>
+                <label class="full" for="quietness_star2"></label>
+                <input id="quietness_star1.5" name="quietness_rating" type="radio" value="1.5"{% if comment.quietness_rating == 1.5 %}checked{% endif %}/>
+                <label class="half" for="quietness_star1.5"></label>
+                <input id="quietness_star1" name="quietness_rating" type="radio" value="1" {% if comment.quietness_rating == 1 %}checked{% endif %}/>
+                <label class="full" for="quietness_star1"></label>
+                <input id="quietness_star0.5" name="quietness_rating" type="radio" value="0.5"{% if comment.quietness_rating == 0.5 %}checked{% endif %}/>
+                <label class="half" for="quietness_star0.5"></label>
+            </fieldset>
+        </div>
+    </div>
+    <div class="container">
+        <div class="rating-wrap">
+            <h2>Quality</h2>
+            <fieldset class="rating">
+                <input id="quality_star5" name="quality_rating" type="radio" value="5" {% if comment.quality_rating == 5 %}checked{% endif %}/>
+                <label class="full" for="quality_star5" ></label>
+                <input id="quality_star4.5" name="quality_rating" type="radio" value="4.5"{% if comment.quality_rating == 4.5 %}checked{% endif %}/>
+                <label class="half" for="quality_star4.5"></label>
+                <input id="quality_star4" name="quality_rating" type="radio" value="4" {% if comment.quality_rating == 4 %}checked{% endif %}/>
+                <label class="full" for="quality_star4"></label>
+                <input id="quality_star3.5" name="quality_rating" type="radio" value="3.5"{% if comment.quality_rating == 3.5 %}checked{% endif %}/>
+                <label class="half" for="quality_star3.5"></label>
+                <input id="quality_star3" name="quality_rating" type="radio" value="3" {% if comment.quality_rating == 3 %}checked{% endif %}/>
+                <label class="full" for="quality_star3"></label>
+                <input id="quality_star2.5" name="quality_rating" type="radio" value="2.5"{% if comment.quality_rating == 2.5 %}checked{% endif %}/>
+                <label class="half" for="quality_star2.5"></label>
+                <input id="quality_star2" name="quality_rating" type="radio" value="2" {% if comment.quality_rating == 2 %}checked{% endif %}/>
+                <label class="full" for="quality_star2"></label>
+                <input id="quality_star1.5" name="quality_rating" type="radio" value="1.5"{% if comment.quality_rating == 1.5 %}checked{% endif %}/>
+                <label class="half" for="quality_star1.5"></label>
+                <input id="quality_star1" name="quality_rating" type="radio" value="1" {% if comment.quality_rating == 1 %}checked{% endif %}/>
+                <label class="full" for="quality_star1"></label>
+                <input id="quality_star0.5" name="quality_rating" type="radio" value="0.5"{% if comment.quality_rating == 0.5 %}checked{% endif %}/>
+                <label class="half" for="quality_star0.5"></label>
+            </fieldset>
+        </div>
+    </div>
+
+
+
     <br>
     <p><label for="id_time_lived">Time Lived:</label>
         <input id="id_time_lived" maxlength="5" name="time_lived" required type="number"></p>
