@@ -123,10 +123,10 @@ def add_review(request, pk):
                             isAnonymous=form.cleaned_data['isAnonymous'], reviewer=request.user,
                             belongedResidence=Residence.objects.get(pk=pk), rating=form.cleaned_data['rating'],
                             time_lived = form.cleaned_data['time_lived'], live_again = form.cleaned_data['live_again'],
-                            rent = form.cleaned_data['rent'])
-                            #location_rating = form.cleaned_data['location_rating'],
-                            #quality_rating = form.cleaned_data['quality_rating'],
-                            #quietness_rating = form.cleaned_data['quietness_rating'])
+                            rent = form.cleaned_data['rent'],
+                            location_rating = form.cleaned_data['location_rating'],
+                            quality_rating = form.cleaned_data['quality_rating'],
+                            quietness_rating = form.cleaned_data['quietness_rating'])
             review.save()
             redirectUrl = "/residence/" + pk
             return HttpResponseRedirect(redirectUrl)
