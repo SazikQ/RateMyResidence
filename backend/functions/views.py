@@ -1,6 +1,7 @@
 from audioop import reverse
 import re
 from turtle import title
+from xml.etree.ElementInclude import default_loader
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect, get_list_or_404
 from backend.functions.forms import ResidenceForm, ReviewForm, EditReview, DeleteReview, ResidenceEditForm
@@ -9,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from backend.user_profile.models import Residence, Review, Location
-from django.db.models import Q
+from django.db.models import Q, Count
 from taggit.forms import *
 
 # Create your views here.
@@ -257,6 +258,29 @@ class ResidenceListView(ListView):
 class ResidenceDetail(DetailView):
     model = Residence
     template_name = 'residence_info.html'
+
+    def get(self, request, pk):
+        sort = request.GET.get('sort')
+        print(sort)
+        targetResidence = Residence.objects.get(pk = pk)
+        review_list = targetResidence.comments.all()
+
+        tags = targetResidence.tags.names()
+            
+        if (sort == 'likes'):
+            review_order = review_list.annotate(num_like = Count('likes')).order_by('-num_like')
+        elif (sort == 'dislikes'):
+            review_order = review_list.annotate(num_dislike = Count('dislikes')).order_by('-num_dislike')
+        elif(sort == 'lhratings'):
+            review_order = review_list.order_by('rating')
+        elif(sort == 'hlratings'):
+            review_order = review_list.order_by('-rating')
+        else:
+            review_order = review_list.order_by('pk')
+
+        context = {'reviews': review_order, 'object': targetResidence, 'tags':tags}
+        return render(request, 'residence_info.html', context)
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
