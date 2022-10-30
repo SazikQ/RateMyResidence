@@ -88,6 +88,9 @@ def edit_review(request, pk):
             review_form.rating = form.cleaned_data['rating']
             review_form.time_lived = form.cleaned_data['time_lived']
             review_form.live_again = form.cleaned_data['live_again']
+            review_form.location_rating = form.cleaned_data['location_rating']
+            review_form.quality_rating = form.cleaned_data['quality_rating']
+            review_form.quietness_rating = form.cleaned_data['quietness_rating']
             review_form.rent = form.cleaned_data['rent']
             review_form.save(update_fields = ['title'])
             review_form.save(update_fields = ['content'])
@@ -96,6 +99,10 @@ def edit_review(request, pk):
             review_form.save(update_fields = ['time_lived'])
             review_form.save(update_fields = ['live_again'])
             review_form.save(update_fields = ['rent'])
+            review_form.save(update_fields = ['location_rating'])
+            review_form.save(update_fields=['quality_rating'])
+            review_form.save(update_fields=['quietness_rating'])
+
             return HttpResponseRedirect(redirectUrl)
     else:
         if pk == '':
@@ -117,6 +124,9 @@ def add_review(request, pk):
                             belongedResidence=Residence.objects.get(pk=pk), rating=form.cleaned_data['rating'],
                             time_lived = form.cleaned_data['time_lived'], live_again = form.cleaned_data['live_again'],
                             rent = form.cleaned_data['rent'])
+                            #location_rating = form.cleaned_data['location_rating'],
+                            #quality_rating = form.cleaned_data['quality_rating'],
+                            #quietness_rating = form.cleaned_data['quietness_rating'])
             review.save()
             redirectUrl = "/residence/" + pk
             return HttpResponseRedirect(redirectUrl)

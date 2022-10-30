@@ -1,9 +1,10 @@
+<!DOCTYPE html>
 {% extends "base.html" %}
 
 {% block title %}Edit Comment{% endblock %}
 
 {% block content %}
-<!DOCTYPE html>
+
 {% load static %}
 <link href=" {% static 'style.css' %} " rel="stylesheet" type="text/css">
 <html lang="en">
@@ -20,19 +21,24 @@
             <fieldset class="rating">
                 <input id="star5" name="rating" type="radio" value="5" {% if comment.rating == 5 %}checked{% endif %}/>
                 <label class="full" for="star5" ></label>
-<!--                <input id="star4.5" name="rating" type="radio" value="4.5"/><label class="half" for="star4.5"></label>-->
+                <input id="star4.5" name="rating" type="radio" value="4.5"{% if comment.rating == 4.5 %}checked{% endif %/>
+                <label class="half" for="star4.5"></label>
                 <input id="star4" name="rating" type="radio" value="4" {% if comment.rating == 4 %}checked{% endif %}/>
                 <label class="full" for="star4"></label>
-<!--                <input id="star3.5" name="rating" type="radio" value="3.5"/><label class="half" for="star3.5"></label>-->
+                <input id="star3.5" name="rating" type="radio" value="3.5"{% if comment.rating == 3.5 %}checked{% endif %/>
+                <label class="half" for="star3.5"></label>
                 <input id="star3" name="rating" type="radio" value="3" {% if comment.rating == 3 %}checked{% endif %}/>
                 <label class="full" for="star3"></label>
-<!--                <input id="star2.5" name="rating" type="radio" value="2.5"/><label class="half" for="star2.5"></label>-->
+                <input id="star2.5" name="rating" type="radio" value="2.5"{% if comment.rating == 2.5 %}checked{% endif %/>
+                <label class="half" for="star2.5"></label>
                 <input id="star2" name="rating" type="radio" value="2" {% if comment.rating == 2 %}checked{% endif %}/>
                 <label class="full" for="star2"></label>
-<!--                <input id="star1.5" name="rating" type="radio" value="1.5"/><label class="half" for="star1.5"></label>-->
+                <input id="star1.5" name="rating" type="radio" value="1.5"{% if comment.rating == 1.5 %}checked{% endif %/>
+                <label class="half" for="star1.5"></label>
                 <input id="star1" name="rating" type="radio" value="1" {% if comment.rating == 1 %}checked{% endif %}/>
                 <label class="full" for="star1"></label>
-<!--                <input id="star0.5" name="rating" type="radio" value="0.5"/><label class="half" for="star0.5"></label>-->
+                <input id="star0.5" name="rating" type="radio" value="0.5"{% if comment.rating == 0.5 %}checked{% endif %/>
+                <label class="half" for="star0.5"></label>
             </fieldset>
 
 
