@@ -5,7 +5,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models import Avg
 from taggit.managers import TaggableManager
-
+from django.utils.translation import gettext_lazy as _
 # Create your models here.
 
 
@@ -60,6 +60,20 @@ class Review(models.Model):
     quietness_rating = models.FloatField(default=0)
     location_rating = models.FloatField(default=0)
     quality_rating = models.FloatField(default=0)
+
+    class RoomType(models.TextChoices):
+        STUDIO = 'ST', _('Studio')
+        SHAREDROOM = 'SH', _('Shared-room')
+        TWOROOM = 'TO', _('Two-room')
+        THREEROOM = 'TH', _('Three-room')
+        FOURROOM = 'FR', _('Four-room')
+        UNKNOWN = 'UN', _('Unknown')
+
+    room_type = models.CharField(
+        max_length=2,
+        choices=RoomType.choices,
+        default=RoomType.UNKNOWN,
+    )
 
     class Meta:
         ordering = ['publishTime']
