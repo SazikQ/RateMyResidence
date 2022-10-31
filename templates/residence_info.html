@@ -33,11 +33,6 @@
     <button formaction="/addReview/{{object.pk}}">Write a review</button>
 </form>
 <h2>Review Section</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ updateForm }}
-  <button type="submit">Filter</button>
-</form>
 <strong> <-----------------------------------------------------------------------></strong>
 
 
@@ -45,6 +40,12 @@
     <small>No comment yet</small>
     
 {% else %}
+    <br>
+    <form method="post">
+        {% csrf_token %}
+  {{ updateForm }}
+  <button type="submit">Filter</button>
+    </form>
     <br>
     <!--button id = "lhbtn" onclick="ascending()">sort by low to high ratings</button>
     <button id = "hlbtn" onclick="descending()">sort by high to low ratings</button-->
@@ -60,6 +61,19 @@
     {% for comment in reviews.all %}
         <br>
         <h3>{{ comment.title }}</h3><br>
+        {% if comment.room_type == 'ST' %}
+            room type: Studio <br>
+        {% elif comment.room_type == 'SH' %}
+            room type: Shared-room <br>
+        {% elif comment.room_type == 'TO' %}
+            room type: Two-room <br>
+        {% elif comment.room_type == 'TH' %}
+            room type: Three-room <br>
+        {% elif comment.room_type == 'FR' %}
+            room type: Four-room <br>
+        {% elif comment.room_type == 'UN' %}
+            room type: Unknown <br>
+        {% endif %}
         time lived: {{ comment.time_lived }} <br>
         rent: $ {{comment.rent }} / month <br>
         {% if comment.live_again %}

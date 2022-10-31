@@ -308,7 +308,7 @@ class ResidenceDetail(DetailView):
         else:
             review_order = review_list.order_by('pk')
 
-        context = {'reviews': review_order, 'object': targetResidence, 'tags': tags}
+        context = {'reviews': review_order, 'object': targetResidence, 'tags': tags, 'updateForm': UpdateForm().as_p()}
         return render(request, 'residence_info.html', context)
 
     def post(self, request, pk):
@@ -318,8 +318,8 @@ class ResidenceDetail(DetailView):
                 targetResidence = Residence.objects.get(pk=pk)
                 room_type = update_form.cleaned_data['room_type']
                 tags = targetResidence.tags.names()
-                review_list = targetResidence.comments.objects.filter(room_type=room_type)
-                context = {'reviews': review_list, 'object': targetResidence, 'tags': tags, 'updateForm': UpdateForm()}
+                review_list = Review.objects.filter(belongedResidence=targetResidence, room_type=room_type)
+                context = {'reviews': review_list, 'object': targetResidence, 'tags': tags, 'updateForm': UpdateForm().as_p()}
                 return render(request, 'residence_info.html', context)
             else:
                 return redirect('residence_info', pk)
@@ -328,5 +328,5 @@ class ResidenceDetail(DetailView):
         context = super().get_context_data(**kwargs)
         targetResidence = Residence.objects.get(pk=self.object.pk)
         context['tags'] = targetResidence.tags.names()
-        context['updateForm'] = UpdateForm()
+        context['updateForm'] = UpdateForm().as_p()
         return context
