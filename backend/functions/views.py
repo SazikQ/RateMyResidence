@@ -4,7 +4,7 @@ from turtle import title
 from xml.etree.ElementInclude import default_loader
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect, get_list_or_404
-from backend.functions.forms import ResidenceForm, ReviewForm, EditReview, DeleteReview, ResidenceEditForm
+from backend.functions.forms import ResidenceForm, ReviewForm, EditReview, DeleteReview, ResidenceEditForm, UpdateForm
 from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
@@ -13,37 +13,39 @@ from backend.user_profile.models import Residence, Review, Location
 from django.db.models import Q, Count
 from taggit.forms import *
 
+
 # Create your views here.
 @login_required
 def dislike_view(request, pk):
     rev = Review.objects.get(pk=request.GET.get('review_id'))
     redirectUrl = '/residence/' + str(pk)
-    if rev.likes.filter(id = request.user.id).exists():
+    if rev.likes.filter(id=request.user.id).exists():
         rev.likes.remove(request.user)
         rev.dislikes.add(request.user)
         return HttpResponseRedirect(redirectUrl)
 
-    if rev.dislikes.filter(id = request.user.id).exists():
+    if rev.dislikes.filter(id=request.user.id).exists():
         rev.dislikes.remove(request.user)
     else:
         rev.dislikes.add(request.user)
     return HttpResponseRedirect(redirectUrl)
+
 
 def like_view(request, pk):
     rev = Review.objects.get(pk=request.GET.get('review_id'))
     redirectUrl = '/residence/' + str(pk)
-    if rev.dislikes.filter(id = request.user.id).exists():
+    if rev.dislikes.filter(id=request.user.id).exists():
         rev.dislikes.remove(request.user)
         rev.likes.add(request.user)
         return HttpResponseRedirect(redirectUrl)
 
-    if rev.likes.filter(id = request.user.id).exists():
+    if rev.likes.filter(id=request.user.id).exists():
         rev.likes.remove(request.user)
     else:
         rev.likes.add(request.user)
     return HttpResponseRedirect(redirectUrl)
-    
-    #get_list_or_404(Review, id=request.POST.get('review_id'))
+
+    # get_list_or_404(Review, id=request.POST.get('review_id'))
 
 
 def delete_review(request, pk):
@@ -107,14 +109,14 @@ def edit_review(request, pk):
             review_form.quality_rating = form.cleaned_data['quality_rating']
             review_form.quietness_rating = form.cleaned_data['quietness_rating']
             review_form.rent = form.cleaned_data['rent']
-            review_form.save(update_fields = ['title'])
-            review_form.save(update_fields = ['content'])
-            review_form.save(update_fields = ['isAnonymous'])
-            review_form.save(update_fields = ['rating'])
-            review_form.save(update_fields = ['time_lived'])
-            review_form.save(update_fields = ['live_again'])
-            review_form.save(update_fields = ['rent'])
-            review_form.save(update_fields = ['location_rating'])
+            review_form.save(update_fields=['title'])
+            review_form.save(update_fields=['content'])
+            review_form.save(update_fields=['isAnonymous'])
+            review_form.save(update_fields=['rating'])
+            review_form.save(update_fields=['time_lived'])
+            review_form.save(update_fields=['live_again'])
+            review_form.save(update_fields=['rent'])
+            review_form.save(update_fields=['location_rating'])
             review_form.save(update_fields=['quality_rating'])
             review_form.save(update_fields=['quietness_rating'])
 
@@ -125,6 +127,7 @@ def edit_review(request, pk):
         request.session['pk'] = pk
         form = EditReview()
     return render(request, 'editreview.html', {'review_form': form.as_p(), 'comment': review_form})
+
 
 @login_required
 def add_review(request, pk):
@@ -137,11 +140,11 @@ def add_review(request, pk):
             review = Review(title=form.cleaned_data['title'], content=form.cleaned_data['content'],
                             isAnonymous=form.cleaned_data['isAnonymous'], reviewer=request.user,
                             belongedResidence=Residence.objects.get(pk=pk), rating=form.cleaned_data['rating'],
-                            time_lived = form.cleaned_data['time_lived'], live_again = form.cleaned_data['live_again'],
-                            rent = form.cleaned_data['rent'],
-                            location_rating = form.cleaned_data['location_rating'],
-                            quality_rating = form.cleaned_data['quality_rating'],
-                            quietness_rating = form.cleaned_data['quietness_rating'])
+                            time_lived=form.cleaned_data['time_lived'], live_again=form.cleaned_data['live_again'],
+                            rent=form.cleaned_data['rent'],
+                            location_rating=form.cleaned_data['location_rating'],
+                            quality_rating=form.cleaned_data['quality_rating'],
+                            quietness_rating=form.cleaned_data['quietness_rating'])
             review.save()
             redirectUrl = "/residence/" + pk
             return HttpResponseRedirect(redirectUrl)
@@ -241,8 +244,8 @@ def edit_residence(request, pk):
     instance = Residence.objects.get(pk=pk)
     redirectUrl = "/residence/" + str(pk)
 
-    #if request.user != instance.manager:
-        #return HttpResponseRedirect(redirectUrl)
+    # if request.user != instance.manager:
+    # return HttpResponseRedirect(redirectUrl)
 
     if request.method == 'POST':
         form = ResidenceEditForm(request.POST)
@@ -250,11 +253,11 @@ def edit_residence(request, pk):
         if pk == '':
             raise Http404
         if form.is_valid():
-            instance.location.streetName=form.cleaned_data['streetName']
-            instance.location.streetNum=form.cleaned_data['streetNum']
-            instance.location.zipcode=form.cleaned_data['zipcode']
+            instance.location.streetName = form.cleaned_data['streetName']
+            instance.location.streetNum = form.cleaned_data['streetNum']
+            instance.location.zipcode = form.cleaned_data['zipcode']
             instance.location.save(update_fields=['streetName', 'streetNum', 'zipcode'])
-            instance.name=form.cleaned_data['name']
+            instance.name = form.cleaned_data['name']
             instance.save(update_fields=['name'])
             instance.tags.clear()
             m_tags = form.cleaned_data['residence_tags']
@@ -275,6 +278,7 @@ def edit_residence(request, pk):
         })
     return render(request, 'editResidence.html', {'form': form.as_p()})
 
+
 class ResidenceListView(ListView):
     model = Residence
     template_name = 'residence_list.html'
@@ -287,28 +291,40 @@ class ResidenceDetail(DetailView):
     def get(self, request, pk):
         sort = request.GET.get('sort')
         print(sort)
-        targetResidence = Residence.objects.get(pk = pk)
+        targetResidence = Residence.objects.get(pk=pk)
         review_list = targetResidence.comments.all()
-
         tags = targetResidence.tags.names()
-            
+
         if (sort == 'likes'):
-            review_order = review_list.annotate(num_like = Count('likes')).order_by('-num_like')
+            review_order = review_list.annotate(num_like=Count('likes')).order_by('-num_like')
         elif (sort == 'dislikes'):
-            review_order = review_list.annotate(num_dislike = Count('dislikes')).order_by('-num_dislike')
-        elif(sort == 'lhratings'):
+            review_order = review_list.annotate(num_dislike=Count('dislikes')).order_by('-num_dislike')
+        elif (sort == 'lhratings'):
             review_order = review_list.order_by('rating')
-        elif(sort == 'hlratings'):
+        elif (sort == 'hlratings'):
             review_order = review_list.order_by('-rating')
         else:
             review_order = review_list.order_by('pk')
 
-        context = {'reviews': review_order, 'object': targetResidence, 'tags':tags}
+        context = {'reviews': review_order, 'object': targetResidence, 'tags': tags}
         return render(request, 'residence_info.html', context)
 
+    def post(self, request, pk):
+        if request.method == "POST":
+            update_form = UpdateForm(request.POST)
+            if update_form.is_valid():
+                targetResidence = Residence.objects.get(pk=pk)
+                room_type = update_form.cleaned_data['room_type']
+                tags = targetResidence.tags.names()
+                review_list = targetResidence.comments.objects.filter(room_type=room_type)
+                context = {'reviews': review_list, 'object': targetResidence, 'tags': tags, 'updateForm': UpdateForm()}
+                return render(request, 'residence_info.html', context)
+            else:
+                return redirect('residence_info', pk)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         targetResidence = Residence.objects.get(pk=self.object.pk)
         context['tags'] = targetResidence.tags.names()
+        context['updateForm'] = UpdateForm()
         return context

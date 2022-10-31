@@ -49,3 +49,7 @@ class EditReview(forms.Form):
 class DeleteReview(forms.Form):
     isDelete = forms.BooleanField(label="Delete post", initial=False, required=False)
     notDelete = forms.BooleanField(label = "Not delete post", initial=False, required=False)
+
+
+class UpdateForm(forms.Form):
+    room_type = forms.ChoiceField(label="Select your room type", choices=Review.RoomType.choices)

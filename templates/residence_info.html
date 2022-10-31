@@ -33,6 +33,11 @@
     <button formaction="/addReview/{{object.pk}}">Write a review</button>
 </form>
 <h2>Review Section</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ updateForm }}
+  <button type="submit">Filter</button>
+</form>
 <strong> <-----------------------------------------------------------------------></strong>
 
 
