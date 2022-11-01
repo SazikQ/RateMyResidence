@@ -4,7 +4,6 @@
 
 {% block content %}
 
-<main class="container">
 
     {% if user.isResidenceManager %}
     <button onclick="Edit()">Edit Residence</button>
@@ -16,103 +15,145 @@
     </script>
     {% endif %}
 
-    <h2 id="left"> Residence name: {{ object.name }} </h2>
-    <h2 id="left"> Tags:
-        {% for tag in tags %}
-            {{tag}}
-        {% endfor %}
-    </h2>
+    <div class="container px-4 py-5">    
+        <div class="row row-cols-1 row-cols-md-2 align-items-md-center g-5 py-5">
+          <div class="d-flex flex-column align-items-start gap-2">
+            <h1 class="fw-bold">{{ object.name }}</h1>
+            <h4 class="fw-semibold mb-0"> Tags </h4>
+                {% for tag in tags %}
+                    <p class="mb-1 text-muted">{{tag}}</p>
+                {% endfor %}
 
-    {% if object.manager.all %}
-        <h2> Residence managers: 
-        {% for manager in object.manager.all %}    
-            {{manager}}
-        {% endfor %}
-        </h2>        
-    {% endif %}
+                {% if object.manager.all %}
+                <h4 class="fw-semibold mb-0"> Residence managers </h4>
+                    {% for manager in object.manager.all %}    
+                    <p class="mb-1 text-muted">{{manager}}</p>
+                    {% endfor %}
+                {% endif %}
 
-    <h2> Residence adress: {{ object.location.streetNum }} {{ object.location.streetName }} {{ object.location.zipcode }} </h2>
-    <form>
-        <button formaction="/addReview/{{object.pk}}">Write a review</button>
-    </form>
-    
-    
-    <h2>Review Section</h2>
+                <h4 class="fw-semibold mb-0">Residence address</h4>
+                <p class="mb-1 text-muted">{{ object.location.streetNum }} {{ object.location.streetName }} {{ object.location.zipcode }}</p>
 
+                <h4 class="fw-semibold mb-0">Add a new review</h4>
+                <form>
+                    <button formaction="/addReview/{{object.pk}}">Write a review</button>
+                </form>
+          </div>
+        </div>
+    </div>
+
+<div class="container">
     {% if not object.comments.all %}
         <small>No comment yet</small>
     {% else %}
         <br>
-            <div class="container px-4 py-5">
-                <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-
-                    <div class="col d-flex align-items-start">
-                        <div class="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                          <svg class="bi" width="1em" height="1em"><use xlink:href="#cpu-fill"/></svg>
-                        </div>
-                        <div>
-                          <h3 class="fs-2">Default</h3>
-                          <p>Default order</p>
-                          <a href= "{% url 'residence_info' object.pk %}" class="btn btn-primary"><button type = "button">default</button></a>
-                        </div>
-                      </div>
-
-
-                  <div class="col d-flex align-items-start">
+        <div class="container px-3 py-4">
+            <div class="row g-4 py-5 row-cols-1 row-cols-lg-5">
+                <div class="col d-flex align-items-start">
                     <div class="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                      <svg class="bi" width="1em" height="1em"><use xlink:href="#cpu-fill"/></svg>
+                        <svg class="bi" width="1em" height="1em"><use xlink:href="#cpu-fill"/></svg>
                     </div>
                     <div>
-                      <h3 class="fs-2">Sort by low to high ratings</h3>
-                      <p>Sort by low to high ratings.</p>
-                      <a href = "{% url 'residence_info' object.pk %}?sort=lhratings" class="btn btn-primary"><button type = "button">sort by low to high ratings</button></a>
+                        <h5>Sort by default reviews</h5>
+                        <a href= "{% url 'residence_info' object.pk %}"><button type = "button">click here</button></a>
                     </div>
                   </div>
 
-                  <div class="col d-flex align-items-start">
-                    <div class="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                      <svg class="bi" width="1em" height="1em"><use xlink:href="#cpu-fill"/></svg>
-                    </div>
-                    <div>
-                      <h3 class="fs-2">Sort by high to low ratings</h3>
-                      <p>Sort by high to low ratings.</p>
-                      <a href = "{% url 'residence_info' object.pk %}?sort=hlratings" class="btn btn-primary"><button type = "button">sort by high to low ratings</button></a>
-                    </div>
-                  </div>
 
-                  <div class="col d-flex align-items-start">
-                    <div class="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                      <svg class="bi" width="1em" height="1em"><use xlink:href="#tools"/></svg>
-                    </div>
-                    <div>
-                      <h3 class="fs-2">Sort by likes</h3>
-                      <p>Sort by likes</p>
-                      <a href= "{% url 'residence_info' object.pk %}?sort=likes" class="btn btn-primary"><button type = "button">sort by likes</button></a>
-                    </div>
-                  </div>
-
-                  <div class="col d-flex align-items-start">
-                    <div class="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                      <svg class="bi" width="1em" height="1em"><use xlink:href="#tools"/></svg>
-                    </div>
-                    <div>
-                      <h3 class="fs-2">Sort by dislikes</h3>
-                      <p>Sort by dislikes</p>
-                      <a href= "{% url 'residence_info' object.pk %}?sort=dislikes"><button type = "button">sort by dislikes</button></a>
-                    </div>
-                  </div>
-
+              <div class="col d-flex align-items-start">
+                <div class="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                    <svg class="bi" width="1em" height="1em"><use xlink:href="#cpu-fill"/></svg>
+                </div>
+                <div>
+                    <h5>Sort by low to high ratings</h5>
+                    <a href = "{% url 'residence_info' object.pk %}?sort=lhratings"><button type = "button">click here</button></a>
                 </div>
               </div>
-    
-        <br>
+
+              <div class="col d-flex align-items-start">
+                <div class="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                    <svg class="bi" width="1em" height="1em"><use xlink:href="#cpu-fill"/></svg>
+                </div>
+                <div>
+                    <h5>Sort by high to low ratings</h5>
+                    <a href = "{% url 'residence_info' object.pk %}?sort=hlratings"><button type = "button">click here</button></a>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <div class="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                    <svg class="bi" width="1em" height="1em"><use xlink:href="#tools"/></svg>
+                </div>
+                <div>
+                    <h5>Sort by number of likes</h5>
+                    <a href= "{% url 'residence_info' object.pk %}?sort=likes"><button type = "button">click here</button></a>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <div class="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                    <svg class="bi" width="1em" height="1em"><use xlink:href="#tools"/></svg>
+                </div>
+                <div>
+                    <h5>Sort by number of dislikes</h5>
+                    <a href= "{% url 'residence_info' object.pk %}?sort=dislikes"><button type = "button">click here</button></a>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="container px-4 py-5">
+        
+            <div class="row row-cols-1 row-cols-md-2 align-items-md-center g-5 py-5">
+              <div class="d-flex flex-column align-items-start gap-2">
+                <h3 class="fw-bold">Review Section</h3>
+              </div>
+        
+                <div class="d-flex flex-column gap-2">
+                  <div
+                    class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-4 rounded-3">
+                  </div>
+                  <h4 class="fw-semibold mb-0">Filter</h4>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ updateForm }}
+                        <button type="submit">Filter</button>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <!-- <div class = "row">
+            <div class = "col-md-2"><h3>Review Section</h3></div>
+        </div>
+
+        <br> -->
+       
         <div id = "original">
+        
         {% for comment in reviews.all %}
-            <div class="p-4 p-md-5 mb-4 rounded text-bg-dark">
-              <div class="col-md-6 px-0">
+            <div class="p-3 p-md-3 mb-5 rounded text-bg-dark">
+              <div class="col-md-12 px-0">
                 <h1 class="display-4 fst-italic">{{ comment.title }}</h1>
                 <p class="lead my-3">
-                    <div class="mb-1 text-muted">Time lived: <strong>{{ comment.time_lived }}</strong>
+                    <div class="mb-1 text-muted">
+
+                        {% if comment.room_type == 'ST' %}
+                            room type: <strong>Studio</strong>
+                        {% elif comment.room_type == 'SH' %}
+                            room type: <strong>Shared-room </strong>
+                        {% elif comment.room_type == 'TO' %}
+                            room type: <strong>Two-room</strong>
+                        {% elif comment.room_type == 'TH' %}
+                            room type: <strong>Three-room</strong>
+                        {% elif comment.room_type == 'FR' %}
+                            room type: <strong>Four-room</strong>
+                        {% elif comment.room_type == 'UN' %}
+                            room type: <strong>Unknown</strong>
+                        {% endif %}
+
+                    Time lived: <strong>{{ comment.time_lived }}</strong>
                         Rent: <strong>$ {{comment.rent }} / month</strong>
                         {% if comment.live_again %}
                             Would live again: <strong>Yes</strong>
@@ -137,13 +178,14 @@
                     <br>
                     <button formaction="/changecomment/{{comment.pk}}/"> Update Comment</button>
                     <button formaction="/deletecomment/{{comment.pk}}">  Delete Comment</button>
-
+                    <br>
+                    <br>
                     <form action = "{% url 'likeReview' object.pk %}">
                         {% csrf_token %}
                         <button type = "submit", name = "review_id", value = "{{ comment.id }}">Like</button>
                         <strong> {{ comment.likes.count }} likes </strong>
                     </form>
-                    
+                    <br>
                     <form action = "{% url 'dislikeReview' object.pk %}">
                         {% csrf_token %}
                         <button type = "submit", name = "review_id", value = "{{ comment.id }}">Dislike</button>
@@ -156,5 +198,5 @@
         {% endfor %}
     </div>
     {% endif %}
-</main>
+</div>
 {% endblock %}
