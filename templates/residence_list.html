@@ -4,13 +4,25 @@
 
 {% block content %}
 <h1>Residence List</h1>
+<br>
+<br>
 {% if object_list %}
+<div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
 {% for Residence in object_list %}
-<li>
-  <a href = "{%url 'residence_info' Residence.pk%}">{{Residence.name}}</a>
-  <!-- <a class = "btn" href = "{% url 'residence_info' Residence.pk %}" role = "button">Residence Detail</a> -->
-</li>
+  <div class="col-md-4">
+     <a href = "{%url 'residence_info' Residence.pk%}" style="color: black; text-decoration: none;">
+    <div class="card mb-4 rounded-3 shadow-sm">
+      <div class="card-header py-3">
+        <h4 class="my-0 fw-normal">{{Residence.name}}</h4>
+      </div>
+       <div class="card-body">
+         This is a placeholder for future photos
+       </div>
+      </div>
+     </a>
+  </div>
 {% endfor %}
+</div>
 {% else %}
 
 {% endif %}
