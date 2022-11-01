@@ -176,9 +176,11 @@
                     {% endif %}
                     | {{ comment.publishTime }} <br>
                     <br>
-                    <button formaction="/changecomment/{{comment.pk}}/"> Update Comment</button>
-                    <button formaction="/deletecomment/{{comment.pk}}">  Delete Comment</button>
-                    <br>
+                    <form>
+                        <button formaction="/changecomment/{{comment.pk}}/"> Update Comment</button>
+                        <button formaction="/deletecomment/{{comment.pk}}">  Delete Comment</button>
+                    </form>
+
                     <br>
                     <form action = "{% url 'likeReview' object.pk %}">
                         {% csrf_token %}
