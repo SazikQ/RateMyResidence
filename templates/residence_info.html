@@ -1,119 +1,204 @@
 {% extends "base_without_popup.html" %}
- <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 {% block title %}Residence Page{% endblock %}
 
 {% block content %}
-{% if user.isResidenceManager %}
-<button onclick="Edit()">Edit Residence</button>
- <script language="JavaScript">
-    function Edit()
-    {
-        window.location.href = "/residence/{{object.pk}}/edit";
-    }
-  </script>
-{% endif %}
-<h2> Residence name: {{ object.name }} </h2>
-<h2> Tags:
-    {% for tag in tags %}
-        {{tag}}
-    {% endfor %}
-</h2>
 
 
-{% if object.manager.all %}
-    <h2> Residence managers: 
-    {% for manager in object.manager.all %}    
-        {{manager}}
-    {% endfor %}
-    </h2>        
-{% endif %}
-<h2> Residence adress: {{ object.location.streetNum }} {{ object.location.streetName }} {{ object.location.zipcode }} </h2>
+    {% if user.isResidenceManager %}
+    <button onclick="Edit()">Edit Residence</button>
+    <script language="JavaScript">
+        function Edit()
+        {
+            window.location.href = "/residence/{{object.pk}}/edit";
+        }
+    </script>
+    {% endif %}
 
-<form>
-    <button formaction="/addReview/{{object.pk}}">Write a review</button>
-</form>
-<h2>Review Section</h2>
-<strong> <-----------------------------------------------------------------------></strong>
+    <div class="container px-4 py-5">    
+        <div class="row row-cols-1 row-cols-md-2 align-items-md-center g-5 py-5">
+          <div class="d-flex flex-column align-items-start gap-2">
+            <h1 class="fw-bold">{{ object.name }}</h1>
+            <h4 class="fw-semibold mb-0"> Tags </h4>
+                {% for tag in tags %}
+                    <p class="mb-1 text-muted">{{tag}}</p>
+                {% endfor %}
 
+                {% if object.manager.all %}
+                <h4 class="fw-semibold mb-0"> Residence managers </h4>
+                    {% for manager in object.manager.all %}    
+                    <p class="mb-1 text-muted">{{manager}}</p>
+                    {% endfor %}
+                {% endif %}
 
-{% if not object.comments.all %}
-    <small>No comment yet</small>
-    
-{% else %}
-    <br>
-    <form method="post">
-        {% csrf_token %}
-  {{ updateForm }}
-  <button type="submit">Filter</button>
-    </form>
-    <br>
-    <!--button id = "lhbtn" onclick="ascending()">sort by low to high ratings</button>
-    <button id = "hlbtn" onclick="descending()">sort by high to low ratings</button-->
-    
-    <a href= "{% url 'residence_info' object.pk %}"><button type = "button">default</button></a>
-    <a href = "{% url 'residence_info' object.pk %}?sort=lhratings"><button type = "button">sort by low to high ratings</button></a>
-    <a href = "{% url 'residence_info' object.pk %}?sort=hlratings"><button type = "button">sort by high to low ratings</button></a>
-    <a href= "{% url 'residence_info' object.pk %}?sort=likes"><button type = "button">sort by likes</button></a>
-    <a href= "{% url 'residence_info' object.pk %}?sort=dislikes"><button type = "button">sort by dislikes</button></a>
-    
-    
-    <div id = "original">
-    {% for comment in reviews.all %}
+                <h4 class="fw-semibold mb-0">Residence address</h4>
+                <p class="mb-1 text-muted">{{ object.location.streetNum }} {{ object.location.streetName }} {{ object.location.zipcode }}</p>
+
+                <h4 class="fw-semibold mb-0">Add a new review</h4>
+                <form>
+                    <button formaction="/addReview/{{object.pk}}">Write a review</button>
+                </form>
+          </div>
+        </div>
+    </div>
+
+<div class="container">
+    {% if not object.comments.all %}
+        <small>No comment yet</small>
+    {% else %}
         <br>
-        <h3>{{ comment.title }}</h3><br>
-        {% if comment.room_type == 'ST' %}
-            room type: Studio <br>
-        {% elif comment.room_type == 'SH' %}
-            room type: Shared-room <br>
-        {% elif comment.room_type == 'TO' %}
-            room type: Two-room <br>
-        {% elif comment.room_type == 'TH' %}
-            room type: Three-room <br>
-        {% elif comment.room_type == 'FR' %}
-            room type: Four-room <br>
-        {% elif comment.room_type == 'UN' %}
-            room type: Unknown <br>
-        {% endif %}
-        time lived: {{ comment.time_lived }} <br>
-        rent: $ {{comment.rent }} / month <br>
-        {% if comment.live_again %}
-            Would live again: Yes
-        {% else %}
-            Would live again: No
-        {% endif %} <br>
+        <div class="container px-3 py-4">
+            <div class="row g-4 py-5 row-cols-1 row-cols-lg-5">
+                <div class="col d-flex align-items-start">
+                    <div class="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                        <svg class="bi" width="1em" height="1em"><use xlink:href="#cpu-fill"/></svg>
+                    </div>
+                    <div>
+                        <h5>Sort by default reviews</h5>
+                        <a href= "{% url 'residence_info' object.pk %}"><button type = "button">click here</button></a>
+                    </div>
+                  </div>
 
-        overall rating: {{ comment.rating }}  <br>
-        location rating: {{ comment.location_rating }}  <br>
-        quietness rating: {{ comment.quietness_rating }}  <br>
-        quality rating: {{ comment.quality_rating }}  <br>
 
-        {{ comment.content }}<br>
-        {% if comment.isAnonymous and comment.reviewer != user %}
-            by Anonymous User
-        {% else %}
-            by {{ comment.reviewer }}
-        {% endif %}
-        | {{ comment.publishTime }} <br>
-        <br>
-        <form>
-            <button formaction="/changecomment/{{comment.pk}}/"> Update Comment</button>
-            <button formaction="/deletecomment/{{comment.pk}}">  Delete Comment</button>
-            
-        </form>
+              <div class="col d-flex align-items-start">
+                <div class="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                    <svg class="bi" width="1em" height="1em"><use xlink:href="#cpu-fill"/></svg>
+                </div>
+                <div>
+                    <h5>Sort by low to high ratings</h5>
+                    <a href = "{% url 'residence_info' object.pk %}?sort=lhratings"><button type = "button">click here</button></a>
+                </div>
+              </div>
 
-        <form action = "{% url 'likeReview' object.pk %}">
-            {% csrf_token %}
-            <button type = "submit", name = "review_id", value = "{{ comment.id }}">Like</button>
-            <strong> {{ comment.likes.count }} likes </strong>
-        </form>
+              <div class="col d-flex align-items-start">
+                <div class="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                    <svg class="bi" width="1em" height="1em"><use xlink:href="#cpu-fill"/></svg>
+                </div>
+                <div>
+                    <h5>Sort by high to low ratings</h5>
+                    <a href = "{% url 'residence_info' object.pk %}?sort=hlratings"><button type = "button">click here</button></a>
+                </div>
+              </div>
 
-        <form action = "{% url 'dislikeReview' object.pk %}">
-            {% csrf_token %}
-            <button type = "submit", name = "review_id", value = "{{ comment.id }}">Dislike</button>
-            <strong> {{ comment.dislikes.count }} Dislikes </strong>
-        </form>
-        <strong> <-----------------------------------------------------------------------></strong> 
-    {% endfor %}
+              <div class="col d-flex align-items-start">
+                <div class="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                    <svg class="bi" width="1em" height="1em"><use xlink:href="#tools"/></svg>
+                </div>
+                <div>
+                    <h5>Sort by number of likes</h5>
+                    <a href= "{% url 'residence_info' object.pk %}?sort=likes"><button type = "button">click here</button></a>
+                </div>
+              </div>
+
+              <div class="col d-flex align-items-start">
+                <div class="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                    <svg class="bi" width="1em" height="1em"><use xlink:href="#tools"/></svg>
+                </div>
+                <div>
+                    <h5>Sort by number of dislikes</h5>
+                    <a href= "{% url 'residence_info' object.pk %}?sort=dislikes"><button type = "button">click here</button></a>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="container px-4 py-5">
+        
+            <div class="row row-cols-1 row-cols-md-2 align-items-md-center g-5 py-5">
+              <div class="d-flex flex-column align-items-start gap-2">
+                <h3 class="fw-bold">Review Section</h3>
+              </div>
+        
+                <div class="d-flex flex-column gap-2">
+                  <div
+                    class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-4 rounded-3">
+                  </div>
+                  <h4 class="fw-semibold mb-0">Filter</h4>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ updateForm }}
+                        <button type="submit">Filter</button>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <!-- <div class = "row">
+            <div class = "col-md-2"><h3>Review Section</h3></div>
+        </div>
+
+        <br> -->
+       
+        <div id = "original">
+        
+        {% for comment in reviews.all %}
+            <div class="p-3 p-md-3 mb-5 rounded text-bg-dark">
+              <div class="col-md-12 px-0">
+                <h1 class="display-4 fst-italic">{{ comment.title }}</h1>
+                <p class="lead my-3">
+                    <div class="mb-1 text-muted">
+
+                        {% if comment.room_type == 'ST' %}
+                            room type: <strong>Studio</strong>
+                        {% elif comment.room_type == 'SH' %}
+                            room type: <strong>Shared-room </strong>
+                        {% elif comment.room_type == 'TO' %}
+                            room type: <strong>Two-room</strong>
+                        {% elif comment.room_type == 'TH' %}
+                            room type: <strong>Three-room</strong>
+                        {% elif comment.room_type == 'FR' %}
+                            room type: <strong>Four-room</strong>
+                        {% elif comment.room_type == 'UN' %}
+                            room type: <strong>Unknown</strong>
+                        {% endif %}
+
+                    Time lived: <strong>{{ comment.time_lived }}</strong>
+                        Rent: <strong>$ {{comment.rent }} / month</strong>
+                        {% if comment.live_again %}
+                            Would live again: <strong>Yes</strong>
+                        {% else %}
+                            Would live again: <strong>No</strong>
+                        {% endif %}<br>
+
+                        Overall rating: <strong>{{ comment.rating }}</strong>
+                        Location rating: <strong>{{ comment.location_rating }}</strong>
+                        Quietness rating: <strong>{{ comment.quietness_rating }}</strong>
+                        Quality rating: <strong>{{ comment.quality_rating }}</strong>
+                    </div>
+                    
+
+                    <h3>{{ comment.content }}</h3><br>
+                    {% if comment.isAnonymous and comment.reviewer != user %}
+                        by Anonymous User
+                    {% else %}
+                        by {{ comment.reviewer }}
+                    {% endif %}
+                    | {{ comment.publishTime }} <br>
+                    <br>
+                    <form>
+                        <button formaction="/changecomment/{{comment.pk}}/"> Update Comment</button>
+                        <button formaction="/deletecomment/{{comment.pk}}">  Delete Comment</button>
+                    </form>
+
+                    <br>
+                    <form action = "{% url 'likeReview' object.pk %}">
+                        {% csrf_token %}
+                        <button type = "submit", name = "review_id", value = "{{ comment.id }}">Like</button>
+                        <strong> {{ comment.likes.count }} likes </strong>
+                    </form>
+                    <br>
+                    <form action = "{% url 'dislikeReview' object.pk %}">
+                        {% csrf_token %}
+                        <button type = "submit", name = "review_id", value = "{{ comment.id }}">Dislike</button>
+                        <strong> {{ comment.dislikes.count }} Dislikes </strong>
+                    </form>
+                </p>
+              </div>
+            </div>
+        
+        {% endfor %}
     </div>
     {% endif %}
+</div>
 {% endblock %}

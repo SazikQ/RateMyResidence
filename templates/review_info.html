@@ -3,27 +3,57 @@
 {% block title %}Review Page{% endblock %}
 
 {% block content %}
-<h2> Review title: {{ object.title }} </h2>
-<h2> BelongedResidence: {{ object.belongedResidence.name }} </h2>
-        <br>
-        time lived: {{ object.time_lived }} <br>
-        rent: $ {{object.rent }} / month <br>
-        {% if object.live_again %}
-            Would live again: Yes
-        {% else %}
-            Would live again: No
-        {% endif %} <br>
-        overall rating: {{ object.rating }}  <br>
-        location rating: {{ object.location_rating }}  <br>
-        quietness rating: {{ object.quietness_rating }}  <br>
-        quality rating: {{ object.quality_rating }}  <br>
-        --------------------------------- <br>
-        {{ object.content }}<br>
-        --------------------------------- <br>
-        {{ object.publishTime }} <br>
-        <br>
-        <form>
-            <button formaction="/changecomment/{{object.pk}}/"> Update Comment</button>
+<div class="p-3 p-md-3 mb-5 rounded text-bg-dark">
+    <div class="col-md-12 px-0">
+      <h1 class="display-4 fst-italic">{{ object.title }}</h1>
+      <p class="lead my-3">
+          <div class="mb-1 text-muted">
+
+              {% if object.room_type == 'ST' %}
+                  room type: <strong>Studio</strong>
+              {% elif object.room_type == 'SH' %}
+                  room type: <strong>Shared-room </strong>
+              {% elif object.room_type == 'TO' %}
+                  room type: <strong>Two-room</strong>
+              {% elif object.room_type == 'TH' %}
+                  room type: <strong>Three-room</strong>
+              {% elif object.room_type == 'FR' %}
+                  room type: <strong>Four-room</strong>
+              {% elif object.room_type == 'UN' %}
+                  room type: <strong>Unknown</strong>
+              {% endif %}
+
+              Time lived: <strong>{{ object.time_lived }}</strong>
+              Rent: <strong>$ {{object.rent }} / month</strong>
+              {% if object.live_again %}
+                  Would live again: <strong>Yes</strong>
+              {% else %}
+                  Would live again: <strong>No</strong>
+              {% endif %}<br>
+
+              Overall rating: <strong>{{ object.rating }}</strong>
+              Location rating: <strong>{{ object.location_rating }}</strong>
+              Quietness rating: <strong>{{ object.quietness_rating }}</strong>
+              Quality rating: <strong>{{ object.quality_rating }}</strong>
+          </div>
+          
+
+          <h3>{{ object.content }}</h3><br>
+          {% if object.isAnonymous and object.reviewer != user %}
+              by Anonymous User
+          {% else %}
+              by {{ object.reviewer }}
+          {% endif %}
+          | {{ object.publishTime }} <br>
+          <br>
+          <form>
+            <button formaction="/changecomment/{{object.pk}}"> Update Comment</button>
             <button formaction="/deletecomment/{{object.pk}}">  Delete Comment</button>
-        </form>
+          </form>
+          <br>
+          <strong> {{ object.likes.count }} likes </strong>
+          <strong> {{ object.dislikes.count }} Dislikes </strong>
+      </p>
+    </div>
+  </div>
 {% endblock %}
