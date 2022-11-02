@@ -367,26 +367,3 @@ class ResidenceDetail(DetailView):
         context['tags'] = targetResidence.tags.names()
         context['updateForm'] = UpdateForm().as_p()
         return context
-
-"""
-def search_tag(request):
-    if request.method == 'POST':
-        form = TagSearch(request.POST)
-        if form.is_valid():
-            TagResultView.get_queryset(request)
-    else:
-        tag_form = TagSearch()
-    return render(request,'searchTag.html', {'tag_form': tag_form})
-
-
-class TagResultView(ListView):
-    # allow_empty = False
-    model = Residence
-    template_name = 'tagResult.html'
-    def get_queryset(self):
-        query = self.request.GET.get('q')
-
-        object_list = Residence.objects.filter(tags__name__in=[query])
-        print(object_list)
-        return object_list
-"""
