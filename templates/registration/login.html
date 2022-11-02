@@ -5,14 +5,18 @@
 
 {% block content %}
 {% load static %}
-<section class="vh-120">
-  <div >
-        <img src="{% get_media_prefix %}purdue_logo.png" class="img-fluid" alt="">
-  </div>
-  <div class="container py-5 h-120">
-    <div class="row d-flex align-items-center justify-content-center h-120">
+
+<section class="vh-100">
+
+  <div class="container py-5 h-100">
+    <div class="row d-flex align-items-center justify-content-center h-100">
       <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
         <form method="post">
+          <div >
+            <img src="{% get_media_prefix %}purdue_logo.png" class="img-fluid" alt=""  width="300" height="300">
+          </div>
+          <br>
+          <br>
           {% csrf_token %}
           <!-- Email input -->
           {{ form.non_field_errors }}
