@@ -3,7 +3,31 @@
 {% block title %}Residence List{% endblock %}
 
 {% block content %}
-<h1>Residence List</h1>
+<div class = "container py-1">
+  <div class = "row">
+    <h1>Residence List</h1>
+  </div>
+  <div class = "row">
+    <div class = "col-md-6 offset-md-3" >
+      <form action= {% url 'list_residence' %} method='get'>
+          <label for="tag_name"></label>
+          <div class = "row">
+            <div class = "col-md-6 offset-md-2">
+              <input type="search" list = "tagnames" id="tag_name" name="q" placeholder="Search By Tag" class = "form-control">
+                <datalist id = "tagnames">
+                  {% for tag in tagnames %}
+                    <option value = "{{tag}}"></option>
+                  {% endfor %}
+                </datalist>
+            </div>
+            <div class = "col-md-4 text-start py-1">
+              <button class="btn btn-dark btn-sm" type="submit">Search</button>
+            </div>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
 <br>
 <br>
 {% if object_list %}

@@ -4,7 +4,7 @@ from turtle import title
 from xml.etree.ElementInclude import default_loader
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect, get_list_or_404
-from backend.functions.forms import ResidenceForm, ReviewForm, EditReview, DeleteReview, ResidenceEditForm, UpdateForm, TagSearch
+from backend.functions.forms import ResidenceForm, ReviewForm, EditReview, DeleteReview, ResidenceEditForm, UpdateForm
 from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
@@ -284,6 +284,43 @@ def edit_residence(request, pk):
 class ResidenceListView(ListView):
     model = Residence
     template_name = 'residence_list.html'
+    """
+    def post(request):
+        if request.method == 'POST':
+            form = TagSearch(request.POST)
+            if form.is_valid():
+                ResidenceListView.get_queryset(request)
+        else:
+            object_list = Residence.objects.all()
+            return render(request,'residence_list.html', {'object_list': object_list})
+"""
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if (query == '' or query is None):
+            object_list = Residence.objects.all()
+            return object_list
+        else:
+            object_list = Residence.objects.filter(tags__name__in=[query])
+        #print(object_list)
+        return object_list
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tags = ResidenceListView.tagcomplete(self.request)
+        context['tagnames'] = tags
+        return context
+
+    def tagcomplete(request):
+        residences = Residence.objects.all()
+        tag_list = []
+        for res in residences:
+            for tag in res.tags.names():
+                if tag not in tag_list:
+                    tag_list.append(tag)
+        print(tag_list)
+        return tag_list
+
+
 
 
 class ResidenceDetail(DetailView):
@@ -331,7 +368,7 @@ class ResidenceDetail(DetailView):
         context['updateForm'] = UpdateForm().as_p()
         return context
 
-
+"""
 def search_tag(request):
     if request.method == 'POST':
         form = TagSearch(request.POST)
@@ -352,4 +389,4 @@ class TagResultView(ListView):
         object_list = Residence.objects.filter(tags__name__in=[query])
         print(object_list)
         return object_list
-
+"""
