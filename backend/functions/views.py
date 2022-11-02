@@ -4,7 +4,7 @@ from turtle import title
 from xml.etree.ElementInclude import default_loader
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect, get_list_or_404
-from backend.functions.forms import ResidenceForm, ReviewForm, EditReview, DeleteReview, ResidenceEditForm, UpdateForm
+from backend.functions.forms import ResidenceForm, ReviewForm, EditReview, DeleteReview, ResidenceEditForm, UpdateForm, TagSearch
 from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
@@ -330,3 +330,26 @@ class ResidenceDetail(DetailView):
         context['tags'] = targetResidence.tags.names()
         context['updateForm'] = UpdateForm().as_p()
         return context
+
+
+def search_tag(request):
+    if request.method == 'POST':
+        form = TagSearch(request.POST)
+        if form.is_valid():
+            TagResultView.get_queryset(request)
+    else:
+        tag_form = TagSearch()
+    return render(request,'searchTag.html', {'tag_form': tag_form})
+
+
+class TagResultView(ListView):
+    # allow_empty = False
+    model = Residence
+    template_name = 'tagResult.html'
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+
+        object_list = Residence.objects.filter(tags__name__in=[query])
+        print(object_list)
+        return object_list
+

@@ -55,3 +55,6 @@ class DeleteReview(forms.Form):
 
 class UpdateForm(forms.Form):
     room_type = forms.ChoiceField(label="Select your room type", choices=Review.RoomType.choices)
+
+class TagSearch(forms.Form):
+    residence_tags = forms.CharField(label="Search for tag", max_length=100)
