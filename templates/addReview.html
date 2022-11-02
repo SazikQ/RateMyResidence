@@ -14,8 +14,11 @@
     <title>Add New Comment</title>
 </head>
 <body>
-<form method="post">
+<form method="post" class="form-horizontal">
     {% csrf_token %}
+    <br>
+    <h4 class="mb-3">Add New Review</h4>
+    <br>
     <div class="container">
         <div class="rating-wrap">
             <h2>Overall</h2>
@@ -85,29 +88,97 @@
         </div>
     </div>
     <br>
-    <p><label for="id_room_type">Choose your room type</label>
-        <select id="id_room_type" name="room_type">
-            <option value="ST">Studio</option>
-            <option value="SH">Shared-room</option>
-            <option value="TO">Two-room</option>
-            <option value="TH">Three-room</option>
-            <option value="FR">Four-room</option>
-            <option value="UN">Unknown</option>
-        </select>
-    <p><label for="id_time_lived">Time Lived:</label>
-        <input id="id_time_lived" maxlength="5" name="time_lived" required type="number"></p>
-    <p><label for="id_live_again">Live Again:</label>
-        <input id="id_live_again" name="live_again" type="checkbox"></p>
-    <p><label for="id_rent">Rent ($ per month):</label>
-        <input id="id_rent" maxlength="5" name="rent" required type="number"></p>
-    <p><label for="id_title">Title:</label>
-        <input id="id_title" maxlength="100" name="title" required type="text"></p>
-    <p><label for="id_content">Content:</label>
-        <textarea id="id_content" name="content" required></textarea></p>
-    <p><label for="id_is_anonymous">post review anonymously</label>
-        <input id="id_is_anonymous" name="isAnonymous" type="checkbox"></p>
-    <button class='btn btn-secondary' type="submit">Add Comment</button>
 
+    <div class="container">
+        <div class="row g-3">
+            <div class="col-12">
+                <label for="id_name" class="form-label">Choose your room type</label>
+                <select id="id_room_type" name="room_type">
+                    <option value="ST">Studio</option>
+                    <option value="SH">Shared-room</option>
+                    <option value="TO">Two-room</option>
+                    <option value="TH">Three-room</option>
+                    <option value="FR">Four-room</option>
+                    <option value="UN">Unknown</option>
+                </select>
+            </div>
+            <br>
+            <br>
+            <br>
+            <div class="form-group row">
+                <label for="id_time_lived" class="col-sm-1 form-label">Time Lived</label>
+                <div class="col-sm-11">
+                    <input type="text" class="form-control" id="id_time_lived" name = "time_lived" maxlength="5" value="" type="number" required>
+                </div>
+                
+                <div class="invalid-feedback">
+                    Please enter a valid Residence name.
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <div class="form-group row">
+                <label for="id_rent" class="col-sm-1 form-label">Rent ($ per month)</label>
+                <div class="col-sm-11">
+                    <input type="number" class="form-control" id="id_rent" name="rent" placeholder="0" value="" maxlength="5" required>
+                </div>
+                <div class="invalid-feedback">
+                    Please enter a valid street name.
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="form-group row">
+                <label for="id_title" class="col-sm-1 form-label">Title</label>
+                <div class="col-sm-11">
+                    <input type="text" class="form-control" id="id_title" name="title" placeholder="" maxlength="100" required>
+                </div>
+                
+                <div class="invalid-feedback">
+                    Please enter a valid zipcode.
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <div class="form-group row">
+                <label for="id_tags" class="col-sm-1 form-label">Content</label>
+                <div class="col-sm-11">
+                    <textarea id="id_content" name="content" class="form-control" rows="7"></textarea>
+                </div>
+                <div class="invalid-feedback">
+                    Please enter tags.
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <div class="col-12">
+                <label for="id_live_again" class="col-sm-1 form-label">Live Again</label>
+                <input id="id_live_again" name="live_again" type="checkbox">
+                <div class="invalid-feedback">
+                    Please enter a valid street number.
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="id_is_anonymous">Post review anonymously</label>
+                <input id="id_is_anonymous" name="isAnonymous" type="checkbox">
+                <div class="invalid-feedback">
+                    Please enter tags.
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <button class='btn btn-secondary' type="submit">Add Comment</button>
+    <br>
+    <br>
 </form>
 </body>
 </html>
