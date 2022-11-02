@@ -29,7 +29,7 @@
       <div class="card-body">
         <h1 class="card-title pricing-card-title">{{Review.title}}</h1>
         <ul class="list-unstyled mt-3 mb-4">
-          <li>Time lived: {{Review.time_lived}}</li>
+          <li>Time lived: {{Review.time_lived}} months</li>
           <li>Rent: $ {{Review.rent}}<small class="text-muted fw-light">/mo</small></li>
         </ul>
         <a href = "{%url 'review_detail' Review.pk%}"><button type = "button" class="w-100 btn btn-lg btn-primary">View Details</button></a>
