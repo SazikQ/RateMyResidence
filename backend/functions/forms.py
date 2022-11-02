@@ -55,3 +55,4 @@ class DeleteReview(forms.Form):
 
 class UpdateForm(forms.Form):
     room_type = forms.ChoiceField(label="Select your room type", choices=Review.RoomType.choices)
+
