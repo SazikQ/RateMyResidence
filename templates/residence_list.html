@@ -3,7 +3,20 @@
 {% block title %}Residence List{% endblock %}
 
 {% block content %}
-<h1>Residence List</h1>
+<div class = "container">
+  <div class = "row">
+    <h1>Residence List</h1>
+  </div>
+  <div class = "row">
+    <div class = "col-md-6 offset-md-3" >
+      <form action= {% url 'list_residence' %} method='get'>
+          <label for="tag_name"></label>
+          <input type="text" id="tag_name" name="q" placeholder="Pet-friendly">
+          <input type="submit">
+      </form>
+    </div>
+  </div>
+</div>
 <br>
 <br>
 {% if object_list %}

@@ -284,6 +284,26 @@ def edit_residence(request, pk):
 class ResidenceListView(ListView):
     model = Residence
     template_name = 'residence_list.html'
+    
+    def post(request):
+        if request.method == 'POST':
+            form = TagSearch(request.POST)
+            if form.is_valid():
+                ResidenceListView.get_queryset(request)
+        else:
+            object_list = Residence.objects.all()
+            return render(request,'residence_list.html', {'object_list': object_list})
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if (query == '' or query is None):
+            return Residence.objects.all()
+        else:
+            object_list = Residence.objects.filter(tags__name__in=[query])
+        #print(object_list)
+        return object_list
+
+
 
 
 class ResidenceDetail(DetailView):
@@ -331,7 +351,7 @@ class ResidenceDetail(DetailView):
         context['updateForm'] = UpdateForm().as_p()
         return context
 
-
+"""
 def search_tag(request):
     if request.method == 'POST':
         form = TagSearch(request.POST)
@@ -352,4 +372,4 @@ class TagResultView(ListView):
         object_list = Residence.objects.filter(tags__name__in=[query])
         print(object_list)
         return object_list
-
+"""
