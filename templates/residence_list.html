@@ -13,7 +13,12 @@
           <label for="tag_name"></label>
           <div class = "row">
             <div class = "col-md-6 offset-md-2">
-              <input type="text" id="tag_name" name="q" placeholder="Search By Tag" class = "form-control">
+              <input type="search" list = "tagnames" id="tag_name" name="q" placeholder="Search By Tag" class = "form-control">
+                <datalist id = "tagnames">
+                  {% for tag in tagnames %}
+                    <option value = "{{tag}}"></option>
+                  {% endfor %}
+                </datalist>
             </div>
             <div class = "col-md-4 text-start py-1">
               <button class="btn btn-dark btn-sm" type="submit">Search</button>
