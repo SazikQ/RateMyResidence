@@ -3,18 +3,57 @@
 {% block title %}Log In{% endblock %}
 
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add New Residence</title>
-</head>
-<body>
-<form method="post">
+<form method="post" class="needs-validation" novalidate>
     {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Submit">
+    <br>
+    <h4 class="mb-3">Add New Residence</h4>
+    <div class="container">
+        <div class="row g-3">
+            <div class="col-12">
+                <label for="id_name" class="form-label">Residence name</label>
+                <input type="text" class="form-control" id="id_name" name = "name" placeholder="Residence name" value="" required>
+                <div class="invalid-feedback">
+                    Please enter a valid Residence name.
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="id_streetNum" class="form-label">Street Number</label>
+                <input type="number" class="form-control" id="id_streetNum" name="streetNum" placeholder="610" required>
+                <div class="invalid-feedback">
+                    Please enter a valid street number.
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="id_streetName" class="form-label">Street name</label>
+                <input type="text" class="form-control" id="id_streetName" name="streetName" placeholder="Purdue Mall" value="" required>
+                <div class="invalid-feedback">
+                    Please enter a valid street name.
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="id_zipcode" class="form-label">Zipcode</label>
+                <input type="number" class="form-control" id="id_zipcode" name="zipcode" placeholder="47907" required>
+                <div class="invalid-feedback">
+                    Please enter a valid zipcode.
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="id_tags" class="form-label">Residence tags</label>
+                <input type="text" class="form-control" id="id_tags" name="residence_tags" required>
+                <div class="invalid-feedback">
+                    Please enter tags.
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <button class='btn btn-secondary' type="submit">Add Residence</button>
+    </div>
+        
 </form>
-</body>
-</html>
+
 {% endblock %}

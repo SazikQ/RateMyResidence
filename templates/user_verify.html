@@ -2,10 +2,21 @@
 {% block title %}Verify your Email{% endblock %}
 
 {% block content %}
-<h2>Please enter the verification code</h2>
-<form method="post">
-  {% csrf_token %}
-{{form}}
- <button type="submit">submit</button>
-</form>
+<br>
+<div class="container py-5 h-120">
+    <div class="row d-flex align-items-center justify-content-center h-120">
+        <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+            <h4 class="mb-3">Please enter the verification code</h4>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-outline mb-4">
+                    <label for="id_verificationCode" class="form-label">Verification code</label>
+                    <input type="text" name="verificationCode" class="form-control" id="id_verificationCode" maxlength="30" required>
+                </div>
+                <button class='btn btn-secondary' type="submit">Verify</button>
+            </form>
+        </div>
+    </div>
+    <br>
+</div>
 {% endblock %}
