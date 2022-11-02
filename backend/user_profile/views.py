@@ -49,14 +49,13 @@ def account_verify(request):
                 messages.error(request, 'wrong verification code')
                 return redirect(to='profile')
     else:
-        verificationCode = '123456'
-    # for _ in range(6) :
-    #     verificationCode = verificationCode + str(random.randint(0,9))
-    # request.user.email_user('Email Verification', verificationCode, from_email=None)
+        verificationCode = ''
+        for _ in range(6):
+            verificationCode = verificationCode + str(random.randint(0,9))
+        request.user.email_user('Email Verification', verificationCode, from_email=None)
         verificationForm = EmailVerificationForm()
         hashcode = hashlib.sha256(verificationCode.encode('utf-8')).hexdigest()
         request.session['hashcode'] = hashcode
-
     return render(request, 'user_verify.html', {'form': verificationForm.as_p()})
 
 
