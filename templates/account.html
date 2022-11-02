@@ -2,29 +2,71 @@
 {% block title %} Account {% endblock %}
 
 {% block content %}
-<h1>Account Info</h1>
-<p>user name: {{user.username}}</p>
-<p>email: {{user.email}}</p>
-<p>verification status: {{user.isVerifiedUser}}</p>
-<p>Residence Manager status: {{user.isResidenceManager}}</p>
-<button onclick="window.location.href = '{% url 'editProfile' %}'"> Edit </button>
-<button onclick="window.location.href = '{% url 'past_review' %}'"> Past Review </button>
-<button onclick="Verification()">Request Verification</button>
- <script language="JavaScript">
-    function Verification()
-    {
-        window.location.href = "{% url 'verifyUser'%}";
-    }
-  </script>
-
-<br>
-
-
-<!--{% if user.isVerifiedUser %}
-  <a class = "btn" > Create a new residence entry </a>
-{% else %}
-  <a class = "btn"> Request verification </a>
-{% endif %}-->
+<div class = "container col-md-8 offset-md-2 py-3">
+  <div class = "row rounded-1 pb-3 text-bg-dark bg-dark">
+    <div class = "row py-3 ">
+      <div class = "row col-md-8 text-start">
+        <h2 >
+          Account Info  
+        </h2>
+      </div>
+      <div class = "d-flex justify-content-start py-2">
+        <div class = "p-2">
+        {% if not user.isVerifiedUser %}
+          <button type = "button" class = "btn btn-primary btn-sm" onclick="window.location.href = '{% url 'verifyUser' %}'">Verify</button>
+        {% endif %}
+        </div>
+  
+        <div class = "p-2">
+          <button class = "btn btn btn-primary btn-sm" onclick="window.location.href = '{% url 'editProfile' %}'">Edit</button>
+        </div>
+  
+        <div class = "p-2">
+          <button class = "btn btn btn-primary btn-sm" onclick="window.location.href = '{% url 'past_review' %}'">Past Review</button>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <!--usr information-->
+    <div class = "container text-start">
+      <div class="row"> 
+        <div class = "col-md-6 ">
+          Username
+        </div>
+        <div class = "col-md-6">
+          {{user.username}}
+        </div>
+      </div>
+      <hr>
+      <div class="row"> 
+        <div class = "col-md-6">
+          Email
+        </div>
+        <div class = "col-md-6">
+            {{user.email}}
+        </div>
+      </div>
+      <hr>
+      <div class="row"> 
+        <div class = "col-md-6">
+          Verification Status
+        </div>
+        <div class = "col-md-6">
+          {{user.isVerifiedUser}}
+        </div>
+      </div>
+      <hr>
+      <div class="row"> 
+        <div class = "col-md-6">
+          Residence Manager Status
+        </div>
+        <div class = "col-md-6">
+          {{user.isResidenceManager}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 {% endblock %}
