@@ -47,11 +47,11 @@
           | {{ object.publishTime }} <br>
           <br>
           <form>
-            <button formaction="/changecomment/{{object.pk}}"> Update Comment</button>
-            <button formaction="/deletecomment/{{object.pk}}">  Delete Comment</button>
+            <button formaction="/changecomment/{{object.pk}}/" class = "btn btn-primary btn-sm"> Update Comment</button>
+            <button formaction="/deletecomment/{{object.pk}}" class = "btn btn-primary btn-sm">  Delete Comment</button>
           </form>
           <br>
-          <strong> {{ object.likes.count }} likes </strong>
+          <strong> {{ object.likes.count }} Likes </strong>
           <strong> {{ object.dislikes.count }} Dislikes </strong>
       </p>
     </div>

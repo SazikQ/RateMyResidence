@@ -137,20 +137,20 @@
                     <div class="mb-1" style = "color: #9D968D">
 
                         {% if comment.room_type == 'ST' %}
-                            room type: <strong>Studio</strong>
+                            Room type: <strong>Studio</strong>
                         {% elif comment.room_type == 'SH' %}
-                            room type: <strong>Shared-room </strong>
+                            Room type: <strong>Shared-room </strong>
                         {% elif comment.room_type == 'TO' %}
-                            room type: <strong>Two-room</strong>
+                            Room type: <strong>Two-room</strong>
                         {% elif comment.room_type == 'TH' %}
-                            room type: <strong>Three-room</strong>
+                            Room type: <strong>Three-room</strong>
                         {% elif comment.room_type == 'FR' %}
-                            room type: <strong>Four-room</strong>
+                            Room type: <strong>Four-room</strong>
                         {% elif comment.room_type == 'UN' %}
-                            room type: <strong>Unknown</strong>
+                            Room type: <strong>Unknown</strong>
                         {% endif %}
 
-                    Time lived: <strong>{{ comment.time_lived }}</strong> months
+                    Time lived: <strong>{{ comment.time_lived }} months</strong> 
                         Rent: <strong>$ {{comment.rent }} / month</strong>
                         {% if comment.live_again %}
                             Would live again: <strong>Yes</strong>
