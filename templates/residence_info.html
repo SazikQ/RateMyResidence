@@ -3,18 +3,6 @@
 {% block title %}Residence Page{% endblock %}
 
 {% block content %}
-
-
-    {% if user.isResidenceManager %}
-    <button onclick="Edit()">Edit Residence</button>
-    <script language="JavaScript">
-        function Edit()
-        {
-            window.location.href = "/residence/{{object.pk}}/edit";
-        }
-    </script>
-    {% endif %}
-
     <div class="container px-4 py-5">    
         <div class="row row-cols-1 row-cols-md-2 align-items-md-center g-5 py-5">
           <div class="d-flex flex-column align-items-start gap-2">
@@ -36,8 +24,17 @@
 
                 <h4 class="fw-semibold mb-0">Add a new review</h4>
                 <form>
-                    <button formaction="/addReview/{{object.pk}}">Write a review</button>
+                    <button formaction="/addReview/{{object.pk}}" class="btn btn-dark btn-sm">Write a review</button>
                 </form>
+                {% if user.isResidenceManager %}
+                    <h4 class="fw-semibold mb-0">Edit Residence</h4>
+                    <button onclick="Edit()" class="btn btn-dark btn-sm">Edit</button>
+                    <script language="JavaScript">
+                    function Edit() {
+                        window.location.href = "/residence/{{object.pk}}/edit";
+                    }
+                    </script>
+                {% endif %}
           </div>
         </div>
     </div>
@@ -55,7 +52,7 @@
                     </div>
                     <div>
                         <h5>Sort by default reviews</h5>
-                        <a href= "{% url 'residence_info' object.pk %}"><button type = "button">click here</button></a>
+                        <a href= "{% url 'residence_info' object.pk %}"><button type = "button" class="btn btn-dark btn-sm">click here</button></a>
                     </div>
                   </div>
 
@@ -66,7 +63,7 @@
                 </div>
                 <div>
                     <h5>Sort by low to high ratings</h5>
-                    <a href = "{% url 'residence_info' object.pk %}?sort=lhratings"><button type = "button">click here</button></a>
+                    <a href = "{% url 'residence_info' object.pk %}?sort=lhratings"><button type = "button" class="btn btn-dark btn-sm">click here</button></a>
                 </div>
               </div>
 
@@ -76,7 +73,7 @@
                 </div>
                 <div>
                     <h5>Sort by high to low ratings</h5>
-                    <a href = "{% url 'residence_info' object.pk %}?sort=hlratings"><button type = "button">click here</button></a>
+                    <a href = "{% url 'residence_info' object.pk %}?sort=hlratings"><button type = "button" class="btn btn-dark btn-sm">click here</button></a>
                 </div>
               </div>
 
@@ -86,7 +83,7 @@
                 </div>
                 <div>
                     <h5>Sort by number of likes</h5>
-                    <a href= "{% url 'residence_info' object.pk %}?sort=likes"><button type = "button">click here</button></a>
+                    <a href= "{% url 'residence_info' object.pk %}?sort=likes"><button type = "button" class="btn btn-dark btn-sm">click here</button></a>
                 </div>
               </div>
 
@@ -96,7 +93,7 @@
                 </div>
                 <div>
                     <h5>Sort by number of dislikes</h5>
-                    <a href= "{% url 'residence_info' object.pk %}?sort=dislikes"><button type = "button">click here</button></a>
+                    <a href= "{% url 'residence_info' object.pk %}?sort=dislikes"><button type = "button" class="btn btn-dark btn-sm">click here</button></a>
                 </div>
               </div>
             </div>
@@ -117,7 +114,7 @@
                     <form method="post">
                         {% csrf_token %}
                         {{ updateForm }}
-                        <button type="submit">Filter</button>
+                        <button type="submit" class="btn btn-dark btn-sm">Filter</button>
                     </form>
                 </div>
               </div>
@@ -137,7 +134,7 @@
               <div class="col-md-12 px-0">
                 <h1 class="display-4 fst-italic">{{ comment.title }}</h1>
                 <p class="lead my-3">
-                    <div class="mb-1 text-muted">
+                    <div class="mb-1" style = "color: #9D968D">
 
                         {% if comment.room_type == 'ST' %}
                             room type: <strong>Studio</strong>
@@ -166,7 +163,7 @@
                         Quietness rating: <strong>{{ comment.quietness_rating }}</strong>
                         Quality rating: <strong>{{ comment.quality_rating }}</strong>
                     </div>
-                    
+                    <br>
 
                     <h3>{{ comment.content }}</h3><br>
                     {% if comment.isAnonymous and comment.reviewer != user %}
@@ -176,21 +173,25 @@
                     {% endif %}
                     | {{ comment.publishTime }} <br>
                     <br>
-                    <form>
-                        <button formaction="/changecomment/{{comment.pk}}/"> Update Comment</button>
-                        <button formaction="/deletecomment/{{comment.pk}}">  Delete Comment</button>
-                    </form>
+
+                    {% if user == comment.reviewer%}
+                        <form>
+                            <button formaction="/changecomment/{{comment.pk}}/" class = "btn btn-primary btn-sm"> Update Comment</button>
+                            <button formaction="/deletecomment/{{comment.pk}}" class = "btn btn-primary btn-sm">  Delete Comment</button>
+                        </form>
+                    {% endif %}
 
                     <br>
+                    
                     <form action = "{% url 'likeReview' object.pk %}">
                         {% csrf_token %}
-                        <button type = "submit", name = "review_id", value = "{{ comment.id }}">Like</button>
+                        <button type = "submit", name = "review_id", value = "{{ comment.id }}" class = "btn btn-primary btn-sm">Like</button>
                         <strong> {{ comment.likes.count }} likes </strong>
                     </form>
                     <br>
                     <form action = "{% url 'dislikeReview' object.pk %}">
                         {% csrf_token %}
-                        <button type = "submit", name = "review_id", value = "{{ comment.id }}">Dislike</button>
+                        <button type = "submit", name = "review_id", value = "{{ comment.id }}" class = "btn btn-primary btn-sm">Dislike</button>
                         <strong> {{ comment.dislikes.count }} Dislikes </strong>
                     </form>
                 </p>
