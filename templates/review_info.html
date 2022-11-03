@@ -47,8 +47,8 @@
           | {{ object.publishTime }} <br>
           <br>
           <form>
-            <button formaction="/changecomment/{{object.pk}}"> Update Comment</button>
-            <button formaction="/deletecomment/{{object.pk}}">  Delete Comment</button>
+            <button formaction="/changecomment/{{comment.pk}}/" class = "btn btn-primary btn-sm"> Update Comment</button>
+            <button formaction="/deletecomment/{{comment.pk}}" class = "btn btn-primary btn-sm">  Delete Comment</button>
           </form>
           <br>
           <strong> {{ object.likes.count }} likes </strong>
