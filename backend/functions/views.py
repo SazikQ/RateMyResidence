@@ -30,7 +30,7 @@ def dislike_view(request, pk):
         rev.dislikes.add(request.user)
     return HttpResponseRedirect(redirectUrl)
 
-
+@login_required
 def like_view(request, pk):
     rev = Review.objects.get(pk=request.GET.get('review_id'))
     redirectUrl = '/residence/' + str(pk)
