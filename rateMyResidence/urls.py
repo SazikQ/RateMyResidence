@@ -42,6 +42,7 @@ urlpatterns = [
     path("deletecomment/<int:pk>", delete_review, name = "deleteReview"),
     path("residence/like/<int:pk>", like_view, name = "likeReview"),
     path("residence/dislike/<int:pk>", dislike_view, name = "dislikeReview"),
+    path('accounts/', include('allauth.urls')),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
