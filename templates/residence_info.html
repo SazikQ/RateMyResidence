@@ -23,7 +23,11 @@
                 <p class="mb-1 text-muted">{{ object.location.streetNum }} {{ object.location.streetName }} {{ object.location.zipcode }}</p>
 
                 <h4 class="fw-semibold mb-0">Residence Website</h4>
-                <p class="mb-1 text-muted">{{ object.website}}
+                {% if object.website == "None" %}
+                    <p class="mb-1 text-muted">None</p>
+                {% else %}
+                    <button onclick="window.location.href = '{{ object.website }}'" class="btn btn-dark btn-sm">Go to residence website</button>
+                {% endif %}
 
                 <h4 class="fw-semibold mb-0">Add a new review</h4>
                 <form>
