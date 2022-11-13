@@ -269,10 +269,9 @@ class SearchResultsView(ListView):
         orderBy = self.request.GET.get('OrderBy')
         if orderBy:
             context['orderByVal'] = orderBy
-        
-        
-        
-        
+        orderType = self.request.GET.get('OrderType')
+        if orderType:
+            context['orderTypeVal'] = orderType
         
         context['tagnames'] = tags
         context['resnames'] = res
