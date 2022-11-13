@@ -9,7 +9,7 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
-from backend.user_profile.models import Residence, Review, Location
+from backend.user_profile.models import Residence, Review, Location, User
 from django.db.models import Q, Count
 from taggit.forms import *
 
@@ -367,3 +367,12 @@ class ResidenceDetail(DetailView):
         context['tags'] = targetResidence.tags.names()
         context['updateForm'] = UpdateForm().as_p()
         return context
+
+
+class UserListView(ListView):
+    model = User
+    template_name = "user_list.html"
+
+    def get_queryset(self):
+        object_list = User.objects.filter(is_superuser=False)
+        return object_list

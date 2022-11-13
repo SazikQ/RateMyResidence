@@ -1,0 +1,24 @@
+{% extends "base_without_popup.html" %}
+
+{% block title %}Residence List{% endblock %}
+
+{% block content %}
+{% if object_list %}
+<div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+{% for User in object_list %}
+  <div class="col-md-4">
+    <div class="card mb-4 rounded-3 shadow-sm">
+      <div class="card-header py-3">
+        <h4 class="my-0 fw-normal">{{User.username}}</h4>
+      </div>
+       <div class="card-body">
+         This is a placeholder for future button
+       </div>
+      </div>
+  </div>
+{% endfor %}
+</div>
+{% else %}
+<h3> No non-admin user yet</h3>
+{% endif %}
+{% endblock %}
