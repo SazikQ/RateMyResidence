@@ -261,6 +261,8 @@ def edit_residence(request, pk):
             instance.location.save(update_fields=['streetName', 'streetNum', 'zipcode'])
             instance.name = form.cleaned_data['name']
             instance.save(update_fields=['name'])
+            instance.website = form.cleaned_data['website']
+            instance.save(update_fields=['website'])
             instance.tags.clear()
             m_tags = form.cleaned_data['residence_tags']
             for m_tag in m_tags:
@@ -277,6 +279,7 @@ def edit_residence(request, pk):
             'streetName': instance.location.streetName,
             'streetNum': instance.location.streetNum,
             'zipcode': instance.location.zipcode,
+            'website': instance.website
         })
     return render(request, 'editResidence.html', {'form': form.as_p()})
 
