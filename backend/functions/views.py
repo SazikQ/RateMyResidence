@@ -14,6 +14,7 @@ from django.db.models import Q, Count
 from taggit.forms import *
 
 
+
 # Create your views here.
 @login_required
 def dislike_view(request, pk):
@@ -274,12 +275,19 @@ def edit_residence(request, pk):
         if pk == '':
             raise Http404
         request.session['pk'] = pk
+        tags_list = ""
+        for names in instance.tags.names():
+            tags_list += names
+            tags_list += ","
+        tags_list = tags_list[:-1]
+        
         form = ResidenceEditForm({
             'name': instance.name,
             'streetName': instance.location.streetName,
             'streetNum': instance.location.streetNum,
             'zipcode': instance.location.zipcode,
-            'website': instance.website
+            'website': instance.website,
+            'residence_tags': tags_list
         })
     return render(request, 'editResidence.html', {'form': form.as_p()})
 
