@@ -183,63 +183,80 @@ def autocomplete(request):
 
 
 class SearchResultsView(ListView):
-    allow_empty = False
+    allow_empty = True
     model = Residence
     template_name = 'residence_list.html'
     valid_input = True
 
     def get_queryset(self):
-        query = self.request.GET.get('q')
-        order_list = []
-        rating_order = self.request.GET.get('ratingRange')
-        if (rating_order != "None"):
-            order_list.append(rating_order)
-        price_order = self.request.GET.get('priceRange')
-        if (price_order != "None"):
-            order_list.append(price_order)
-        minRate = self.request.GET.get('rating_min')
-        if (not minRate.isnumeric()):
-            minRate = 0
-        maxRate = self.request.GET.get('rating_max')
-        if (not maxRate.isnumeric()):
-            maxRate = 5
-        minPrice = self.request.GET.get('price_min')
-        if (not minPrice.isnumeric()):
-            minPrice = 0
-        maxPrice = self.request.GET.get('price_max')
-        if (not maxPrice.isnumeric()):
-            maxPrice = float('inf')
-
-        if (query == ''):
+        q_objects = Q()
+        # Process user input
+        name = self.request.GET.get('name')
+        if (name and name != ''):
+            q_objects &= Q(name__icontains=name)
+        """ 
+        # Block blank searches
+        if (name == ''):
             messages.info(self.request, ('Please enter a keyword or letter to search for.'))
             self.valid_input = False
-            return Residence.objects.exclude(name__icontains=query)
-        if order_list:
-            object_list = Residence.objects.filter(
-                Q(name__icontains=query) &
-                Q(rating_average__lte=maxRate) &
-                Q(rating_average__gte=minRate) &
-                Q(rent_min__lte=maxPrice) &
-                Q(rent_max__gte=minPrice)
-            ).order_by(*order_list)
-            return object_list
+            return Residence.objects.exclude(name__icontains=name)
+        """
+        order = self.request.GET.get('OrderBy')
+        tags = self.request.GET.get('tag')
+        if (tags and tags != ''):
+            q_objects &= Q(tags__name__in=[tags])
+        order_type = self.request.GET.get('OrderType')
+       
+        # Set up query parameters
+        if (order_type is None or order_type == "None"):
+            order = "None"
+        if (order and order != "None"):
+            order = order_type + order
+        minRate = self.request.GET.get('rating_min')
+        if (minRate and minRate.isnumeric()):
+            q_objects &= Q(rating_average__gte=minRate)
+        maxRate = self.request.GET.get('rating_max')
+        if (maxRate and maxRate.isnumeric()):
+            q_objects &= Q(rating_average__lte=maxRate)
+        minPrice = self.request.GET.get('price_min')
+        if (minPrice and minPrice.isnumeric()):
+            q_objects &= Q(rent_max__gte=minPrice)
+        maxPrice = self.request.GET.get('price_max')
+        if (maxPrice and maxPrice.isnumeric()):
+            q_objects &= Q(rent_min__lte=maxPrice)
+        
+        if (order and order != "None"):
+            return Residence.objects.filter(q_objects).order_by(order)
+        # Conduct query without order
         else:
-            object_list = Residence.objects.filter(
-                Q(name__icontains=query) &
-                Q(rating_average__lte=maxRate) &
-                Q(rating_average__gte=minRate) &
-                Q(rent_min__lte=maxPrice) &
-                Q(rent_max__gte=minPrice)
-            )
-            return object_list
+            return Residence.objects.filter(q_objects)
 
-    def dispatch(self, *args, **kwargs):
-        try:
-            return super().dispatch(*args, **kwargs)
-        except Http404:
-            if (self.valid_input):
-                messages.error(self.request, ('There are no residences that match your search request!'))
-            return redirect("/")
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tags = SearchResultsView.tagcomplete(self.request)
+        res = SearchResultsView.rescomplete(self.request)
+        name = self.request.GET.get('name')
+        context['search_name'] = name
+        context['tagnames'] = tags
+        context['resnames'] = res
+        return context
+
+    def tagcomplete(request):
+        residences = Residence.objects.all()
+        tag_list = []
+        for res in residences:
+            for tag in res.tags.names():
+                if tag not in tag_list:
+                    tag_list.append(tag)
+        return tag_list
+    
+    def rescomplete(request):
+        residences = Residence.objects.all()
+        res_list = []
+        for res in residences:
+            res_list.append(res.name)
+        return residences
 
 
 def edit_residence(request, pk):
@@ -284,30 +301,14 @@ def edit_residence(request, pk):
 class ResidenceListView(ListView):
     model = Residence
     template_name = 'residence_list.html'
-    """
-    def post(request):
-        if request.method == 'POST':
-            form = TagSearch(request.POST)
-            if form.is_valid():
-                ResidenceListView.get_queryset(request)
-        else:
-            object_list = Residence.objects.all()
-            return render(request,'residence_list.html', {'object_list': object_list})
-"""
-    def get_queryset(self):
-        query = self.request.GET.get('q')
-        if (query == '' or query is None):
-            object_list = Residence.objects.all()
-            return object_list
-        else:
-            object_list = Residence.objects.filter(tags__name__in=[query])
-        #print(object_list)
-        return object_list
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        tags = ResidenceListView.tagcomplete(self.request)
+        tags = SearchResultsView.tagcomplete(self.request)
+        res = SearchResultsView.rescomplete(self.request)
+        context['search_name'] = ''
         context['tagnames'] = tags
+        context['resnames'] = res
         return context
 
     def tagcomplete(request):
@@ -317,8 +318,14 @@ class ResidenceListView(ListView):
             for tag in res.tags.names():
                 if tag not in tag_list:
                     tag_list.append(tag)
-        print(tag_list)
         return tag_list
+    
+    def rescomplete(request):
+        residences = Residence.objects.all()
+        res_list = []
+        for res in residences:
+            res_list.append(res.name)
+        return residences
 
 
 

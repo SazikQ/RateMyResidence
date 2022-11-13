@@ -7,26 +7,73 @@
   <div class = "row">
     <h1>Residence List</h1>
   </div>
-  <div class = "row">
-    <div class = "col-md-6 offset-md-3" >
-      <form action= {% url 'list_residence' %} method='get'>
-          <label for="tag_name"></label>
-          <div class = "row">
-            <div class = "col-md-6 offset-md-2">
-              <input type="search" list = "tagnames" id="tag_name" name="q" placeholder="Search By Tag" class = "form-control">
-                <datalist id = "tagnames">
-                  {% for tag in tagnames %}
-                    <option value = "{{tag}}"></option>
-                  {% endfor %}
-                </datalist>
-            </div>
-            <div class = "col-md-4 text-start py-1">
-              <button class="btn btn-dark btn-sm" type="submit">Search</button>
-            </div>
-          </div>
-      </form>
+  <form action= {% url 'search_results' %} method='get'>
+    <div class = "row">
+      <div class = "col-md-6">
+        <label for="res_name">Name</label>
+        <input type="search" list = "resnames" id="res_name" name='name' value="{{search_name}}" placeholder="Search By Residence Name" class = "form-control">
+          <datalist id = "resnames">
+            {% for res in resnames %}
+            <option value = "{{res.name}}"></option>
+            {% endfor %}
+          </datalist>
+      </div>
+      <div class = "col-md-6">
+        <label for="tag_name">Tag</label>
+        <input type="search" list = "tagnames" id="tag_name" name="tag" placeholder="Search By Tag" class = "form-control">
+          <datalist id = "tagnames">
+            {% for tag in tagnames %}
+              <option value = "{{tag}}"></option>
+            {% endfor %}
+          </datalist>
+      </div>
     </div>
+    <div class="row">
+      <div class="form-group col-lg-4">
+        <label for="OrderBy">Order By</label>
+        <select id="OrderBy" class="form-control" name="OrderBy">
+          <option value="None" selected>None</option>
+          <option value="rating_average">Rating</option>
+          <option value="rent_average">Price</option>
+        </select>
+        <label for="Order Type">Order Type</label>
+        <select id="OrderType" class="form-control" name="OrderType">
+          <option value="None" selected>None</option>
+          <option value="">Low to High</option>
+          <option value="-">High to Low</option>
+        </select>
+      </div>
+      <div class="form-group col-lg-4">
+        <label for="priceMin">Minimum Price</label>
+        <input type="number" min=0 class="form-control" id="priceMin" placeholder="0" name="price_min">
+        <label for="priceMax">Maximum Price</label>
+        <input type="number" min=0 class="form-control" id="priceMax" placeholder="0" name="price_max">
+      </div>
+      <div class="form-group col-lg-4">
+        <label for="ratingMin">Minimum Average Rating</label>
+        <input type="number" min=0 max=5 class="form-control" id="ratingMin" placeholder="0" name="rating_min">
+        <label for="ratingMax">Maximum Average Rating</label>
+        <input type="number" min=0 max=5 class="form-control" id="ratingMax" placeholder="0" name="rating_max">
+      </div>
+    </div>
+    <div class = "row">
+      <div class = "col-md-4"></div>
+      <div class = "col-md-4">
+        <button class="btn btn-dark btn-md" type="Search">Filter</button>
+      </div>
+    </div>
+  </form>
+</div>
+<div class = "row">
+  <div class="col-lg-3"></div>
+  <div class="col-lg-6">
+    {% if messages %}
+      {% for message in messages %}
+          <div class="alert {% if message.tags %}alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger{% else %}{{ message.tags }}{% endif %}{% endif %}" role="alert">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
   </div>
+  <div class="col-lg-3"></div>
 </div>
 <br>
 <br>
@@ -40,6 +87,8 @@
         <h4 class="my-0 fw-normal">{{Residence.name}}</h4>
       </div>
        <div class="card-body">
+        Average Rating: {{Residence.rating_average}}<br>
+        Average Price: {{Residence.rent_average}}<br>
          This is a placeholder for future photos
        </div>
       </div>
@@ -48,6 +97,6 @@
 {% endfor %}
 </div>
 {% else %}
-
+<h1>There are no residences that match your request!</h1>
 {% endif %}
 {% endblock %}
