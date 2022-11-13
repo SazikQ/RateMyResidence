@@ -16,6 +16,10 @@ from taggit.forms import *
 
 # Create your views here.
 @login_required
+def search_off_campus(request):
+    return HttpResponseRedirect('/nonuniversity/')
+
+@login_required
 def dislike_view(request, pk):
     rev = Review.objects.get(pk=request.GET.get('review_id'))
     redirectUrl = '/residence/' + str(pk)
@@ -47,7 +51,7 @@ def like_view(request, pk):
 
     # get_list_or_404(Review, id=request.POST.get('review_id'))
 
-
+@login_required
 def delete_review(request, pk):
     review_form = Review.objects.get(pk=pk)
     residence_info = review_form.belongedResidence
@@ -84,7 +88,7 @@ def delete_review(request, pk):
     return render(request, 'deletereview.html', {'form': form.as_p()})
     """
 
-
+@login_required
 def edit_review(request, pk):
     review_form = Review.objects.get(pk=pk)
     residence_info = review_form.belongedResidence
@@ -157,7 +161,7 @@ def add_review(request, pk):
         form = ReviewForm()
     return render(request, 'addReview.html', {'form': form.as_p()})
 
-
+@login_required
 def add_residence(request):
     if request.method == 'POST':
         form = ResidenceForm(request.POST)
@@ -165,7 +169,8 @@ def add_residence(request):
             saved_location = Location(streetName=form.cleaned_data['streetName'],
                                       streetNum=form.cleaned_data['streetNum'], zipcode=form.cleaned_data['zipcode'])
             saved_location.save()
-            residence = Residence(name=form.cleaned_data['name'], location=saved_location)
+            residence = Residence(name=form.cleaned_data['name'], location=saved_location, university=form.cleaned_data['university'])
+            print(residence.university)
             residence.save()
             m_tags = form.cleaned_data['residence_tags']
             for m_tag in m_tags:

@@ -24,6 +24,7 @@ class Residence(models.Model):
     name = models.CharField(max_length=100)
     manager = models.ManyToManyField(User)
     location = models.OneToOneField(Location, on_delete=models.CASCADE)
+    university = models.BooleanField(default=False)
     rating_average = models.FloatField(default=0)
     rent_average = models.FloatField(default=0)
     rent_min = models.FloatField(default=0)
