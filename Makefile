@@ -7,4 +7,4 @@ restart: ; docker-compose down ; docker-compose build ; docker-compose up
 # Remove local database
 clean: ; docker-compose down ; docker volume rm ratemyresidence_postgres_data
 # Remove all volumes
-full_clean: ; docker-compose down ; docker volume prune
+full_clean: ; docker-compose down ; docker volume prune ; y

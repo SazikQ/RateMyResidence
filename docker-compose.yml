@@ -19,8 +19,8 @@ services:
     ports:
       - "3306:3306"
     #volumes:
-    #  - postgres_data:/var/lib/postgresql/data/
-    command: -p 3306
+      - postgres_data:/var/lib/postgresql/data/
+    #command: -p 3306
 
 # pgAdmin
 # To login to pgAdmin, use default email and password below

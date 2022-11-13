@@ -165,7 +165,7 @@ def add_residence(request):
             saved_location = Location(streetName=form.cleaned_data['streetName'],
                                       streetNum=form.cleaned_data['streetNum'], zipcode=form.cleaned_data['zipcode'])
             saved_location.save()
-            residence = Residence(name=form.cleaned_data['name'], location=saved_location)
+            residence = Residence(name=form.cleaned_data['name'], distance=form.cleaned_data['distance'], location=saved_location)
             residence.save()
             m_tags = form.cleaned_data['residence_tags']
             for m_tag in m_tags:
@@ -224,6 +224,12 @@ class SearchResultsView(ListView):
         maxPrice = self.request.GET.get('price_max')
         if (maxPrice and maxPrice.isnumeric()):
             q_objects &= Q(rent_min__lte=maxPrice)
+        minDist = self.request.GET.get('dist_min')
+        if (minDist and minDist.isnumeric()):
+            q_objects &= Q(distance__gte=minDist)
+        maxDist = self.request.GET.get('dist_max')
+        if (maxDist and maxDist.isnumeric()):
+            q_objects &= Q(distance__lte=maxDist)
         
         if (order and order != "None"):
             return Residence.objects.filter(q_objects).order_by(order)
@@ -237,7 +243,37 @@ class SearchResultsView(ListView):
         tags = SearchResultsView.tagcomplete(self.request)
         res = SearchResultsView.rescomplete(self.request)
         name = self.request.GET.get('name')
-        context['search_name'] = name
+        if name:
+            context['search_name'] = name
+        tag = self.request.GET.get('tag')
+        if tag:
+            context['tag_name'] = tag
+        minPrice = self.request.GET.get('price_min')
+        if minPrice:
+            context['minPrice'] = minPrice
+        maxPrice = self.request.GET.get('price_max')
+        if maxPrice:
+            context['maxPrice'] = maxPrice
+        minRating = self.request.GET.get('rating_min')
+        if minRating:
+            context['minRating'] = minRating
+        maxRating = self.request.GET.get('rating_max')
+        if maxRating:
+            context['maxRating'] = maxRating
+        minDist = self.request.GET.get('dist_min')
+        if minDist:
+            context['minDist'] = minDist
+        maxDist = self.request.GET.get('dist_max')
+        if maxDist:
+            context['maxDist'] = maxDist
+        orderBy = self.request.GET.get('OrderBy')
+        if orderBy:
+            context['orderByVal'] = orderBy
+        
+        
+        
+        
+        
         context['tagnames'] = tags
         context['resnames'] = res
         return context
@@ -294,6 +330,7 @@ def edit_residence(request, pk):
             'streetName': instance.location.streetName,
             'streetNum': instance.location.streetNum,
             'zipcode': instance.location.zipcode,
+            'distance': instance.distance,
         })
     return render(request, 'editResidence.html', {'form': form.as_p()})
 
@@ -306,7 +343,6 @@ class ResidenceListView(ListView):
         context = super().get_context_data(**kwargs)
         tags = SearchResultsView.tagcomplete(self.request)
         res = SearchResultsView.rescomplete(self.request)
-        context['search_name'] = ''
         context['tagnames'] = tags
         context['resnames'] = res
         return context
@@ -336,7 +372,7 @@ class ResidenceDetail(DetailView):
 
     def get(self, request, pk):
         sort = request.GET.get('sort')
-        print(sort)
+        #print(sort)
         targetResidence = Residence.objects.get(pk=pk)
         review_list = targetResidence.comments.all()
         tags = targetResidence.tags.names()

@@ -20,7 +20,7 @@
       </div>
       <div class = "col-md-6">
         <label for="tag_name">Tag</label>
-        <input type="search" list = "tagnames" id="tag_name" name="tag" placeholder="Search By Tag" class = "form-control">
+        <input type="search" list = "tagnames" id="tag_name" name="tag" value="{{tag_name}}" placeholder="Search By Tag" class = "form-control">
           <datalist id = "tagnames">
             {% for tag in tagnames %}
               <option value = "{{tag}}"></option>
@@ -30,30 +30,55 @@
     </div>
     <div class="row">
       <div class="form-group col-lg-4">
-        <label for="OrderBy">Order By</label>
-        <select id="OrderBy" class="form-control" name="OrderBy">
-          <option value="None" selected>None</option>
-          <option value="rating_average">Rating</option>
-          <option value="rent_average">Price</option>
-        </select>
-        <label for="Order Type">Order Type</label>
-        <select id="OrderType" class="form-control" name="OrderType">
-          <option value="None" selected>None</option>
-          <option value="">Low to High</option>
-          <option value="-">High to Low</option>
-        </select>
-      </div>
-      <div class="form-group col-lg-4">
         <label for="priceMin">Minimum Price</label>
-        <input type="number" min=0 class="form-control" id="priceMin" placeholder="0" name="price_min">
+        <input type="number" min=0  {% if minPrice %} value={{minPrice}} {% endif %} class="form-control" id="priceMin" placeholder="0" name="price_min">
         <label for="priceMax">Maximum Price</label>
-        <input type="number" min=0 class="form-control" id="priceMax" placeholder="0" name="price_max">
+        <input type="number" min=0 {% if maxPrice %} value={{maxPrice}} {% endif %} class="form-control" id="priceMax" placeholder="0" name="price_max">
       </div>
       <div class="form-group col-lg-4">
         <label for="ratingMin">Minimum Average Rating</label>
-        <input type="number" min=0 max=5 class="form-control" id="ratingMin" placeholder="0" name="rating_min">
+        <input type="number" min=0 max=5 {% if minRating %} value={{minRating}} {% endif %} class="form-control" id="ratingMin" placeholder="0" name="rating_min">
         <label for="ratingMax">Maximum Average Rating</label>
-        <input type="number" min=0 max=5 class="form-control" id="ratingMax" placeholder="0" name="rating_max">
+        <input type="number" min=0 max=5 {% if maxRating %} value={{maxRating}} {% endif %} class="form-control" id="ratingMax" placeholder="0" name="rating_max">
+      </div>
+      <div class="form-group col-lg-4">
+        <label for="distMin">Minimum Distance from Campus (mi)</label>
+        <input type="number" min=0 {% if minDist %} value={{minDist}} {% endif %} class="form-control" id="distMin" placeholder="0" name="dist_min">
+        <label for="distMax">Maximum Distance from Campus (mi)</label>
+        <input type="number" min=0 {% if maxDist %} value={{maxDist}} {% endif %} class="form-control" id="distMax" placeholder="0" name="dist_max">
+      </div>
+    </div>
+    <div class = "row">
+      <div class="form-group col-lg-4">
+        <label for="OrderBy">Order By</label>
+        <select id="OrderBy" class="form-control" name="OrderBy">
+          <option value="None" {% if orderByVal is None or orderByVal == 'None' %} selected {% endif %}>None</option>
+          <option value="rating_average" {% if orderByVal == 'rating_average' %} selected {% endif %}>Rating</option>
+          <option value="rent_average" {% if orderByVal == 'rent_average' %} selected {% endif %}>Price</option>
+          <option value="distance" {% if orderByVal == 'distance' %} selected {% endif %}>Distance</option>
+        </select>
+        <label for="Order Type">Order Type</label>
+        <select id="OrderType" class="form-control" name="OrderType">
+          <option value="None" {% if orderTypeVal is None or orderTypeVal == 'None' %} selected {% endif %}>None</option>
+          <option value="" {% if orderTypeVal == '' %} selected {% endif %}>Low to High</option>
+          <option value="-" {% if orderTypeVal == '-' %} selected {% endif %}>High to Low</option>
+        </select>
+      </div>
+      <div class="form-group col-lg-4">
+        <label for="petPolicy">Pet Policy</label>
+        <select id="petPolicy" class="form-control" name="petPolicy">
+          <option value="None" selected>None</option>
+        </select>
+        <label for="parkingPolicy">Parking Policy</label>
+        <select id="parkingPolicy" class="form-control" name="parkingPolicy">
+          <option value="None" selected>None</option>
+        </select>
+      </div>
+      <div class="form-group col-lg-4">
+        <label for="Floor Plan">Floor Plan</label>
+        <select id="floorPlan" class="form-control" name="floorPlan">
+          <option value="None" selected>None</option>
+        </select>
       </div>
     </div>
     <div class = "row">
@@ -63,17 +88,6 @@
       </div>
     </div>
   </form>
-</div>
-<div class = "row">
-  <div class="col-lg-3"></div>
-  <div class="col-lg-6">
-    {% if messages %}
-      {% for message in messages %}
-          <div class="alert {% if message.tags %}alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger{% else %}{{ message.tags }}{% endif %}{% endif %}" role="alert">{{ message }}</div>
-      {% endfor %}
-    {% endif %}
-  </div>
-  <div class="col-lg-3"></div>
 </div>
 <br>
 <br>
@@ -89,6 +103,7 @@
        <div class="card-body">
         Average Rating: {{Residence.rating_average}}<br>
         Average Price: {{Residence.rent_average}}<br>
+        Distance from Campus: {{Residence.distance}} miles<br>
          This is a placeholder for future photos
        </div>
       </div>
