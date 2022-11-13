@@ -13,6 +13,11 @@ class User(AbstractUser):
     isVerifiedUser = models.BooleanField(default=False)
     isResidenceManager = models.BooleanField(default=False)
 
+    def save(self, *args, **kwargs):
+        if self.is_superuser:
+            self.isVerifiedUser = True
+            self.isResidenceManager = True
+        super(User, self).save(*args, **kwargs)
 
 class Location(models.Model):
     streetName = models.CharField(max_length=100)
