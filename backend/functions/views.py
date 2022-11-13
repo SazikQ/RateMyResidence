@@ -210,7 +210,7 @@ class SearchResultsView(ListView):
         # Set up query parameters
         if (order_type is None or order_type == "None"):
             order = "None"
-        if (order and order != "None"):
+        if (order and order != "None" and order_type == "-"):
             order = order_type + order
         minRate = self.request.GET.get('rating_min')
         if (minRate and minRate.isnumeric()):

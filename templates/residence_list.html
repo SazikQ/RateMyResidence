@@ -60,7 +60,7 @@
         <label for="Order Type">Order Type</label>
         <select id="OrderType" class="form-control" name="OrderType">
           <option value="None" {% if orderTypeVal is None or orderTypeVal == 'None' %} selected {% endif %}>None</option>
-          <option value="" {% if orderTypeVal == '' %} selected {% endif %}>Low to High</option>
+          <option value="+" {% if orderTypeVal == '+' %} selected {% endif %}>Low to High</option>
           <option value="-" {% if orderTypeVal == '-' %} selected {% endif %}>High to Low</option>
         </select>
       </div>
