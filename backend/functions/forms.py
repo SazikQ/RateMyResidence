@@ -19,6 +19,7 @@ class ResidenceEditForm(forms.Form):
     streetNum = forms.CharField(max_length=20)
     zipcode = forms.CharField(max_length=6)
     university = forms.BooleanField(label = "university residence", initial=False, required=True)
+    website = forms.CharField(max_length=150)
     residence_tags = TagField()
 
 class ReviewForm(forms.Form):
