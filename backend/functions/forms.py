@@ -19,6 +19,7 @@ class ResidenceEditForm(forms.Form):
     streetNum = forms.CharField(max_length=20)
     zipcode = forms.CharField(max_length=6)
     distance = forms.FloatField(min_value=0)
+    website = forms.CharField(max_length=150)
     residence_tags = TagField()
 
 class ReviewForm(forms.Form):

@@ -9,9 +9,10 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
-from backend.user_profile.models import Residence, Review, Location
+from backend.user_profile.models import Residence, Review, Location, User
 from django.db.models import Q, Count
 from taggit.forms import *
+
 
 
 # Create your views here.
@@ -313,6 +314,8 @@ def edit_residence(request, pk):
             instance.location.save(update_fields=['streetName', 'streetNum', 'zipcode'])
             instance.name = form.cleaned_data['name']
             instance.save(update_fields=['name'])
+            instance.website = form.cleaned_data['website']
+            instance.save(update_fields=['website'])
             instance.tags.clear()
             m_tags = form.cleaned_data['residence_tags']
             for m_tag in m_tags:
@@ -324,12 +327,20 @@ def edit_residence(request, pk):
         if pk == '':
             raise Http404
         request.session['pk'] = pk
+        tags_list = ""
+        for names in instance.tags.names():
+            tags_list += names
+            tags_list += ","
+        tags_list = tags_list[:-1]
+        
         form = ResidenceEditForm({
             'name': instance.name,
             'streetName': instance.location.streetName,
             'streetNum': instance.location.streetNum,
             'zipcode': instance.location.zipcode,
             'distance': instance.distance,
+            'website': instance.website,
+            'residence_tags': tags_list
         })
     return render(request, 'editResidence.html', {'form': form.as_p()})
 
@@ -409,3 +420,12 @@ class ResidenceDetail(DetailView):
         context['tags'] = targetResidence.tags.names()
         context['updateForm'] = UpdateForm().as_p()
         return context
+
+
+class UserListView(ListView):
+    model = User
+    template_name = "user_list.html"
+
+    def get_queryset(self):
+        object_list = User.objects.filter(is_superuser=False)
+        return object_list

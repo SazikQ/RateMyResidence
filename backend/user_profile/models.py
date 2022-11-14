@@ -13,6 +13,11 @@ class User(AbstractUser):
     isVerifiedUser = models.BooleanField(default=False)
     isResidenceManager = models.BooleanField(default=False)
 
+    def save(self, *args, **kwargs):
+        if self.is_superuser:
+            self.isVerifiedUser = True
+            self.isResidenceManager = True
+        super(User, self).save(*args, **kwargs)
 
 class Location(models.Model):
     streetName = models.CharField(max_length=100)
@@ -25,6 +30,7 @@ class Residence(models.Model):
     manager = models.ManyToManyField(User)
     location = models.OneToOneField(Location, on_delete=models.CASCADE)
     distance = models.FloatField(default=0)
+    website = models.CharField(max_length= 150, default="None")
     rating_average = models.FloatField(default=0)
     rent_average = models.FloatField(default=0)
     rent_min = models.FloatField(default=0)
