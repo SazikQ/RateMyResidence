@@ -48,7 +48,7 @@ def like_view(request, pk):
 
     # get_list_or_404(Review, id=request.POST.get('review_id'))
 
-
+@login_required
 def delete_review(request, pk):
     review_form = Review.objects.get(pk=pk)
     residence_info = review_form.belongedResidence
@@ -85,7 +85,7 @@ def delete_review(request, pk):
     return render(request, 'deletereview.html', {'form': form.as_p()})
     """
 
-
+@login_required
 def edit_review(request, pk):
     review_form = Review.objects.get(pk=pk)
     residence_info = review_form.belongedResidence
@@ -158,7 +158,7 @@ def add_review(request, pk):
         form = ReviewForm()
     return render(request, 'addReview.html', {'form': form.as_p()})
 
-
+@login_required
 def add_residence(request):
     if request.method == 'POST':
         form = ResidenceForm(request.POST)
@@ -294,7 +294,7 @@ class SearchResultsView(ListView):
             res_list.append(res.name)
         return residences
 
-
+@login_required
 def edit_residence(request, pk):
     instance = Residence.objects.get(pk=pk)
     redirectUrl = "/residence/" + str(pk)
@@ -429,3 +429,7 @@ class UserListView(ListView):
     def get_queryset(self):
         object_list = User.objects.filter(is_superuser=False)
         return object_list
+
+class WorstResidenceView(ListView):
+    model = Residence
+    template_name = "worstResidence.html"

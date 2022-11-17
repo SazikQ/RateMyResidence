@@ -34,6 +34,9 @@
                 <a class="nav-link" aria-current="page" href="{% url 'user_list' %}">User list </a>
                 {% endif %}
               </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="{% url 'worst_residence' %}">Worst Residence </a>
+              </li>
             </ul>
             <div class="col-md-4 offset-md-6">
                 {% if user.is_authenticated %}

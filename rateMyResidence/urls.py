@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-from backend.functions.views import ResidenceDetail, SearchResultsView, add_residence, ResidenceListView, add_review, autocomplete, edit_review, delete_review, edit_residence, like_view, dislike_view, UserListView
+from backend.functions.views import ResidenceDetail, SearchResultsView, add_residence, ResidenceListView, add_review, autocomplete, edit_review, delete_review, edit_residence, like_view, dislike_view, UserListView, WorstResidenceView
 from django.contrib.auth import views as auth_views
 from backend.functions.views import SearchResultsView
 from backend.functions.views import add_residence
@@ -43,6 +43,7 @@ urlpatterns = [
     path("residence/like/<int:pk>", like_view, name = "likeReview"),
     path("residence/dislike/<int:pk>", dislike_view, name = "dislikeReview"),
     path('userlist/', UserListView.as_view(), name ='user_list'),
+    path('residence/worstResidence/',WorstResidenceView.as_view() , name='worst_residence'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
