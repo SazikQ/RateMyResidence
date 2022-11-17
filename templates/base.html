@@ -29,6 +29,12 @@
                 <a class="nav-link" href = "{%url 'list_residence'%}">Residence List</a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" href = "{%url 'university_list'%}">University Hall</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href = "{%url 'nonuniversity_list'%}">Off Campus</a>
+              </li>
+              <li class="nav-item">
                 {% if user.is_superuser %}
                 <a class="nav-link" aria-current="page" href="{% url 'user_list' %}">User list </a>
                 {% endif %}

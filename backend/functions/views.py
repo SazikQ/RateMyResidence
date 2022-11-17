@@ -17,10 +17,6 @@ from taggit.forms import *
 
 # Create your views here.
 @login_required
-def search_off_campus(request):
-    return HttpResponseRedirect('/nonuniversity/')
-
-@login_required
 def dislike_view(request, pk):
     rev = Review.objects.get(pk=request.GET.get('review_id'))
     redirectUrl = '/residence/' + str(pk)
@@ -322,6 +318,10 @@ def edit_residence(request, pk):
             instance.save(update_fields=['name'])
             instance.website = form.cleaned_data['website']
             instance.save(update_fields=['website'])
+            instance.university = form.cleaned_data['university']
+            instance.save(update_fields=['university'])
+            instance.distance = form.cleaned_data['distance']
+            instance.save(update_fields=['distance'])
             instance.tags.clear()
             m_tags = form.cleaned_data['residence_tags']
             for m_tag in m_tags:
@@ -349,7 +349,6 @@ def edit_residence(request, pk):
             'residence_tags': tags_list
         })
     return render(request, 'editResidence.html', {'form': form.as_p()})
-
 
 class ResidenceListView(ListView):
     model = Residence
@@ -434,4 +433,19 @@ class UserListView(ListView):
 
     def get_queryset(self):
         object_list = User.objects.filter(is_superuser=False)
+        return object_list
+
+class UniversityResidence(ListView):
+    model = Residence
+    template_name = 'university_list.html'
+    def get_queryset(self):
+        object_list = Residence.objects.filter(university=True)
+        return object_list
+
+class NonUniversityResidence(ListView):
+    model = Residence
+    template_name = 'nonuniversity_list.html'
+
+    def get_queryset(self):
+        object_list = Residence.objects.filter(university=False)
         return object_list
