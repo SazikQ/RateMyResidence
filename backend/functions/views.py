@@ -170,8 +170,9 @@ def add_residence(request):
             saved_location = Location(streetName=form.cleaned_data['streetName'],
                                       streetNum=form.cleaned_data['streetNum'], zipcode=form.cleaned_data['zipcode'])
             saved_location.save()
+            #print(form.cleaned_data['university'])
             residence = Residence(name=form.cleaned_data['name'], location=saved_location, university=form.cleaned_data['university'])
-            print(residence.university)
+            #print(residence.university)
             residence.save()
             m_tags = form.cleaned_data['residence_tags']
             for m_tag in m_tags:
