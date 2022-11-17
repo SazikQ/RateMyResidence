@@ -42,6 +42,14 @@
             </div>
 
             <div class="col-12">
+                <label for="id_zipcode" class="form-label">Distance from Campus (mi)</label>
+                <input type="number" class="form-control" id="id_distance" name="distance" placeholder="20" required>
+                <div class="invalid-feedback">
+                    Please enter a valid distance in miles.
+                </div>
+            </div>
+
+            <div class="col-12">
                 <label for="id_is_university">Is this property University Residence Hall?</label>
                 <input id="id_is_university" name="university" type="checkbox" required>
                 <div class="invalid-feedback">
