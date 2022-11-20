@@ -68,6 +68,7 @@ class Review(models.Model):
     quietness_rating = models.FloatField(default=0)
     location_rating = models.FloatField(default=0)
     quality_rating = models.FloatField(default=0)
+    has_furniture = models.BooleanField(default=False)
 
     class RoomType(models.TextChoices):
         STUDIO = 'ST', _('Studio')

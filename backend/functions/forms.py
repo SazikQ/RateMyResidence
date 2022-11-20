@@ -36,6 +36,7 @@ class ReviewForm(forms.Form):
     quietness_rating = forms.DecimalField(min_value=0, max_value=5)
     quality_rating = forms.DecimalField(min_value=0, max_value=5)
     room_type = forms.ChoiceField(label="Select your room type", choices=Review.RoomType.choices)
+    has_furniture = forms.BooleanField(label = "Does this residence provide furniture", required=False)
 
 
 
@@ -51,6 +52,7 @@ class EditReview(forms.Form):
     quietness_rating = forms.DecimalField(min_value=0, max_value=5)
     quality_rating = forms.DecimalField(min_value=0, max_value=5)
     room_type = forms.ChoiceField(label="Select your room type", choices=Review.RoomType.choices)
+    has_furniture = forms.BooleanField(label="Does this residence provide furniture", required=False)
 
 
 class DeleteReview(forms.Form):

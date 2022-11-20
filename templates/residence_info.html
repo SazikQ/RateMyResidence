@@ -169,6 +169,12 @@
                             Would live again: <strong>Yes</strong>
                         {% else %}
                             Would live again: <strong>No</strong>
+                        {% endif %}
+
+                        {% if comment.has_furniture %}
+                           Furniture: <strong>Yes</strong>
+                        {% else %}
+                            Furniture: <strong>No</strong>
                         {% endif %}<br>
 
                         Overall rating: <strong>{{ comment.rating }}</strong>

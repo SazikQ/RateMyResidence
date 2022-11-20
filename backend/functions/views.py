@@ -109,6 +109,7 @@ def edit_review(request, pk):
             review_form.quietness_rating = form.cleaned_data['quietness_rating']
             review_form.rent = form.cleaned_data['rent']
             review_form.room_type = form.cleaned_data['room_type']
+            review_form.has_furniture = form.cleaned_data['has_furniture']
             review_form.save(update_fields=['title'])
             review_form.save(update_fields=['content'])
             review_form.save(update_fields=['isAnonymous'])
@@ -120,6 +121,7 @@ def edit_review(request, pk):
             review_form.save(update_fields=['quality_rating'])
             review_form.save(update_fields=['quietness_rating'])
             review_form.save(update_fields=['room_type'])
+            review_form.save(update_fields=['has_furniture'])
             return HttpResponseRedirect(redirectUrl)
     else:
         if pk == '':
@@ -145,7 +147,8 @@ def add_review(request, pk):
                             location_rating=form.cleaned_data['location_rating'],
                             quality_rating=form.cleaned_data['quality_rating'],
                             quietness_rating=form.cleaned_data['quietness_rating'],
-                            room_type = form.cleaned_data['room_type'])
+                            room_type = form.cleaned_data['room_type'],
+                            has_furniture= form.cleaned_data['has_furniture'])
             review.save()
             redirectUrl = "/residence/" + pk
             return HttpResponseRedirect(redirectUrl)
