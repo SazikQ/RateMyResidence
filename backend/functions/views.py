@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from backend.user_profile.models import Residence, Review, Location, User
-from django.db.models import Q, Count
+from django.db.models import Q, Count, Min
 from taggit.forms import *
 
 # Create your views here.
@@ -296,7 +296,7 @@ class SearchResultsView(ListView):
             res_list.append(res.name)
         return residences
 
-
+@login_required
 def edit_residence(request, pk):
     instance = Residence.objects.get(pk=pk)
     redirectUrl = "/residence/" + str(pk)
@@ -433,6 +433,19 @@ class UserListView(ListView):
         object_list = User.objects.filter(is_superuser=False)
         return object_list
 
+class WorstResidenceView(ListView):
+    model = Residence
+    template_name = "worstResidence.html"
+
+    def get_queryset(self):
+        residence_list = Residence.objects.all()
+        if (residence_list.count != 0):
+            lowest_rating = residence_list.aggregate(Min('rating_average'))
+            worst_rec = residence_list.filter(rating_average = lowest_rating['rating_average__min'])
+            print(worst_rec)
+            return worst_rec
+        else:
+            return residence_list
 
 class UniversityResidence(ListView):
     model = Residence
