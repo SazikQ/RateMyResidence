@@ -13,8 +13,6 @@ from backend.user_profile.models import Residence, Review, Location, User
 from django.db.models import Q, Count
 from taggit.forms import *
 
-
-
 # Create your views here.
 @login_required
 def dislike_view(request, pk):
@@ -178,7 +176,6 @@ def add_residence(request):
     else:
         form = ResidenceForm()
     return render(request, 'addResidence.html', {'form': form.as_p()})
-
 
 def autocomplete(request):
     residences = Residence.objects.all()
@@ -379,8 +376,6 @@ class ResidenceListView(ListView):
         return residences
 
 
-
-
 class ResidenceDetail(DetailView):
     model = Residence
     template_name = 'residence_info.html'
@@ -448,4 +443,16 @@ class NonUniversityResidence(ListView):
 
     def get_queryset(self):
         object_list = Residence.objects.filter(university=False)
+        return object_list
+
+
+class TopTen(ListView):
+    model = Residence
+    template_name = 'top_ten.html'
+
+    def get_queryset(self):
+        object_list = Residence.objects.order_by('-rating_average')
+        print("before: ", object_list)
+        object_list = object_list[:10]
+        print(object_list)
         return object_list
