@@ -1,3 +1,4 @@
 Django==4.1.1
 psycopg2>=2.8
 django-taggit
+Pillow==9.3.0

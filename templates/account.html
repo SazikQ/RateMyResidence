@@ -24,6 +24,11 @@
         <div class = "p-2">
           <button class = "btn btn btn-primary btn-sm" onclick="window.location.href = '{% url 'past_review' %}'">Past Review</button>
         </div>
+
+        <div class = "p-2">
+          <button class = "btn btn btn-primary btn-sm" onclick="window.location.href = '{% url 'changePic' %}'">Change profile pic</button>
+        </div>
+
       </div>
     </div>
     <hr>
@@ -64,6 +69,15 @@
           {{user.isResidenceManager}}
         </div>
       </div>
+      <hr>
+      <div class="row">
+        <div class = "col-md-6">
+          {% if profilePic != None %}
+          <img src="{{ profilePic.photo.url }}" class="img-responsive"  />
+        {% endif %}
+        </div>
+      </div>
+      <hr>
     </div>
   </div>
 </div>

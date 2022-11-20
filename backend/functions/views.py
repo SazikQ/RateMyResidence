@@ -429,3 +429,4 @@ class UserListView(ListView):
     def get_queryset(self):
         object_list = User.objects.filter(is_superuser=False)
         return object_list
+
