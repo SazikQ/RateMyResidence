@@ -130,7 +130,7 @@
             <div class="row">
                 <div class="col">
                     <div class="col-12">
-                        <label for="id_name" class="form-label">Choose your room type</label>
+                        <label for="id_room_type" class="form-label">Choose your room type</label>
                         <br>
                         <select id="id_room_type" name="room_type">
                             <option value="ST">Studio</option>
@@ -185,7 +185,7 @@
             <br>
             <br>
             <div class="form-group row">
-                <label for="id_tags" class="form-label">Content</label>
+                <label for="id_content" class="form-label">Content</label>
                 <br>
                 <div class="col-sm-10 offset-1">
                     <textarea id="id_content" name="content" class="form-control" rows="7"></textarea>
@@ -203,6 +203,14 @@
                 <input id="id_live_again" name="live_again" type="checkbox">
                 <div class="invalid-feedback">
                     Please enter a valid street number.
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="id_has_furniture" class="col-sm-1 form-label">Does residence have furniture?</label>
+                <input id="id_has_furniture" name="has_furniture" type="checkbox">
+                <div class="invalid-feedback">
+                    Please enter a correct furniture status
                 </div>
             </div>
 

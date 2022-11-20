@@ -5,6 +5,7 @@
 
 {% block content %}
 {% load static %}
+{% load socialaccount %}
 
 <section class="vh-100">
 
@@ -50,8 +51,7 @@
           <!-- Submit button -->
           <button type="submit" class="btn btn-dark btn-lg btn-block">Sign in</button>
           <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
-          <a class="btn btn-dark btn-lg btn-block" href="#!"
-            role="button">
+          <a class="btn btn-dark btn-lg btn-block" role="button" href="{% provider_login_url 'google' %}">
             <i class="fab fa-facebook-f me-2"></i>Continue with Google
           </a>
 

@@ -42,6 +42,7 @@ urlpatterns = [
     path("deletecomment/<int:pk>", delete_review, name = "deleteReview"),
     path("residence/like/<int:pk>", like_view, name = "likeReview"),
     path("residence/dislike/<int:pk>", dislike_view, name = "dislikeReview"),
+    path('accounts/', include('allauth.urls')),
     path('userlist/', UserListView.as_view(), name ='user_list'),
     path('residence/worstResidence/',WorstResidenceView.as_view() , name='worst_residence'),
 

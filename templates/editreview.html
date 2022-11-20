@@ -210,7 +210,7 @@
             <br>
             <br>
             <div class="form-group row">
-                <label for="id_tags" class="form-label">Content</label>
+                <label for="id_content" class="form-label">Content</label>
                 <br>
                 <div class="col-sm-10 offset-1">
                     <textarea id="id_content" name="content" class="form-control" rows="7">{{ comment.content }}</textarea>
@@ -225,15 +225,23 @@
             <br>
             <div class="col-12">
                 <label for="id_live_again" class="col-sm-1 form-label">Live Again</label>
-                <input id="id_live_again" name="live_again" type="checkbox" value="{{ comment.live_again }}">
+                <input id="id_live_again" name="live_again" type="checkbox" >
                 <div class="invalid-feedback">
                     Please enter a valid street number.
                 </div>
             </div>
 
             <div class="col-12">
+                <label for="id_has_furniture" class="col-sm-1 form-label">Does residence have furniture?</label>
+                <input id="id_has_furniture" name="has_furniture" type="checkbox" >
+                <div class="invalid-feedback">
+                    Please enter a correct furniture status
+                </div>
+            </div>
+
+            <div class="col-12">
                 <label for="id_is_anonymous">Post review anonymously</label>
-                <input id="id_is_anonymous" name="isAnonymous" type="checkbox" value="{{ comment.isAnonymous }}">
+                <input id="id_is_anonymous" name="isAnonymous" type="checkbox">
                 <div class="invalid-feedback">
                     Please enter tags.
                 </div>
