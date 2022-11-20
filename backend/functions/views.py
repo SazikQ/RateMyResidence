@@ -242,6 +242,10 @@ class SearchResultsView(ListView):
         petPol = self.request.GET.get('PetPolicy')
         if (petPol and petPol != 'None'):
             q_objects &= Q(pet_policy=petPol)
+        floorPlan = self.request.GET.get('FloorPlan')
+        if (floorPlan and floorPlan != 'None'):
+            valid = Review.objects.filter(room_type=floorPlan)
+            q_objects &= Q(comments__in=valid)
         
         if (order and order != "None"):
             return Residence.objects.filter(q_objects).order_by(order)
@@ -288,8 +292,11 @@ class SearchResultsView(ListView):
         if petPolicy:
             context['petPolicyVal'] = petPolicy
         parkingPolicy = self.request.GET.get('ParkingPolicy')
-        if petPolicy:
+        if parkingPolicy:
             context['parkingPolicyVal'] = parkingPolicy
+        floorPlan = self.request.GET.get('FloorPlan')
+        if floorPlan:
+            context['floorPlanVal'] = floorPlan
         
         context['tagnames'] = tags
         context['resnames'] = res
