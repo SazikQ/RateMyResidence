@@ -29,8 +29,13 @@
                   Would live again: <strong>Yes</strong>
               {% else %}
                   Would live again: <strong>No</strong>
-              {% endif %}<br>
+              {% endif %}
 
+              {% if object.has_furniture %}
+                  Furniture: <strong>Yes</strong>
+              {% else %}
+                  Furniture: <strong>No</strong>
+              {% endif %}<br>
               Overall rating: <strong>{{ object.rating }}</strong>
               Location rating: <strong>{{ object.location_rating }}</strong>
               Quietness rating: <strong>{{ object.quietness_rating }}</strong>
