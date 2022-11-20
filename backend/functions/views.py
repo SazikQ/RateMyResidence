@@ -433,6 +433,7 @@ class UserListView(ListView):
         object_list = User.objects.filter(is_superuser=False)
         return object_list
 
+
 class UniversityResidence(ListView):
     model = Residence
     template_name = 'university_list.html'
@@ -459,3 +460,4 @@ class TopTen(ListView):
         object_list = object_list[:10]
         print(object_list)
         return object_list
+

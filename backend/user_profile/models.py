@@ -94,4 +94,13 @@ class Review(models.Model):
     def save(self, *args, **kwargs):
         super(Review, self).save(*args, **kwargs)
         self.belongedResidence.update_review_fields()
-    
+
+
+class ReviewImage(models.Model):
+    photo = models.ImageField(upload_to='review_media')
+    belonged_review = models.ForeignKey(Review, related_name='review_image', on_delete=models.CASCADE)
+
+
+class ProfileImage(models.Model):
+    photo = models.ImageField(upload_to='user_media')
+    belonged_user = models.ForeignKey(User, related_name='profile_image', on_delete=models.CASCADE)
