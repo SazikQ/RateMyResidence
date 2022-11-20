@@ -30,6 +30,7 @@ class Residence(models.Model):
     manager = models.ManyToManyField(User)
     location = models.OneToOneField(Location, on_delete=models.CASCADE)
     distance = models.FloatField(default=0)
+    university = models.BooleanField(default=False)
     website = models.CharField(max_length= 150, default="None")
     rating_average = models.FloatField(default=0)
     rent_average = models.FloatField(default=0)
@@ -93,4 +94,13 @@ class Review(models.Model):
     def save(self, *args, **kwargs):
         super(Review, self).save(*args, **kwargs)
         self.belongedResidence.update_review_fields()
-    
+
+
+class ReviewImage(models.Model):
+    photo = models.ImageField(upload_to='review_media')
+    belonged_review = models.ForeignKey(Review, related_name='review_image', on_delete=models.CASCADE)
+
+
+class ProfileImage(models.Model):
+    photo = models.ImageField(upload_to='user_media')
+    belonged_user = models.ForeignKey(User, related_name='profile_image', on_delete=models.CASCADE)

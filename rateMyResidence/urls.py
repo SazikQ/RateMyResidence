@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-from backend.functions.views import ResidenceDetail, SearchResultsView, add_residence, ResidenceListView, add_review, autocomplete, edit_review, delete_review, edit_residence, like_view, dislike_view, UserListView, WorstResidenceView
+from backend.functions.views import ResidenceDetail, SearchResultsView, add_residence, ResidenceListView, add_review, autocomplete, edit_review, delete_review, edit_residence, like_view, dislike_view, UserListView, UniversityResidence, NonUniversityResidence, TopTen
 from django.contrib.auth import views as auth_views
 from backend.functions.views import SearchResultsView
 from backend.functions.views import add_residence
@@ -24,6 +24,8 @@ from backend.user_authentication.views import change_password
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
+
+from backend.user_profile.views import profile_photo
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -45,6 +47,9 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('userlist/', UserListView.as_view(), name ='user_list'),
     path('residence/worstResidence/',WorstResidenceView.as_view() , name='worst_residence'),
+    path('university/', UniversityResidence.as_view(), name ='university_list'),
+    path('nonuniversity/', NonUniversityResidence.as_view(), name ='nonuniversity_list'),
+    path('top10/', TopTen.as_view(), name ='top_ten'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

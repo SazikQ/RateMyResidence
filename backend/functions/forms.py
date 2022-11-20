@@ -10,6 +10,7 @@ class ResidenceForm(forms.Form):
     streetName = forms.CharField(max_length=100)
     streetNum = forms.CharField(max_length=20)
     zipcode = forms.CharField(max_length=6)
+    university = forms.BooleanField(label = "university residence", initial=False, required=False)
     distance = forms.FloatField(min_value=0)
     residence_tags = TagField()
 
@@ -18,6 +19,7 @@ class ResidenceEditForm(forms.Form):
     streetName = forms.CharField(max_length=100)
     streetNum = forms.CharField(max_length=20)
     zipcode = forms.CharField(max_length=6)
+    university = forms.BooleanField(label = "university residence", initial=False, required=False)
     distance = forms.FloatField(min_value=0)
     website = forms.CharField(max_length=150)
     residence_tags = TagField()
@@ -60,4 +62,8 @@ class DeleteReview(forms.Form):
 
 class UpdateForm(forms.Form):
     room_type = forms.ChoiceField(label="Select your room type", choices=Review.RoomType.choices)
+
+
+class ReviewPhotoForm(forms.Form):
+    image = forms.ImageField()
 

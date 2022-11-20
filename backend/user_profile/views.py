@@ -1,20 +1,25 @@
 import hashlib
 
 from django.contrib.auth.decorators import login_required
+from django.db.models import Model
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 
 from backend.user_authentication.forms import CustomUserChangeForm
 from django.contrib import messages
-from backend.user_profile.models import Review
+from backend.user_profile.models import Review, ProfileImage
 from django.urls import reverse_lazy
 import random
-from backend.user_profile.forms import EmailVerificationForm
+from backend.user_profile.forms import EmailVerificationForm, ProfilePhotoForm
 from django.views.generic import TemplateView, ListView, DetailView
-
+from django.core.exceptions import ObjectDoesNotExist
 
 def profile(request):
-    return render(request, 'account.html')
+    try:
+        pic = ProfileImage.objects.get(belonged_user=request.user)
+    except ObjectDoesNotExist:
+        pic = None
+    return render(request, 'account.html', {'profilePic': pic})
 
 
 @login_required
@@ -73,3 +78,25 @@ class ReviewHistoryView(ListView):
 class ReviewDetail(DetailView):
     model = Review
     template_name = 'review_info.html'
+
+
+@login_required
+def profile_photo(request):
+    if request.method == 'POST':
+        form = ProfilePhotoForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            try:
+                previousPhoto = ProfileImage.objects.get(belonged_user=request.user)
+                previousPhoto.delete()
+            except ObjectDoesNotExist:
+                pass
+            image = form.cleaned_data["image"]
+            newPhoto = ProfileImage.objects.create(photo=image, belonged_user=request.user)
+            newPhoto.save()
+            messages.success(request, 'Your profile photo is updated successfully')
+            return redirect(to='profile')
+    else:
+        form = ProfilePhotoForm
+
+    return render(request, 'edit_profile_pic.html', {'photo_form': ProfilePhotoForm})
