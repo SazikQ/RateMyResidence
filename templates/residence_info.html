@@ -19,6 +19,12 @@
                     {% endfor %}
                 {% endif %}
 
+                {% if object.university %}
+                    <p class="mb-1 text-muted">University Residence</p>
+                {% else %}
+                    <p class="mb-1 text-muted">Off Campus Residence</p>
+                {% endif %}
+
                 <h4 class="fw-semibold mb-0">Residence address</h4>
                 <p class="mb-1 text-muted">{{ object.location.streetNum }} {{ object.location.streetName }} {{ object.location.zipcode }}</p>
 
@@ -163,6 +169,12 @@
                             Would live again: <strong>Yes</strong>
                         {% else %}
                             Would live again: <strong>No</strong>
+                        {% endif %}
+
+                        {% if comment.has_furniture %}
+                           Furniture: <strong>Yes</strong>
+                        {% else %}
+                            Furniture: <strong>No</strong>
                         {% endif %}<br>
 
                         Overall rating: <strong>{{ comment.rating }}</strong>

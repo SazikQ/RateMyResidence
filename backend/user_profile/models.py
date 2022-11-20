@@ -30,6 +30,7 @@ class Residence(models.Model):
     manager = models.ManyToManyField(User)
     location = models.OneToOneField(Location, on_delete=models.CASCADE)
     distance = models.FloatField(default=0)
+    university = models.BooleanField(default=False)
     website = models.CharField(max_length= 150, default="None")
     rating_average = models.FloatField(default=0)
     rent_average = models.FloatField(default=0)
@@ -67,6 +68,7 @@ class Review(models.Model):
     quietness_rating = models.FloatField(default=0)
     location_rating = models.FloatField(default=0)
     quality_rating = models.FloatField(default=0)
+    has_furniture = models.BooleanField(default=False)
 
     class RoomType(models.TextChoices):
         STUDIO = 'ST', _('Studio')
