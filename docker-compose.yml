@@ -45,7 +45,7 @@ services:
     build: .
     volumes:
       - .:/code
-    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0000:8000"
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && export DJANGO_SUPERUSER_PASSWORD=qwer123@ && python manage.py createsuperuser --username admin --email ratemypurdueresidence@gmail.com --no-input && python manage.py runserver 0000:8000 "
     ports:
       - "8000:8000"
     environment:
