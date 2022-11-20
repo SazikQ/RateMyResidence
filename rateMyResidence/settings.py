@@ -124,6 +124,7 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+SOCIALACCOUNT_LOGIN_ON_GET=True
 
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
@@ -189,3 +190,4 @@ MEDIA_URL = '/media/'
 # for testing only
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
+
