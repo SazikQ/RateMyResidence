@@ -13,8 +13,6 @@ from backend.user_profile.models import Residence, Review, Location, User
 from django.db.models import Q, Count
 from taggit.forms import *
 
-
-
 # Create your views here.
 @login_required
 def dislike_view(request, pk):
@@ -48,7 +46,7 @@ def like_view(request, pk):
 
     # get_list_or_404(Review, id=request.POST.get('review_id'))
 
-
+@login_required
 def delete_review(request, pk):
     review_form = Review.objects.get(pk=pk)
     residence_info = review_form.belongedResidence
@@ -85,7 +83,7 @@ def delete_review(request, pk):
     return render(request, 'deletereview.html', {'form': form.as_p()})
     """
 
-
+@login_required
 def edit_review(request, pk):
     review_form = Review.objects.get(pk=pk)
     residence_info = review_form.belongedResidence
@@ -161,7 +159,7 @@ def add_review(request, pk):
         form = ReviewForm()
     return render(request, 'addReview.html', {'form': form.as_p()})
 
-
+@login_required
 def add_residence(request):
     if request.method == 'POST':
         form = ResidenceForm(request.POST)
@@ -169,7 +167,9 @@ def add_residence(request):
             saved_location = Location(streetName=form.cleaned_data['streetName'],
                                       streetNum=form.cleaned_data['streetNum'], zipcode=form.cleaned_data['zipcode'])
             saved_location.save()
-            residence = Residence(name=form.cleaned_data['name'], distance=form.cleaned_data['distance'], location=saved_location)
+            #print(form.cleaned_data['university'])
+            residence = Residence(name=form.cleaned_data['name'], distance=form.cleaned_data['distance'], location=saved_location, university=form.cleaned_data['university'])
+            #print(residence.university)
             residence.save()
             m_tags = form.cleaned_data['residence_tags']
             for m_tag in m_tags:
@@ -179,7 +179,6 @@ def add_residence(request):
     else:
         form = ResidenceForm()
     return render(request, 'addResidence.html', {'form': form.as_p()})
-
 
 def autocomplete(request):
     residences = Residence.objects.all()
@@ -319,6 +318,10 @@ def edit_residence(request, pk):
             instance.save(update_fields=['name'])
             instance.website = form.cleaned_data['website']
             instance.save(update_fields=['website'])
+            instance.university = form.cleaned_data['university']
+            instance.save(update_fields=['university'])
+            instance.distance = form.cleaned_data['distance']
+            instance.save(update_fields=['distance'])
             instance.tags.clear()
             m_tags = form.cleaned_data['residence_tags']
             for m_tag in m_tags:
@@ -347,7 +350,6 @@ def edit_residence(request, pk):
         })
     return render(request, 'editResidence.html', {'form': form.as_p()})
 
-
 class ResidenceListView(ListView):
     model = Residence
     template_name = 'residence_list.html'
@@ -375,8 +377,6 @@ class ResidenceListView(ListView):
         for res in residences:
             res_list.append(res.name)
         return residences
-
-
 
 
 class ResidenceDetail(DetailView):
@@ -431,4 +431,31 @@ class UserListView(ListView):
 
     def get_queryset(self):
         object_list = User.objects.filter(is_superuser=False)
+        return object_list
+
+class UniversityResidence(ListView):
+    model = Residence
+    template_name = 'university_list.html'
+    def get_queryset(self):
+        object_list = Residence.objects.filter(university=True)
+        return object_list
+
+class NonUniversityResidence(ListView):
+    model = Residence
+    template_name = 'nonuniversity_list.html'
+
+    def get_queryset(self):
+        object_list = Residence.objects.filter(university=False)
+        return object_list
+
+
+class TopTen(ListView):
+    model = Residence
+    template_name = 'top_ten.html'
+
+    def get_queryset(self):
+        object_list = Residence.objects.order_by('-rating_average')
+        print("before: ", object_list)
+        object_list = object_list[:10]
+        print(object_list)
         return object_list
