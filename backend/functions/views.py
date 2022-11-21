@@ -167,18 +167,13 @@ def add_residence(request):
             saved_location = Location(streetName=form.cleaned_data['streetName'],
                                       streetNum=form.cleaned_data['streetNum'], zipcode=form.cleaned_data['zipcode'])
             saved_location.save()
-<<<<<<< HEAD
-            #print(form.cleaned_data['university'])
-            residence = Residence(name=form.cleaned_data['name'], distance=form.cleaned_data['distance'], location=saved_location, university=form.cleaned_data['university'])
-            #print(residence.university)
-=======
             residence = Residence(
                 name=form.cleaned_data['name'], 
                 distance=form.cleaned_data['distance'], 
                 location=saved_location, 
                 parking_policy=form.cleaned_data['parking_policy'], 
-                pet_policy=form.cleaned_data['pet_policy'])
->>>>>>> test
+                pet_policy=form.cleaned_data['pet_policy'],
+                university=form.cleaned_data['university'])
             residence.save()
             m_tags = form.cleaned_data['residence_tags']
             for m_tag in m_tags:
@@ -346,17 +341,14 @@ def edit_residence(request, pk):
             instance.save(update_fields=['name'])
             instance.website = form.cleaned_data['website']
             instance.save(update_fields=['website'])
-<<<<<<< HEAD
-            instance.university = form.cleaned_data['university']
-            instance.save(update_fields=['university'])
-            instance.distance = form.cleaned_data['distance']
-            instance.save(update_fields=['distance'])
-=======
             instance.parking_policy = form.cleaned_data['parking_policy']
             instance.save(update_fields=['parking_policy'])
             instance.pet_policy = form.cleaned_data['pet_policy']
             instance.save(update_fields=['pet_policy'])
->>>>>>> test
+            instance.university = form.cleaned_data['university']
+            instance.save(update_fields=['university'])
+            instance.distance = form.cleaned_data['distance']
+            instance.save(update_fields=['distance'])
             instance.tags.clear()
             m_tags = form.cleaned_data['residence_tags']
             for m_tag in m_tags:
@@ -387,6 +379,7 @@ def edit_residence(request, pk):
         })
     return render(request, 'editResidence.html', {'form': form.as_p()})
 
+
 class ResidenceListView(ListView):
     model = Residence
     template_name = 'residence_list.html'
@@ -414,6 +407,8 @@ class ResidenceListView(ListView):
         for res in residences:
             res_list.append(res.name)
         return residences
+
+
 
 
 class ResidenceDetail(DetailView):
