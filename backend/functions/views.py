@@ -167,9 +167,18 @@ def add_residence(request):
             saved_location = Location(streetName=form.cleaned_data['streetName'],
                                       streetNum=form.cleaned_data['streetNum'], zipcode=form.cleaned_data['zipcode'])
             saved_location.save()
+<<<<<<< HEAD
             #print(form.cleaned_data['university'])
             residence = Residence(name=form.cleaned_data['name'], distance=form.cleaned_data['distance'], location=saved_location, university=form.cleaned_data['university'])
             #print(residence.university)
+=======
+            residence = Residence(
+                name=form.cleaned_data['name'], 
+                distance=form.cleaned_data['distance'], 
+                location=saved_location, 
+                parking_policy=form.cleaned_data['parking_policy'], 
+                pet_policy=form.cleaned_data['pet_policy'])
+>>>>>>> test
             residence.save()
             m_tags = form.cleaned_data['residence_tags']
             for m_tag in m_tags:
@@ -233,6 +242,16 @@ class SearchResultsView(ListView):
         maxDist = self.request.GET.get('dist_max')
         if (maxDist and maxDist.isnumeric()):
             q_objects &= Q(distance__lte=maxDist)
+        parkPol = self.request.GET.get('ParkingPolicy')
+        if (parkPol and parkPol != 'None'):
+            q_objects &= Q(parking_policy=parkPol)
+        petPol = self.request.GET.get('PetPolicy')
+        if (petPol and petPol != 'None'):
+            q_objects &= Q(pet_policy=petPol)
+        floorPlan = self.request.GET.get('FloorPlan')
+        if (floorPlan and floorPlan != 'None'):
+            valid = Review.objects.filter(room_type=floorPlan)
+            q_objects &= Q(comments__in=valid)
         
         if (order and order != "None"):
             return Residence.objects.filter(q_objects).order_by(order)
@@ -275,6 +294,15 @@ class SearchResultsView(ListView):
         orderType = self.request.GET.get('OrderType')
         if orderType:
             context['orderTypeVal'] = orderType
+        petPolicy = self.request.GET.get('PetPolicy')
+        if petPolicy:
+            context['petPolicyVal'] = petPolicy
+        parkingPolicy = self.request.GET.get('ParkingPolicy')
+        if parkingPolicy:
+            context['parkingPolicyVal'] = parkingPolicy
+        floorPlan = self.request.GET.get('FloorPlan')
+        if floorPlan:
+            context['floorPlanVal'] = floorPlan
         
         context['tagnames'] = tags
         context['resnames'] = res
@@ -318,10 +346,17 @@ def edit_residence(request, pk):
             instance.save(update_fields=['name'])
             instance.website = form.cleaned_data['website']
             instance.save(update_fields=['website'])
+<<<<<<< HEAD
             instance.university = form.cleaned_data['university']
             instance.save(update_fields=['university'])
             instance.distance = form.cleaned_data['distance']
             instance.save(update_fields=['distance'])
+=======
+            instance.parking_policy = form.cleaned_data['parking_policy']
+            instance.save(update_fields=['parking_policy'])
+            instance.pet_policy = form.cleaned_data['pet_policy']
+            instance.save(update_fields=['pet_policy'])
+>>>>>>> test
             instance.tags.clear()
             m_tags = form.cleaned_data['residence_tags']
             for m_tag in m_tags:
@@ -346,6 +381,8 @@ def edit_residence(request, pk):
             'zipcode': instance.location.zipcode,
             'distance': instance.distance,
             'website': instance.website,
+            'parking_policy': instance.parking_policy,
+            'pet_policy': instance.pet_policy,
             'residence_tags': tags_list
         })
     return render(request, 'editResidence.html', {'form': form.as_p()})

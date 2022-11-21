@@ -2,7 +2,7 @@ from email.policy import default
 from pickle import FALSE
 from django import forms
 from taggit.forms import *
-from backend.user_profile.models import Review
+from backend.user_profile.models import Review, Residence
 
 
 class ResidenceForm(forms.Form):
@@ -12,6 +12,8 @@ class ResidenceForm(forms.Form):
     zipcode = forms.CharField(max_length=6)
     university = forms.BooleanField(label = "university residence", initial=False, required=False)
     distance = forms.FloatField(min_value=0)
+    parking_policy = forms.ChoiceField(label="Select a parking policy", choices=Residence.ParkingPolicy.choices)
+    pet_policy = forms.ChoiceField(label="Select a pet policy", choices=Residence.PetPolicy.choices)
     residence_tags = TagField()
 
 class ResidenceEditForm(forms.Form):
@@ -22,6 +24,8 @@ class ResidenceEditForm(forms.Form):
     university = forms.BooleanField(label = "university residence", initial=False, required=False)
     distance = forms.FloatField(min_value=0)
     website = forms.CharField(max_length=150)
+    parking_policy = forms.ChoiceField(label="Select a parking policy", choices=Residence.ParkingPolicy.choices)
+    pet_policy = forms.ChoiceField(label="Select a pet policy", choices=Residence.PetPolicy.choices)
     residence_tags = TagField()
 
 class ReviewForm(forms.Form):

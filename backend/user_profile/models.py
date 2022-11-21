@@ -37,6 +37,34 @@ class Residence(models.Model):
     rent_min = models.FloatField(default=0)
     rent_max = models.FloatField(default=0)
     review_count = models.IntegerField(default=0)
+    
+    class ParkingPolicy(models.TextChoices):
+        NOPARK = 'NP', _('No Parking')
+        PAIDPARK = 'PP', _('Paid Parking')
+        RESPARK = 'RP', _('Reserved Parking')
+        INCPARK = 'IP', _('Included Parking')
+        CUSTPARK = 'OP', _('Other')
+        UNKNOWN = 'UN', _('Unknown')
+
+    parking_policy = models.CharField(
+        max_length=2,
+        choices=ParkingPolicy.choices,
+        default=ParkingPolicy.UNKNOWN,
+    )
+
+    class PetPolicy(models.TextChoices):
+        NOPETS = 'NP', _('No Pets')
+        RESPETS = 'RP', _('Restricted Pets')
+        RENTPETS = 'PP', _('Increased Rent')
+        CUSTPARK = 'OP', _('Other')
+        UNKNOWN = 'UN', _('Unknown')
+
+    pet_policy = models.CharField(
+        max_length=2,
+        choices=PetPolicy.choices,
+        default=PetPolicy.UNKNOWN,
+    )
+
     tags = TaggableManager()
 
     def __str__(self):
