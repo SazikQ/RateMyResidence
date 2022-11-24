@@ -132,3 +132,8 @@ class ReviewImage(models.Model):
 class ProfileImage(models.Model):
     photo = models.ImageField(upload_to='user_media')
     belonged_user = models.ForeignKey(User, related_name='profile_image', on_delete=models.CASCADE)
+
+
+class ResidenceImage(models.Model):
+    photo = models.ImageField(upload_to='residence_media')
+    belonged_residence = models.ForeignKey(Residence, related_name='residence_image', on_delete=models.CASCADE)

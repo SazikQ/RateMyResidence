@@ -192,7 +192,9 @@
                     {% endif %}
                     | {{ comment.publishTime }} <br>
                     <br>
-
+                    {% for reviewImage in comment.review_image.all %}
+                        <img src="{{ reviewImage.photo.url }}">
+                    {% endfor %}
                     {% if user == comment.reviewer%}
                         <form>
                             <button formaction="/changecomment/{{comment.pk}}/" class = "btn btn-primary btn-sm"> Update Comment</button>

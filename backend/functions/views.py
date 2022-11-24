@@ -9,7 +9,7 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
-from backend.user_profile.models import Residence, Review, Location, User
+from backend.user_profile.models import Residence, Review, Location, User, ResidenceImage, ReviewImage
 from django.db.models import Q, Count, Min
 from taggit.forms import *
 
@@ -150,6 +150,9 @@ def add_review(request, pk):
                             room_type = form.cleaned_data['room_type'],
                             has_furniture= form.cleaned_data['has_furniture'])
             review.save()
+            images = request.FILES.getlist('review_photo')
+            for image in images:
+                ReviewImage.objects.create(photo=image, belonged_review=review)
             redirectUrl = "/residence/" + pk
             return HttpResponseRedirect(redirectUrl)
     else:
@@ -179,6 +182,9 @@ def add_residence(request):
             for m_tag in m_tags:
                 residence.tags.add(m_tag)
             residence.save()
+            images = request.FILES.getlist('residence_photo')
+            for image in images:
+                ResidenceImage.objects.create(photo=image, belonged_residence=residence)
             return HttpResponseRedirect("/")
     else:
         form = ResidenceForm()
@@ -432,7 +438,6 @@ class ResidenceDetail(DetailView):
             review_order = review_list.order_by('-rating')
         else:
             review_order = review_list.order_by('pk')
-
         context = {'reviews': review_order, 'object': targetResidence, 'tags': tags, 'updateForm': UpdateForm().as_p()}
         return render(request, 'residence_info.html', context)
 
