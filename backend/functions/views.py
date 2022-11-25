@@ -415,8 +415,6 @@ class ResidenceListView(ListView):
         return residences
 
 
-
-
 class ResidenceDetail(DetailView):
     model = Residence
     template_name = 'residence_info.html'
