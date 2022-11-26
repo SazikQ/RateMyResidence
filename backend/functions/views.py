@@ -93,7 +93,7 @@ def edit_review(request, pk):
         return HttpResponseRedirect(redirectUrl)
 
     if request.method == 'POST':
-        form = EditReview(request.POST)
+        form = EditReview(request.POST, request.FILES)
         pk = request.session['pk']
         if pk == '':
             raise Http404
@@ -122,6 +122,13 @@ def edit_review(request, pk):
             review_form.save(update_fields=['quietness_rating'])
             review_form.save(update_fields=['room_type'])
             review_form.save(update_fields=['has_furniture'])
+
+            images = request.FILES.getlist('review_photo')
+            review_form.review_image.all().delete()
+            if images:
+                for image in images:
+                    ReviewImage.objects.create(photo=image, belonged_review=review_form)
+
             return HttpResponseRedirect(redirectUrl)
     else:
         if pk == '':
@@ -334,7 +341,7 @@ def edit_residence(request, pk):
     # return HttpResponseRedirect(redirectUrl)
 
     if request.method == 'POST':
-        form = ResidenceEditForm(request.POST)
+        form = ResidenceEditForm(request.POST, request.FILES)
         pk = request.session['pk']
         if pk == '':
             raise Http404
@@ -360,7 +367,11 @@ def edit_residence(request, pk):
             for m_tag in m_tags:
                 instance.tags.add(m_tag)
             instance.save()
-
+            images = request.FILES.getlist('residence_photo')
+            instance.residence_image.all().delete()
+            if images:
+                for image in images:
+                    ResidenceImage.objects.create(photo=image, belonged_residence=instance)
             return HttpResponseRedirect(redirectUrl)
     else:
         if pk == '':
