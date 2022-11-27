@@ -11,7 +11,10 @@
                 {% for tag in tags %}
                     <p class="mb-1 text-muted">{{tag}}</p>
                 {% endfor %}
-
+             <h4 class="fw-semibold mb-0"> Photos </h4>
+              {% for residenceImage in object.residence_image.all %}
+              <img src="{{ residenceImage.photo.url }}">
+              {% endfor %}
                 {% if object.manager.all %}
                 <h4 class="fw-semibold mb-0"> Residence managers </h4>
                     {% for manager in object.manager.all %}    
