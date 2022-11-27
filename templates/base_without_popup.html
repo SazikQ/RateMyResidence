@@ -8,13 +8,13 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>{% block title %}Hello World {% endblock %}</title>
+  <title>{% block title %}{% endblock %}</title>
 </head>
 <body class="text-center text-bg-light">
    <nav class="navbar navbar-expand-lg  bg-dark">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">
-              <span class = "navbar-brand mb-0 h1" onclick="likeToLeave()">RateMyResidence</span>
+              <span class = "navbar-brand mb-0 h1" onclick="window.location.href = '{% url 'home' %}'">RateMyResidence</span>
           </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -50,7 +50,7 @@
             <div class="col-md-4 offset-md-6">
                 {% if user.is_authenticated %}
                     <a style="color:#CEB888;"> Hi {{ user.username }}!</a>
-                    <a class = "btn btn-light btn-sm" href = "{% url 'profile'%}" role = "button">Account</a>
+                    <a class = "btn btn-primary btn-sm" href = "{% url 'profile'%}" role = "button">Account</a>
                     <a class="btn btn-outline-primary me-2 btn-sm" href = "{% url 'logout' %}" role = "button">Log Out</a>
                 {% else %}
                     <a class="btn btn-outline-primary me-2 btn-sm" href = "{% url 'login' %}" role = "button">Sign In</a>
@@ -65,11 +65,5 @@
     {% block content %}
     {% endblock %}
   </main>
-  <script language="JavaScript">
-    function likeToLeave()
-    {
-        window.location.href = "{% url 'home' %}";
-    }
-  </script>
 </body>
 </html>

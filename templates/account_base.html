@@ -8,13 +8,13 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>{% block title %}Hello World {% endblock %}</title>
+  <title>{% block title %}{% endblock %}</title>
 </head>
 <body class="text-center text-bg-light">
    <nav class="navbar navbar-expand-lg bg-dark">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">
-              <span class = "navbar-brand mb-0 h1" onclick="likeToLeave()">RateMyResidence</span>
+              <span class = "navbar-brand mb-0 h1" onclick="window.location.href = '{% url 'home' %}'">RateMyResidence</span>
           </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -30,27 +30,15 @@
                 <a class="nav-link" href = "{%url 'list_residence'%}">Residence List</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href = "{%url 'university_list'%}">University Hall</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href = "{%url 'nonuniversity_list'%}">Off Campus</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href = "{%url 'top_ten'%}">Top Ten Residence</a>
-              </li>
-              <li class="nav-item">
                 {% if user.is_superuser %}
                 <a class="nav-link" aria-current="page" href="{% url 'user_list' %}">User list </a>
                 {% endif %}
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="{% url 'worst_residence' %}">Worst Residence </a>
               </li>
             </ul>
             <div class="col-md-4 offset-md-6">
                 {% if user.is_authenticated %}
                     <a style="color:#CEB888;"> Hi {{ user.username }}!</a>
-                    <a class = "btn btn-light btn-sm" href = "{% url 'profile'%}" role = "button">Account</a>
+                    <a class = "btn btn-primary btn-sm" href = "{% url 'profile'%}" role = "button">Account</a>
                     <a class="btn btn-outline-primary me-2 btn-sm" href = "{% url 'logout' %}" role = "button">Log Out</a>
                 {% else %}
                     <a class="btn btn-outline-primary me-2 btn-sm" href = "{% url 'login' %}" role = "button">Sign In</a>
@@ -63,12 +51,12 @@
 
   <div class="container-fluid">
    <div class="row">
-      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-black sidebar collapse min-vh-100">
         <div class="position-sticky pt-3 sidebar-sticky">
           <ul class="nav flex-column">
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
-              <span>Welcome</span>
-            </h6>
+            <h5 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
+              <span>Welcome </span>
+            </h5>
             <li class="nav-item text-start">
               <a class="nav-link active" aria-current="page" href="{% url 'profile'%}">
                 <span data-feather="home" class="align-text-bottom"></span>
@@ -98,12 +86,5 @@
       </main>
     </div>
   </div>
-
-  <script language="JavaScript">
-    function likeToLeave()
-    {
-        window.location.href = "{% url 'home' %}";
-    }
-  </script>
 </body>
 </html>

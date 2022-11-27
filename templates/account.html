@@ -13,9 +13,9 @@
     </div>
     <div class="col-md-9 p-3">
     <div class="pt-3 mb-md-0 text-start">
-      <h2>{{user.username}}</h2><br>
+      <h2 class="text-dark">{{user.username}}</h2><br>
     </div>
-    <div class="btn-toolbar mb-2 mb-md-0 col-md-3">
+    <div class="btn-toolbar mb-2 mb-md-0 col-md-4">
       <div class="btn-group me-2">
         <button type="button" class="btn btn-sm btn-dark" onclick="window.location.href = '{% url 'editProfile' %}'">Edit Profile</button>
         <button type="button" class="btn btn-sm btn-dark" onclick="window.location.href = '{% url 'changePic' %}'">Upload Photo</button>
@@ -25,7 +25,7 @@
 </div>
 
     <hr class = "my-4" style = "color:#212529;"> 
-    
+
     <!--usr information-->
     <div class = "container text-start">
       <div class="row "> 
