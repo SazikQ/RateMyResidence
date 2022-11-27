@@ -1,0 +1,109 @@
+<!-- templates/account_base.html -->
+<!DOCTYPE html>
+{% load static %}
+<link
+  rel = "stylesheet"
+  type = "text/css"
+  href = "{% static 'css/bootstrap.css' %}">
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Hello World {% endblock %}</title>
+</head>
+<body class="text-center text-bg-light">
+   <nav class="navbar navbar-expand-lg bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+              <span class = "navbar-brand mb-0 h1" onclick="likeToLeave()">RateMyResidence</span>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                {% if user.isVerifiedUser %}
+                <a class="nav-link" aria-current="page" href="{% url 'add_residence' %}">Add Residence</a>
+                {% endif %}
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href = "{%url 'list_residence'%}">Residence List</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href = "{%url 'university_list'%}">University Hall</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href = "{%url 'nonuniversity_list'%}">Off Campus</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href = "{%url 'top_ten'%}">Top Ten Residence</a>
+              </li>
+              <li class="nav-item">
+                {% if user.is_superuser %}
+                <a class="nav-link" aria-current="page" href="{% url 'user_list' %}">User list </a>
+                {% endif %}
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="{% url 'worst_residence' %}">Worst Residence </a>
+              </li>
+            </ul>
+            <div class="col-md-4 offset-md-6">
+                {% if user.is_authenticated %}
+                    <a style="color:#CEB888;"> Hi {{ user.username }}!</a>
+                    <a class = "btn btn-light btn-sm" href = "{% url 'profile'%}" role = "button">Account</a>
+                    <a class="btn btn-outline-primary me-2 btn-sm" href = "{% url 'logout' %}" role = "button">Log Out</a>
+                {% else %}
+                    <a class="btn btn-outline-primary me-2 btn-sm" href = "{% url 'login' %}" role = "button">Sign In</a>
+                    <a class="btn btn-primary btn-sm" href = "{% url 'signup' %}" role = "button">Sign Up</a>
+                {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+
+  <div class="container-fluid">
+   <div class="row">
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+        <div class="position-sticky pt-3 sidebar-sticky">
+          <ul class="nav flex-column">
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
+              <span>Welcome</span>
+            </h6>
+            <li class="nav-item text-start">
+              <a class="nav-link active" aria-current="page" href="{% url 'profile'%}">
+                <span data-feather="home" class="align-text-bottom"></span>
+                  Profile
+              </a>
+            </li>
+            {% if not user.isVerifiedUser %}
+            <li class="nav-item text-start">
+              <a class="nav-link" href="{% url 'verifyUser' %}">
+                <span data-feather="file" class="align-text-bottom"></span>
+                  Verify Status
+              </a>
+            </li>
+            {% endif %}
+            <li class="nav-item text-start">
+              <a class="nav-link" href="{% url 'past_review' %}">
+                <span data-feather="shopping-cart" class="align-text-bottom"></span>
+                  Past Reviews
+                </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        {% block content %}
+        {% endblock %}
+      </main>
+    </div>
+  </div>
+
+  <script language="JavaScript">
+    function likeToLeave()
+    {
+        window.location.href = "{% url 'home' %}";
+    }
+  </script>
+</body>
+</html>
