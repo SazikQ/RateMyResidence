@@ -59,22 +59,28 @@
             </h5>
             <li class="nav-item text-start">
               <a class="nav-link active" aria-current="page" href="{% url 'profile'%}">
-                <span data-feather="home" class="align-text-bottom"></span>
+                <span class="align-text-bottom"></span>
                   Profile
               </a>
             </li>
             {% if not user.isVerifiedUser %}
             <li class="nav-item text-start">
               <a class="nav-link" href="{% url 'verifyUser' %}">
-                <span data-feather="file" class="align-text-bottom"></span>
+                <span class="align-text-bottom"></span>
                   Verify Status
               </a>
             </li>
             {% endif %}
             <li class="nav-item text-start">
               <a class="nav-link" href="{% url 'past_review' %}">
-                <span data-feather="shopping-cart" class="align-text-bottom"></span>
+                <span class="align-text-bottom"></span>
                   Past Reviews
+                </a>
+            </li>
+            <li class="nav-item text-start">
+              <a class="nav-link" href="{% url 'changePassword' %}">
+                <span class="align-text-bottom"></span>
+                  Change Password
                 </a>
             </li>
           </ul>

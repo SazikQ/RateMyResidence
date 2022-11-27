@@ -1,6 +1,5 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
-
 from backend.user_profile.models import User
 
 
@@ -12,10 +11,13 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class CustomUserChangeForm(UserChangeForm):
-
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    username = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    
     class Meta:
         model = User
         fields = ("username", "email", "isResidenceManager")
+
 
 
 class MyPasswordChangeForm(PasswordChangeForm):
