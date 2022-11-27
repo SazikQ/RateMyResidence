@@ -9,7 +9,7 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
-from backend.user_profile.models import Residence, Review, Location, User
+from backend.user_profile.models import Residence, Review, Location, User, ResidenceImage, ReviewImage
 from django.db.models import Q, Count, Min
 from taggit.forms import *
 
@@ -93,7 +93,7 @@ def edit_review(request, pk):
         return HttpResponseRedirect(redirectUrl)
 
     if request.method == 'POST':
-        form = EditReview(request.POST)
+        form = EditReview(request.POST, request.FILES)
         pk = request.session['pk']
         if pk == '':
             raise Http404
@@ -122,6 +122,13 @@ def edit_review(request, pk):
             review_form.save(update_fields=['quietness_rating'])
             review_form.save(update_fields=['room_type'])
             review_form.save(update_fields=['has_furniture'])
+
+            images = request.FILES.getlist('review_photo')
+            review_form.review_image.all().delete()
+            if images:
+                for image in images:
+                    ReviewImage.objects.create(photo=image, belonged_review=review_form)
+
             return HttpResponseRedirect(redirectUrl)
     else:
         if pk == '':
@@ -150,6 +157,9 @@ def add_review(request, pk):
                             room_type = form.cleaned_data['room_type'],
                             has_furniture= form.cleaned_data['has_furniture'])
             review.save()
+            images = request.FILES.getlist('review_photo')
+            for image in images:
+                ReviewImage.objects.create(photo=image, belonged_review=review)
             redirectUrl = "/residence/" + pk
             return HttpResponseRedirect(redirectUrl)
     else:
@@ -179,6 +189,9 @@ def add_residence(request):
             for m_tag in m_tags:
                 residence.tags.add(m_tag)
             residence.save()
+            images = request.FILES.getlist('residence_photo')
+            for image in images:
+                ResidenceImage.objects.create(photo=image, belonged_residence=residence)
             return HttpResponseRedirect("/")
     else:
         form = ResidenceForm()
@@ -328,7 +341,7 @@ def edit_residence(request, pk):
     # return HttpResponseRedirect(redirectUrl)
 
     if request.method == 'POST':
-        form = ResidenceEditForm(request.POST)
+        form = ResidenceEditForm(request.POST, request.FILES)
         pk = request.session['pk']
         if pk == '':
             raise Http404
@@ -354,7 +367,11 @@ def edit_residence(request, pk):
             for m_tag in m_tags:
                 instance.tags.add(m_tag)
             instance.save()
-
+            images = request.FILES.getlist('residence_photo')
+            instance.residence_image.all().delete()
+            if images:
+                for image in images:
+                    ResidenceImage.objects.create(photo=image, belonged_residence=instance)
             return HttpResponseRedirect(redirectUrl)
     else:
         if pk == '':
@@ -409,8 +426,6 @@ class ResidenceListView(ListView):
         return residences
 
 
-
-
 class ResidenceDetail(DetailView):
     model = Residence
     template_name = 'residence_info.html'
@@ -432,7 +447,6 @@ class ResidenceDetail(DetailView):
             review_order = review_list.order_by('-rating')
         else:
             review_order = review_list.order_by('pk')
-
         context = {'reviews': review_order, 'object': targetResidence, 'tags': tags, 'updateForm': UpdateForm().as_p()}
         return render(request, 'residence_info.html', context)
 

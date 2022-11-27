@@ -5,9 +5,11 @@
 
 {% block content %}
 <h2>Edit Residence</h2>
-<form method="post">
+<form method="post" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form }}
+  <label for="id_photo" class="form-label">Upload photos</label>
+  <input type="file" class="form-control" accept="image/*" id="id_photo" name="residence_photo" multiple>
   <button type="submit">Update Residence</button>
 </form>
 {% endblock %}

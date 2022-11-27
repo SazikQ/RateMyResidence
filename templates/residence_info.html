@@ -11,7 +11,10 @@
                 {% for tag in tags %}
                     <p class="mb-1 text-muted">{{tag}}</p>
                 {% endfor %}
-
+             <h4 class="fw-semibold mb-0"> Photos </h4>
+              {% for residenceImage in object.residence_image.all %}
+              <img src="{{ residenceImage.photo.url }}">
+              {% endfor %}
                 {% if object.manager.all %}
                 <h4 class="fw-semibold mb-0"> Residence managers </h4>
                     {% for manager in object.manager.all %}    
@@ -192,7 +195,9 @@
                     {% endif %}
                     | {{ comment.publishTime }} <br>
                     <br>
-
+                    {% for reviewImage in comment.review_image.all %}
+                        <img src="{{ reviewImage.photo.url }}">
+                    {% endfor %}
                     {% if user == comment.reviewer%}
                         <form>
                             <button formaction="/changecomment/{{comment.pk}}/" class = "btn btn-primary btn-sm"> Update Comment</button>
