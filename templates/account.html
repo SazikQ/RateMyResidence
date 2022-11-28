@@ -4,14 +4,15 @@
 {% block content %}
 
 <div class="row">
-   <div class = "col-md-3 p-3">
-      {% if profilePic != None %}
-      <img src="{{ profilePic.photo.url }}" class= "img-fluid img-thumbnail"  />
-      {% else %}
-      <img src="{% get_media_prefix %}default_avatar.png" class= "img-fluid img-thumbnail" />
-      {% endif %}
-    </div>
-    <div class="col-md-9 p-3">
+  <div class = "col-md-3 p-3">
+    {% if profilePic != None %}
+    <img src="{{ profilePic.photo.url }}" class= "img-fluid img-thumbnail"  />
+    {% else %}
+    <img src="{% get_media_prefix %}default_avatar.png" class= "img-fluid img-thumbnail" />
+    {% endif %}
+  </div>
+
+  <div class="col-md-9 p-3">
     <div class="pt-3 mb-md-0 text-start">
       <h2 class="text-dark">{{user.username}}</h2><br>
     </div>
@@ -21,11 +22,20 @@
         <button type="button" class="btn btn-sm btn-dark" onclick="window.location.href = '{% url 'changePic' %}'">Upload Photo</button>
       </div>
     </div>
+    <div class = "row mt-2">
+      <div class="col-lg-6 align-self-start">
+        {% if messages %}
+          {% for message in messages %}
+              <div class="alert {% if message.tags %}alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger{% else %}{{ message.tags }}{% endif %}{% endif %}" role="alert">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      </div>
     </div>
-</div>
+  </div>
 
-    <hr class = "my-3" style = "color:#212529;"> 
 
+  <hr class = "my-3" style = "color:#212529;"> 
+  <div class="container">
     <!--usr information-->
     <div class = "container text-start">
       <div class="row "> 
@@ -36,7 +46,9 @@
             {{user.email}}
         </div>
       </div>
+
       <hr class = "my-3" style = "color:#212529;"> 
+
       <div class="row "> 
         <div class = "col-md-6">
           Verification Status
@@ -45,7 +57,9 @@
           {{user.isVerifiedUser}}
         </div>
       </div>
+
       <hr class = "my-3" style = "color:#212529;"> 
+
       <div class="row"> 
         <div class = "col-md-6">
           Residence Manager Status
@@ -54,9 +68,11 @@
           {{user.isResidenceManager}}
         </div>
       </div>
+
       <hr class = "my-3" style = "color:#212529;"> 
     </div>
   </div>
+</div>
   
 
 

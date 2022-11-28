@@ -16,14 +16,13 @@
     <div class="row d-flex align-items-start">
       <div class="row align-items-start pl-0">
         <input type="file" name="image" accept="image/*" required id="id_image">
-
+        {{ photo_form.non_field_errors }}
         <div class="row mt-3 d-flex align-items-start">
           <div class="btn-group me-2 col-md-2 col-lg-4">
             <button type="submit" class="btn btn-dark">Save Photo</button>
             <button type="button" class="btn btn-dark" onclick="window.location.href = '{% url 'profile' %}'">Cancel</button>
           </div>
         </div>
-
       </div>
     </div>
   </form>
