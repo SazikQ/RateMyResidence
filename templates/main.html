@@ -65,35 +65,21 @@
           <span class="visually-hidden">Next</span>
         </button>
       </div>
-    <!-- </body>
-</html> -->
 
     <br>
     <br>
-    <br>
-    <!-- navigation bar-->
 
-    <!-- header to be added -->
-    <!-- <div class="cover-containerw-100 h-50 p-3 mx-auto flex-column">
-      <header class="mb-auto">
-
-      </header>
-    </div> -->
 
     <!-- search bar -->
-    <div class="search-bar-container">
+    <div class="section col-xs-3">
       <form role="search" action={% url 'search_results' %} method='get' class="search-bar">
-        <!-- <div class = "row"> -->
-          <!-- <div class = "col col-lg-6 "> -->
-              <input type="search" list = "resnames" class="form-control" placeholder="Enter residence name" aria-label="Search" name='name'>
-              <button type="submit"><img src="{% get_media_prefix %}search.png"></button>
+              <input type="search" list = "resnames" class="form-control top-0" placeholder="Enter residence name" aria-label="Search" name='name'>
+              <button type="submit" class="top-0"><img src="{% get_media_prefix %}search.png"></button>
               <datalist id = "resnames">
                 {% for res in resnames %}
                   <option value = "{{res.name}}"></option>
                 {% endfor %}
               </datalist>
-          <!-- </div> -->
-        <!-- </div>     -->
       </form>
     </div>
 
