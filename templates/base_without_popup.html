@@ -29,7 +29,7 @@
               <li class="nav-item">
                 <a class="nav-link" href = "{%url 'list_residence'%}">Residence List</a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" href = "{%url 'university_list'%}">University Hall</a>
               </li>
               <li class="nav-item">
@@ -37,15 +37,15 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link" href = "{%url 'top_ten'%}">Top Ten Residence</a>
-              </li>
+              </li> -->
               <li class="nav-item">
                 {% if user.is_superuser %}
                 <a class="nav-link" aria-current="page" href="{% url 'user_list' %}">User list </a>
                 {% endif %}
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="{% url 'worst_residence' %}">Worst Residence </a>
-              </li>
+              </li> -->
             </ul>
             <div class="col-md-4 offset-md-6">
                 {% if user.is_authenticated %}
