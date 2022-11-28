@@ -1,4 +1,4 @@
-<!-- templates/base.html -->
+<!-- templates/account_base.html -->
 <!DOCTYPE html>
 {% load static %}
 <link
@@ -11,7 +11,7 @@
   <title>{% block title %}{% endblock %}</title>
 </head>
 <body class="text-center text-bg-light">
-   <nav class="navbar navbar-expand-lg  bg-dark">
+   <nav class="navbar navbar-expand-lg bg-dark">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">
               <span class = "navbar-brand mb-0 h1" onclick="window.location.href = '{% url 'home' %}'">RateMyResidence</span>
@@ -30,26 +30,9 @@
                 <a class="nav-link" href = "{%url 'list_residence'%}">Residence List</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href = "{%url 'university_list'%}">University Hall</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href = "{%url 'nonuniversity_list'%}">Off Campus</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href = "{%url 'top_ten'%}">Top Ten Residence</a>
-              </li>
-              <li class="nav-item">
                 {% if user.is_superuser %}
                 <a class="nav-link" aria-current="page" href="{% url 'user_list' %}">User list </a>
                 {% endif %}
-              </li>
-                <li class="nav-item">
-                {% if user.is_superuser %}
-                <a class="nav-link" aria-current="page" href="{% url 'request_list' %}">Pending manager request </a>
-                {% endif %}
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="{% url 'worst_residence' %}">Worst Residence </a>
               </li>
             </ul>
             <div class="col-md-4 offset-md-6">
@@ -66,9 +49,48 @@
         </div>
       </nav>
 
-  <main>
-    {% block content %}
-    {% endblock %}
-  </main>
+  <div class="container-fluid">
+   <div class="row">
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-black sidebar collapse min-vh-100">
+        <div class="position-sticky pt-3 sidebar-sticky">
+          <ul class="nav flex-column">
+            <h5 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
+              <span>Welcome </span>
+            </h5>
+            <li class="nav-item text-start">
+              <a class="nav-link active" aria-current="page" href="{% url 'profile'%}">
+                <span class="align-text-bottom"></span>
+                  Profile
+              </a>
+            </li>
+            {% if not user.isVerifiedUser %}
+            <li class="nav-item text-start">
+              <a class="nav-link" href="{% url 'verifyUser' %}">
+                <span class="align-text-bottom"></span>
+                  Verify Status
+              </a>
+            </li>
+            {% endif %}
+            <li class="nav-item text-start">
+              <a class="nav-link" href="{% url 'past_review' %}">
+                <span class="align-text-bottom"></span>
+                  Past Reviews
+                </a>
+            </li>
+            <li class="nav-item text-start">
+              <a class="nav-link" href="{% url 'changePassword' %}">
+                <span class="align-text-bottom"></span>
+                  Change Password
+                </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        {% block content %}
+        {% endblock %}
+      </main>
+    </div>
+  </div>
 </body>
 </html>

@@ -1,13 +1,68 @@
 <!-- templates/registration/login.html -->
-{% extends "base.html" %}
+{% extends "account_base.html" %}
 
 {% block title %}Edit Profile{% endblock %}
 
 {% block content %}
-<h2>Edit Profile</h2>
+<br>
+<div>
+  <h2 class="text-start text-dark">Edit Profile</h2>
+</div>
+<p class="text-start text-dark fst-italic"> Edit your profile here!</p>
+<hr class = "mb-4" style = "color:#212529;">
+
+<div class="container">
 <form method="post">
-  {% csrf_token %}
-  {{ edit_form.as_p }}
-  <button type="submit">Update Profile</button>
+{% csrf_token %}
+  <div class="col-md-7 col-lg-8">
+    {{ edit_form.non_field_errors }}
+    <div class="row d-flex align-items-start">
+      <div class="row mb-3 d-flex align-items-start">
+        <label for="usernameInput" class="form-label text-start">Username</label>
+
+        <div>
+        {{ edit_form.username }}
+        </div>
+
+        {% if edit_form.username.errors %}
+        <div>
+          <div class="alert alert-warning mb-3 mt-2" role="alert">
+            {{ edit_form.username.errors.as_text }}
+          </div>
+        </div>
+        {% endif %}
+
+      </div>
+
+      <div class="row mb-3 d-flex align-items-start">
+        <label for="emailInput" class="form-label text-start">Email</label> 
+
+        <div>
+          {{ edit_form.email }}
+        </div> 
+        
+
+        {% if edit_form.email.errors %}
+          <div>
+            <div class="alert alert-warning mb-3 mt-2" role="alert">
+            {{ edit_form.email.errors.as_text }}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+      <br>
+
+      <div class="row mb-3 d-flex align-items-start">
+        <div class="btn-group me-2 col-md-6 col-lg-8">
+          <button type="submit" class="btn btn-dark ">Update Profile</button>
+          <button type="button" class="btn btn-dark" onclick="window.location.href = '{% url 'profile' %}'">Cancel</button>
+        </div>
+      </div>
+
+    </div> 
+  </div>
 </form>
+</div>
 {% endblock %}
+    
+  
