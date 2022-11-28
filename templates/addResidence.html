@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 
 {% block title %}Log In{% endblock %}
-
 {% block content %}
-<form method="post" class="needs-validation" novalidate>
+<form method="post" enctype="multipart/form-data" class="needs-validation">
     {% csrf_token %}
     <br>
     <h4 class="mb-3">Add New Residence</h4>
@@ -89,6 +88,12 @@
                     Please enter tags.
                 </div>
             </div>
+
+             <div class="col-12">
+                <label for="id_photo" class="form-label">Upload photos</label>
+                <input type="file" class="form-control" accept="image/*" id="id_photo" name="residence_photo" multiple>
+            </div>
+
         </div>
         <br>
         <br>

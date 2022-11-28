@@ -13,7 +13,7 @@
   <title>Edit Comment</title>
 </head>
 <body>
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <br>
     <h4 class="mb-3">Edit Review</h4>
@@ -246,6 +246,13 @@
                     Please enter tags.
                 </div>
             </div>
+
+             <div class="col-12">
+                <label for="id_photo">Add photo for your review</label>
+                <input id="id_photo" name="review_photo" type="file" accept="image/*" multiple >
+                </div>
+            </div>
+
         </div>
     </div>
     <br>

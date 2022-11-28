@@ -1,33 +1,28 @@
-{% extends "base_without_popup.html" %}
+{% extends "account_base.html" %}
 
 {% block title %}Past Review{% endblock %}
 
 {% block content %}
-<!-- <h1>Review</h1>
-<ul>
-{% for Review in object_list %}
-<li>
-  <a href = "{%url 'review_detail' Review.pk%}">{{Review.title}}</a>
-</li>
-{% empty %}
-<li>No reviews yet.</li>
-</ul>
-{% endfor %} -->
 
 <br>
-<h1>Past Reviews</h1>
-<br>
-<br>
-<!-- <li></li> -->
+<div>
+  <h2 class="text-start text-dark">Past Reviews</h2>
+</div>
+<p class="text-start text-dark fst-italic"> Find out your review history here</p>
+<hr class = "mb-4" style = "color:#212529;">
+{% if not object_list %}
+  <p class="text-start text-dark fw-bold"> You haven't made any reviews yet!</p>
+{% endif %}
+
 <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
 {% for Review in object_list %}
   <div class="col-md-4">
     <div class="card mb-4 rounded-3 shadow-sm">
       <div class="card-header py-3">
-        <h4 class="my-0 fw-normal">Review for {{Review.belongedResidence}}</h4>
+        <h4 class="my-0 fw-normal text-dark">Review for {{Review.belongedResidence}}</h4>
       </div>
       <div class="card-body">
-        <h1 class="card-title pricing-card-title">{{Review.title}}</h1>
+        <h3 class="card-title pricing-card-title text-dark">{{Review.title}}</h3>
         <ul class="list-unstyled mt-3 mb-4">
           <li>Time lived: {{Review.time_lived}} months</li>
           <li>Rent: $ {{Review.rent}}<small class="text-muted fw-light">/mo</small></li>

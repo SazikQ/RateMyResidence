@@ -121,7 +121,9 @@
         Average Rating: {{Residence.rating_average}}<br>
         Average Price: {{Residence.rent_average}}<br>
         Distance from Campus: {{Residence.distance}} miles<br>
-         This is a placeholder for future photos
+         {% if Residence.residence_image.first %}
+         <img src="{{ Residence.residence_image.first.photo.url }}">
+          {% endif %}
        </div>
       </div>
      </a>
