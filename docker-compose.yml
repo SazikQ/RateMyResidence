@@ -45,7 +45,7 @@ services:
     build: .
     volumes:
       - .:/code
-    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py createsuperuser_if_none_exists --user admin --email ratemypurdueresidence@gmail.com --password qwer123@ && python manage.py runserver 0000:8000 "
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py initialize --user admin --email ratemypurdueresidence@gmail.com --password qwer123@ && python manage.py runserver 0000:8000 "
     ports:
       - "8000:8000"
     environment:
