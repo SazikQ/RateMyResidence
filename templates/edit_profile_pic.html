@@ -15,7 +15,7 @@
   {% csrf_token %}
     <div class="row d-flex align-items-start">
       <div class="row align-items-start pl-0">
-        <input type="file" name="image" accept="image/*" required id="id_image">
+        <div><input class="form-control" type="file" name="image" accept="image/*" required id="id_image"></div>
         {{ photo_form.non_field_errors }}
         <div class="row mt-3 d-flex align-items-start">
           <div class="btn-group me-2 col-md-2 col-lg-4">
