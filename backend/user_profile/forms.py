@@ -7,3 +7,4 @@ class EmailVerificationForm(forms.Form):
 
 class ProfilePhotoForm(forms.Form):
     image = forms.ImageField()
+

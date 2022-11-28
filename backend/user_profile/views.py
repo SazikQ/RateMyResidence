@@ -100,3 +100,16 @@ def profile_photo(request):
         form = ProfilePhotoForm
 
     return render(request, 'edit_profile_pic.html', {'photo_form': ProfilePhotoForm})
+
+@login_required
+def manager_request(request):
+    if request.method == 'POST':
+
+        newPhoto = ProfileImage.objects.create(photo=image, belonged_user=request.user)
+        newPhoto.save()
+        messages.success(request, 'Your profile photo is updated successfully')
+        return redirect(to='profile')
+    else:
+        pass
+
+    return render(request, 'edit_profile_pic.html', {'photo_form': ProfilePhotoForm})
