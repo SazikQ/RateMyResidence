@@ -7,10 +7,10 @@ from django.utils.decorators import method_decorator
 
 from backend.user_authentication.forms import CustomUserChangeForm
 from django.contrib import messages
-from backend.user_profile.models import Review, ProfileImage
+from backend.user_profile.models import Review, ProfileImage, ResidenceRequest, RequestFile
 from django.urls import reverse_lazy
 import random
-from backend.user_profile.forms import EmailVerificationForm, ProfilePhotoForm
+from backend.user_profile.forms import EmailVerificationForm, ProfilePhotoForm, RequestForm
 from django.views.generic import TemplateView, ListView, DetailView
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -104,12 +104,15 @@ def profile_photo(request):
 @login_required
 def manager_request(request):
     if request.method == 'POST':
-
-        newPhoto = ProfileImage.objects.create(photo=image, belonged_user=request.user)
-        newPhoto.save()
-        messages.success(request, 'Your profile photo is updated successfully')
-        return redirect(to='profile')
+        form = RequestForm(request.POST)
+        if form.is_valid():
+            selectedResidence = form.cleaned_data['selected_residence']
+            residence_request = ResidenceRequest.objects.create(requestResidence=selectedResidence, belonged_user=request.user)
+            files = request.FILES.getlist('request_file')
+            for file in files:
+                RequestFile.objects.create(file=file, belonged_request=residence_request)
+            return redirect(to='profile')
     else:
-        pass
+        form = RequestForm()
 
-    return render(request, 'edit_profile_pic.html', {'photo_form': ProfilePhotoForm})
+    return render(request, 'manager_request.html', {'form': form})

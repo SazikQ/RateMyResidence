@@ -4,12 +4,13 @@ from turtle import title
 from xml.etree.ElementInclude import default_loader
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect, get_list_or_404
-from backend.functions.forms import ResidenceForm, ReviewForm, EditReview, DeleteReview, ResidenceEditForm, UpdateForm
+from backend.functions.forms import ResidenceForm, ReviewForm, EditReview, DeleteReview, ResidenceEditForm, UpdateForm, RequestForm
 from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
-from backend.user_profile.models import Residence, Review, Location, User, ResidenceImage, ReviewImage
+from backend.user_profile.models import Residence, Review, Location, User, ResidenceImage, ReviewImage, \
+    ResidenceRequest, RequestFile
 from django.db.models import Q, Count, Min
 from taggit.forms import *
 
@@ -520,3 +521,35 @@ class TopTen(ListView):
         print(object_list)
         return object_list
 
+
+class RequestListView(ListView):
+    model = ResidenceRequest
+    template_name = 'request_list.html'
+
+
+class RequestDetailView(DetailView):
+    model = ResidenceRequest
+    template_name = 'request_detail.html'
+
+    def post(self, request, pk):
+        if request.method == "POST":
+            form = RequestForm(request.POST)
+            if form.is_valid():
+                targetRequest = ResidenceRequest.objects.get(pk=pk)
+                approve = form.cleaned_data['isApproved']
+                if approve:
+                    targetRequest.belonged_user.isResidenceManager = True
+                    targetRequest.requestResidence.manager.add(targetRequest.belonged_user)
+                    targetRequest.belonged_user.save(update_fields=['isResidenceManager'])
+                    targetRequest.delete()
+                else:
+                    targetRequest.delete()
+                return redirect('request_list')
+            else:
+                return redirect('request_detail', pk)
+
+    def get(self, request, pk):
+        form = RequestForm()
+        targetRequest = ResidenceRequest.objects.get(pk=pk)
+        context = { 'object': targetRequest, 'form': form.as_p()}
+        return render(request, 'request_detail.html', context)

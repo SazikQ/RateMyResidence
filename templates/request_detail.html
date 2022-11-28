@@ -1,0 +1,25 @@
+{% extends "base_without_popup.html" %}
+
+{% block title %}Request Page{% endblock %}
+
+{% block content %}
+<div class="p-3 p-md-3 mb-5 rounded text-bg-dark">
+    <div class="col-md-12 px-0">
+      <h1 class="display-4 fst-italic">{{ object.belonged_user.username }} request to be manager of {{object.requestResidence.name}}</h1>
+      <p class="lead my-3">
+          <div class="mb-1 text-muted">
+        {% for requestFile in object.request_file.all %}
+        <a href="{{requestFile.file.url}}"> Get verification file </a>
+        {% endfor %}
+          </div>
+        <form method="post"  enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-outline mb-4">
+                  {{ form }}
+                </div>
+                <button class='btn btn-secondary' type="submit">submit</button>
+        </form>
+      </p>
+    </div>
+  </div>
+{% endblock %}
