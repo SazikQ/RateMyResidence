@@ -104,3 +104,54 @@ body{
 .rating > input:checked ~ label:hover ~ label{
 	color: #FFFF00;
 }
+
+/* added for carousel */
+.carousel-item {
+	height: 360px;
+}
+.c-img {
+	height: 100%;
+	object-fit: cover;
+	filter: brightness(0.6);
+}
+
+.search-bar-container {
+	width: 100%;
+	min-height: 30vh;
+	padding: 20%;
+	display: flex;
+	align-items: center;
+	justify-self: center;
+}
+
+.search-bar {
+	width: 100%;
+	max-width: 700px;
+	display: flex;
+	align-items: center;
+	border-radius: 60px;
+	padding: 10px 20px;
+	background: rgba(255, 255, 255, 0.2);
+}
+
+.search-bar input{
+	background: transparent;
+	flex: 1;
+	border: 0;
+	outline: none;
+	padding: 24px 20px;
+	font-size: 20px;
+}
+
+.search-bar button img {
+	width: 25px;
+}
+
+.search-bar button {
+	border: 0;
+	border-radius: 50%;
+	width: 60px;
+	height: 60px;
+	background: #CEB888;
+	cursor: pointer;
+}
