@@ -1,19 +1,30 @@
-{% extends "base.html" %}
+{% extends "account_base.html" %}
 {% block title %}Verify your Email{% endblock %}
 
 {% block content %}
 <br>
-<div class="container py-5 h-120">
-    <div class="row d-flex align-items-center justify-content-center h-120">
-        <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
-            <h4 class="mb-3">Please enter the verification code</h4>
+<div>
+  <h2 class="text-start text-dark">Email Verification</h2>
+</div>
+<p class="text-start text-dark fst-italic"> Verify your Email by entering the code sent to your Email!</p>
+<hr class = "mb-4" style = "color:#212529;">
+
+<div class="container py-2 h-120">
+    <div class="row d-flex align-items-start justify-content-start h-120">
+        <div class="col-md-7 col-lg-5 col-xl-5">
             <form method="post">
                 {% csrf_token %}
-                <div class="form-outline mb-4">
-                    <label for="id_verificationCode" class="form-label">Verification code</label>
-                    <input type="text" name="verificationCode" class="form-control" id="id_verificationCode" maxlength="30" required>
+                <div class="form-outline mb-3 align-items-start row">
+                    <label for="id_verificationCode" class="form-label text-start">Enter Your Verification Code</label>
+                    <div><input type="text" name="verificationCode" class="form-control" id="id_verificationCode" maxlength="30" required></div>
                 </div>
-                <button class='btn btn-secondary' type="submit">Verify</button>
+                
+                <div class="row mt-3 d-flex align-items-start">
+                    <div class="btn-group me-2 col-md-6 col-lg-8">
+                        <button class='btn btn-dark' type="submit">Verify</button>
+                        <button type="button" class="btn btn-dark" onclick="window.location.href = '{% url 'profile' %}'">Cancel</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
