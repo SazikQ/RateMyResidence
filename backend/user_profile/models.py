@@ -12,12 +12,9 @@ from django.utils.translation import gettext_lazy as _
 class User(AbstractUser):
     isVerifiedUser = models.BooleanField(default=False)
     isResidenceManager = models.BooleanField(default=False)
-<<<<<<< Updated upstream
     requestManager = models.BooleanField(default=False)
-=======
     isPurdueVerified = models.BooleanField(default=False)
 
->>>>>>> Stashed changes
     def save(self, *args, **kwargs):
         if self.is_superuser:
             self.isVerifiedUser = True
