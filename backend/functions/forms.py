@@ -73,3 +73,7 @@ class UpdateForm(forms.Form):
 class ReviewPhotoForm(forms.Form):
     image = forms.ImageField()
 
+
+class RequestForm(forms.Form):
+    isApproved = forms.BooleanField()
+

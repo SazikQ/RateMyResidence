@@ -12,7 +12,7 @@ from django.utils.translation import gettext_lazy as _
 class User(AbstractUser):
     isVerifiedUser = models.BooleanField(default=False)
     isResidenceManager = models.BooleanField(default=False)
-
+    requestManager = models.BooleanField(default=False)
     def save(self, *args, **kwargs):
         if self.is_superuser:
             self.isVerifiedUser = True
@@ -137,3 +137,13 @@ class ProfileImage(models.Model):
 class ResidenceImage(models.Model):
     photo = models.ImageField(upload_to='residence_media')
     belonged_residence = models.ForeignKey(Residence, related_name='residence_image', on_delete=models.CASCADE)
+
+
+class ResidenceRequest(models.Model):
+    requestResidence = models.ForeignKey(Residence, related_name='residence_request', on_delete=models.CASCADE)
+    belonged_user = models.ForeignKey(User, related_name='manager_request', on_delete=models.CASCADE)
+
+
+class RequestFile(models.Model):
+    file = models.FileField(upload_to='request_file')
+    belonged_request = models.ForeignKey(ResidenceRequest, related_name='request_file', on_delete=models.CASCADE)
