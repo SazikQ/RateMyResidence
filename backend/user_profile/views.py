@@ -14,6 +14,7 @@ from backend.user_profile.forms import EmailVerificationForm, ProfilePhotoForm
 from django.views.generic import TemplateView, ListView, DetailView
 from django.core.exceptions import ObjectDoesNotExist
 
+@login_required
 def profile(request):
     try:
         pic = ProfileImage.objects.get(belonged_user=request.user)
