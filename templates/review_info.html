@@ -55,8 +55,8 @@
           {% endif %}
           <br>
           {% for reviewImage in object.review_image.all %}
-        <img src="{{ reviewImage.photo.url }}">
-        {% endfor %
+            <img src="{{ reviewImage.photo.url }}">
+            {% endfor %}
           <form>
             <button formaction="/changecomment/{{object.pk}}/" class = "btn btn-primary btn-sm"> Update Comment</button>
             <button formaction="/deletecomment/{{object.pk}}" class = "btn btn-primary btn-sm">  Delete Comment</button>
