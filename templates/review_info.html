@@ -47,7 +47,7 @@
           {% if object.isAnonymous and object.reviewer != user %}
               by Anonymous User
           {% else %}
-              by {{ object.reviewer }}
+              by <ul class="checkmark">{{ object.reviewer }} </ul>
           {% endif %}
           | {{ object.publishTime }} <br>
           <br>

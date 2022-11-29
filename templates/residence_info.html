@@ -194,6 +194,9 @@
                         by {{ comment.reviewer }}
                     {% endif %}
                     | {{ comment.publishTime }} <br>
+                    {% if user.isPurdueVerified %}
+                     &#10003; Verified Purdue User <br>
+                    {% endif %}
                     <br>
                     {% for reviewImage in comment.review_image.all %}
                         <img src="{{ reviewImage.photo.url }}">
