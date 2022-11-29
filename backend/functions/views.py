@@ -3,7 +3,7 @@ import re
 from turtle import title
 from xml.etree.ElementInclude import default_loader
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.shortcuts import render, redirect, get_list_or_404
+from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
 from backend.functions.forms import ResidenceForm, ReviewForm, EditReview, DeleteReview, ResidenceEditForm, UpdateForm, RequestForm
 from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.decorators import login_required
@@ -553,3 +553,31 @@ class RequestDetailView(DetailView):
         targetRequest = ResidenceRequest.objects.get(pk=pk)
         context = { 'object': targetRequest, 'form': form.as_p()}
         return render(request, 'request_detail.html', context)
+
+
+@login_required
+def user_promote_view(request, pk):
+    if not request.user.is_superuser:
+        raise Http404("Page does not exist")
+    targetUser = get_object_or_404(User, pk=pk)
+    targetUser.is_superuser = True
+    targetUser.save()
+    return redirect('user_list')
+
+@login_required
+def user_ban_view(request, pk):
+    if not request.user.is_superuser:
+        raise Http404("Page does not exist")
+    targetUser = get_object_or_404(User, pk=pk)
+    targetUser.is_active = False
+    targetUser.save()
+    return redirect('user_list')
+
+@login_required
+def user_release_view(request, pk):
+    if not request.user.is_superuser:
+        raise Http404("Page does not exist")
+    targetUser = get_object_or_404(User, pk=pk)
+    targetUser.is_active = True
+    targetUser.save()
+    return redirect('user_list')

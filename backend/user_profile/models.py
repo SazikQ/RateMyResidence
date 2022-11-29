@@ -19,6 +19,7 @@ class User(AbstractUser):
         if self.is_superuser:
             self.isVerifiedUser = True
             self.isResidenceManager = True
+            self.is_active = True
         if self.email.__contains__("@purdue.edu"):
             self.isPurdueVerified = True
         super(User, self).save(*args, **kwargs)
