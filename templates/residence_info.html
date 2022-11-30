@@ -42,7 +42,7 @@
                 <form>
                     <button formaction="/addReview/{{object.pk}}" class="btn btn-dark btn-sm">Write a review</button>
                 </form>
-                {% if user.isResidenceManager %}
+                {% if user in object.manager.all or user.is_superuser %}
                     <h4 class="fw-semibold mb-0">Edit Residence</h4>
                     <button onclick="Edit()" class="btn btn-dark btn-sm">Edit</button>
                     <script language="JavaScript">
