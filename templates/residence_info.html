@@ -1,3 +1,15 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="static/lightbox.min.css">
+    <script src="static/lightbox-plus-jquery.min.js"></script>
+  </head>
+
 {% extends "base_without_popup.html" %}
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 {% block title %}Residence Page{% endblock %}
@@ -12,9 +24,24 @@
                     <p class="mb-1 text-muted">{{tag}}</p>
                 {% endfor %}
              <h4 class="fw-semibold mb-0"> Photos </h4>
-              {% for residenceImage in object.residence_image.all %}
-              <img src="{{ residenceImage.photo.url }}">
-              {% endfor %}
+                <div class="container">
+                    <!-- this works -->
+
+                    <!-- <div class="image-container">
+                        {% for residenceImage in object.residence_image.all %}
+                            <div class="image"><img src="{{ residenceImage.photo.url }}" class="img-fluid about-section-img"></div>
+                            <br>
+                        {% endfor %}
+                    </div> -->
+                    <!-- ends here -->
+
+                    <div class="image-container">
+                        {% for residenceImage in object.residence_image.all %}
+                            <a href="{{ residenceImage.photo.url }}" data-lightbox = ><img src="{{ residenceImage.photo.url }}" class="img-fluid about-section-img"></a>
+                        {% endfor %}
+                    </div>
+                </div>
+              
                 {% if object.manager.all %}
                 <h4 class="fw-semibold mb-0"> Residence managers </h4>
                     {% for manager in object.manager.all %}    
@@ -196,7 +223,15 @@
                     | {{ comment.publishTime }} <br>
                     <br>
                     {% for reviewImage in comment.review_image.all %}
-                        <img src="{{ reviewImage.photo.url }}">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-4 cl-md-12 col-12">
+                                    <div class="about-img">
+                                        <img src="{{ residenceImage.photo.url }}" class="img-fluid about-section-img">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     {% endfor %}
                     {% if user == comment.reviewer%}
                         <form>
@@ -227,3 +262,6 @@
     {% endif %}
 </div>
 {% endblock %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</html>
