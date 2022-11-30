@@ -10876,4 +10876,41 @@ textarea.form-control-lg {
   }
 }
 
+ul.checkmark li {
+  font-size: 16px; // this determines the size of the list text and therefore checkmark size
+  list-style-type: none; // remove default list style
+  margin-bottom: 1em; // lists need to be able to breathe
+  padding: 0.25em 0 0 2.5em; // make room for the circle
+  position: relative; // because we want to position the circle in an absolute fashion
+}
+
+ul.checkmark li:before {
+  content: " "; // the circle itself is empty
+  display: block;
+  border: solid 0.8em #660a5e; // create a colored area...
+  border-radius: .8em; // ... and turn it into a circle
+  height: 0;
+  width: 0;
+  position: absolute; // the circle is then put into place
+  left: 0.5em;
+  top: 40%;
+  margin-top: -0.5em;
+}
+
+ul.checkmark li:after {
+  content: " ";
+  display: block;
+  width: 0.3em; // the short bar of the mark is half as long as the long bar
+  height: 0.6em;
+  border: solid white;
+  border-width: 0 0.2em 0.2em 0; // creates the inverted "L" shape
+  position: absolute;
+  left: 1em;
+  top: 40%;
+  margin-top: -0.2em;
+  -webkit-transform: rotate(45deg); // tilts the shape
+  -moz-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
 /*# sourceMappingURL=bootstrap.css.map */

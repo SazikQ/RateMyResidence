@@ -63,12 +63,28 @@
 
       <div class="row"> 
         <div class = "col-md-6">
-          Residence Manager Status
+          Being Manager for Residence:
         </div>
         <div class = "col-md-6">
-          {{user.isResidenceManager}}
+          {% if not user.residence_set.all %}
+          None
+          {% endif %}
+          {% for item in user.residence_set.all %}
+          {{item.name}}
+          {% endfor %}
         </div>
       </div>
+      <hr class = "my-3" style = "color:#212529;">
+
+      <div class="row">
+        <div class = "col-md-6">
+          Purdue Verification Status
+        </div>
+        <div class = "col-md-6">
+          {{user.isPurdueVerified}}
+        </div>
+      </div>
+
 
       <hr class = "my-3" style = "color:#212529;"> 
     </div>

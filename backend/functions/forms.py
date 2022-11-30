@@ -75,5 +75,5 @@ class ReviewPhotoForm(forms.Form):
 
 
 class RequestForm(forms.Form):
-    isApproved = forms.BooleanField()
+    isApproved = forms.BooleanField(label='Approve the request?')
 

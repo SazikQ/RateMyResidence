@@ -12,7 +12,12 @@
         <h4 class="my-0 fw-normal">{{User.username}}</h4>
       </div>
        <div class="card-body">
-         This is a placeholder for future button
+         {% if User.is_active %}
+         <button onclick="window.location.href='{% url 'user_ban' User.pk %}'"> Ban user </button>
+          {% else %}
+        <button onclick="window.location.href='{% url 'user_release' User.pk %}'"> Release user </button>
+           {% endif %}
+           <button onclick="window.location.href='{% url 'user_promote' User.pk %}'"> Promote user </button>
        </div>
       </div>
   </div>

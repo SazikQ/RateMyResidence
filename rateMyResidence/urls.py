@@ -18,7 +18,8 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 from backend.functions.views import ResidenceDetail, SearchResultsView, add_residence, ResidenceListView, add_review, \
     autocomplete, edit_review, delete_review, edit_residence, like_view, dislike_view, UserListView, \
-    UniversityResidence, NonUniversityResidence, TopTen, WorstResidenceView, RequestListView, RequestDetailView
+    UniversityResidence, NonUniversityResidence, TopTen, WorstResidenceView, RequestListView, RequestDetailView, \
+    user_release_view, user_ban_view, user_promote_view
 from django.contrib.auth import views as auth_views
 from backend.functions.views import SearchResultsView
 from backend.functions.views import add_residence
@@ -54,6 +55,9 @@ urlpatterns = [
     path('top10/', TopTen.as_view(), name ='top_ten'),
     path('request_list/', RequestListView.as_view(), name ='request_list'),
     path('request/<int:pk>', RequestDetailView.as_view(), name='request_detail'),
+    path('user_promote/<int:pk>', user_promote_view, name='user_promote'),
+    path('user_ban/<int:pk>', user_ban_view, name='user_ban'),
+    path('user_release/<int:pk>', user_release_view, name='user_release'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

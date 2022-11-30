@@ -3,7 +3,7 @@ import re
 from turtle import title
 from xml.etree.ElementInclude import default_loader
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.shortcuts import render, redirect, get_list_or_404
+from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
 from backend.functions.forms import ResidenceForm, ReviewForm, EditReview, DeleteReview, ResidenceEditForm, UpdateForm, RequestForm
 from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.decorators import login_required
@@ -91,7 +91,7 @@ def edit_review(request, pk):
     redirectUrl = "/residence/" + str(residence_info.pk)
 
     if request.user != review_form.reviewer:
-        return HttpResponseRedirect(redirectUrl)
+        raise Http404("Page does not exist")
 
     if request.method == 'POST':
         form = EditReview(request.POST, request.FILES)
@@ -338,8 +338,8 @@ def edit_residence(request, pk):
     instance = Residence.objects.get(pk=pk)
     redirectUrl = "/residence/" + str(pk)
 
-    # if request.user != instance.manager:
-    # return HttpResponseRedirect(redirectUrl)
+    if not (request.user in instance.manager.all() or request.user.is_superuser):
+        return Http404("page does not exist")
 
     if request.method == 'POST':
         form = ResidenceEditForm(request.POST, request.FILES)
@@ -538,9 +538,7 @@ class RequestDetailView(DetailView):
                 targetRequest = ResidenceRequest.objects.get(pk=pk)
                 approve = form.cleaned_data['isApproved']
                 if approve:
-                    targetRequest.belonged_user.isResidenceManager = True
                     targetRequest.requestResidence.manager.add(targetRequest.belonged_user)
-                    targetRequest.belonged_user.save(update_fields=['isResidenceManager'])
                     targetRequest.delete()
                 else:
                     targetRequest.delete()
@@ -553,3 +551,31 @@ class RequestDetailView(DetailView):
         targetRequest = ResidenceRequest.objects.get(pk=pk)
         context = { 'object': targetRequest, 'form': form.as_p()}
         return render(request, 'request_detail.html', context)
+
+
+@login_required
+def user_promote_view(request, pk):
+    if not request.user.is_superuser:
+        raise Http404("Page does not exist")
+    targetUser = get_object_or_404(User, pk=pk)
+    targetUser.is_superuser = True
+    targetUser.save()
+    return redirect('user_list')
+
+@login_required
+def user_ban_view(request, pk):
+    if not request.user.is_superuser:
+        raise Http404("Page does not exist")
+    targetUser = get_object_or_404(User, pk=pk)
+    targetUser.is_active = False
+    targetUser.save()
+    return redirect('user_list')
+
+@login_required
+def user_release_view(request, pk):
+    if not request.user.is_superuser:
+        raise Http404("Page does not exist")
+    targetUser = get_object_or_404(User, pk=pk)
+    targetUser.is_active = True
+    targetUser.save()
+    return redirect('user_list')

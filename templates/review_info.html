@@ -41,7 +41,7 @@
               Quietness rating: <strong>{{ object.quietness_rating }}</strong>
               Quality rating: <strong>{{ object.quality_rating }}</strong>
           </div>
-          
+
 
           <h3>{{ object.content }}</h3><br>
           {% if object.isAnonymous and object.reviewer != user %}
@@ -50,7 +50,13 @@
               by {{ object.reviewer }}
           {% endif %}
           | {{ object.publishTime }} <br>
+          {% if user.isPurdueVerified %}
+            &#10003; Verified Purdue User <br>
+          {% endif %}
           <br>
+          {% for reviewImage in object.review_image.all %}
+            <img src="{{ reviewImage.photo.url }}">
+            {% endfor %}
           <form>
             <button formaction="/changecomment/{{object.pk}}/" class = "btn btn-primary btn-sm"> Update Comment</button>
             <button formaction="/deletecomment/{{object.pk}}" class = "btn btn-primary btn-sm">  Delete Comment</button>
