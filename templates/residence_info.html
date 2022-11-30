@@ -65,6 +65,18 @@
                     <button onclick="window.location.href = '{{ object.website }}'" class="btn btn-dark btn-sm">Go to residence website</button>
                 {% endif %}
 
+                <form action="{% url 'reportResidence' object.pk %}">
+                    {% csrf_token %}
+                    <button type="submit", name="residence_id", value="{{ object.pk }}" class="btn btn-dark btn-sm">Report</button>
+                </form>
+                {% if object.isReported.count > 0 %}
+                    {% if object.isReported.count > 1 %}
+                       This residence is reported as inappropriate residence by {{ object.isReported.count }} users. 
+                    {% else %}
+                        This residence is reported as inappropriate residence by {{ object.isReported.count }} user.
+                    {% endif %}
+                {% endif %}
+
                 <h4 class="fw-semibold mb-0">Add a new review</h4>
                 <form>
                     <button formaction="/addReview/{{object.pk}}" class="btn btn-dark btn-sm">Write a review</button>
@@ -256,6 +268,18 @@
                         <button type = "submit", name = "review_id", value = "{{ comment.id }}" class = "btn btn-primary btn-sm">Dislike</button>
                         <strong> {{ comment.dislikes.count }} Dislikes </strong>
                     </form>
+                    <br>
+                    <form action="{% url 'reportReview' object.pk %}">
+                        <button type="submit", name="review_id", value="{{ comment.id }}" class = "btn btn-primary btn-sm">Report</button>
+                    </form>
+                    <br>
+                    {% if comment.isReported.count > 0 %}
+                        {% if comment.isReported.count > 1 %}
+                            <strong> This comment is reported as inappropriate comment by {{ comment.isReported.count }} users. </strong>
+                        {% else %}
+                        <strong> This comment is reported as inappropriate comment by {{ comment.isReported.count }} user. </strong>
+                        {% endif %}
+                    {% endif %}
                 </p>
               </div>
             </div>

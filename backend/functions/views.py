@@ -579,3 +579,26 @@ def user_release_view(request, pk):
     targetUser.is_active = True
     targetUser.save()
     return redirect('user_list')
+@login_required
+def report_review(request, pk):
+    rev = Review.objects.get(pk=request.GET.get('review_id'))
+    redirectUrl = '/residence/' + str(pk)
+
+    if rev.isReported.filter(id=request.user.id).exists():
+        rev.isReported.remove(request.user)
+        return HttpResponseRedirect(redirectUrl)
+    else:
+        rev.isReported.add(request.user)
+    return HttpResponseRedirect(redirectUrl)
+
+@login_required
+def report_residence(request, pk):
+    rev = Residence.objects.get(pk=request.GET.get('residence_id'))
+    redirectUrl = '/residence/' + str(pk)
+
+    if rev.isReported.filter(id=request.user.id).exists():
+        rev.isReported.remove(request.user)
+        return HttpResponseRedirect(redirectUrl)
+    else:
+        rev.isReported.add(request.user)
+    return HttpResponseRedirect(redirectUrl)

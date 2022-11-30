@@ -19,7 +19,7 @@ from django.views.generic import TemplateView
 from backend.functions.views import ResidenceDetail, SearchResultsView, add_residence, ResidenceListView, add_review, \
     autocomplete, edit_review, delete_review, edit_residence, like_view, dislike_view, UserListView, \
     UniversityResidence, NonUniversityResidence, TopTen, WorstResidenceView, RequestListView, RequestDetailView, \
-    user_release_view, user_ban_view, user_promote_view
+    user_release_view, user_ban_view, user_promote_view, report_review, report_residence
 from django.contrib.auth import views as auth_views
 from backend.functions.views import SearchResultsView
 from backend.functions.views import add_residence
@@ -58,6 +58,8 @@ urlpatterns = [
     path('user_promote/<int:pk>', user_promote_view, name='user_promote'),
     path('user_ban/<int:pk>', user_ban_view, name='user_ban'),
     path('user_release/<int:pk>', user_release_view, name='user_release'),
+    path("residence/reportReview/<int:pk>", report_review, name = "reportReview"),
+    path('residence/reportResidence/<int:pk>', report_residence, name="reportResidence"),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
