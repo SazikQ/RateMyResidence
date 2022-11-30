@@ -11,14 +11,12 @@ from django.utils.translation import gettext_lazy as _
 
 class User(AbstractUser):
     isVerifiedUser = models.BooleanField(default=False)
-    isResidenceManager = models.BooleanField(default=False)
     requestManager = models.BooleanField(default=False)
     isPurdueVerified = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if self.is_superuser:
             self.isVerifiedUser = True
-            self.isResidenceManager = True
             self.is_active = True
         if self.email.__contains__("@purdue.edu"):
             self.isPurdueVerified = True

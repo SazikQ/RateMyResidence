@@ -538,9 +538,7 @@ class RequestDetailView(DetailView):
                 targetRequest = ResidenceRequest.objects.get(pk=pk)
                 approve = form.cleaned_data['isApproved']
                 if approve:
-                    targetRequest.belonged_user.isResidenceManager = True
                     targetRequest.requestResidence.manager.add(targetRequest.belonged_user)
-                    targetRequest.belonged_user.save(update_fields=['isResidenceManager'])
                     targetRequest.delete()
                 else:
                     targetRequest.delete()
