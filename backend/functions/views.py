@@ -91,7 +91,7 @@ def edit_review(request, pk):
     redirectUrl = "/residence/" + str(residence_info.pk)
 
     if request.user != review_form.reviewer:
-        return HttpResponseRedirect(redirectUrl)
+        raise Http404("Page does not exist")
 
     if request.method == 'POST':
         form = EditReview(request.POST, request.FILES)
@@ -338,8 +338,8 @@ def edit_residence(request, pk):
     instance = Residence.objects.get(pk=pk)
     redirectUrl = "/residence/" + str(pk)
 
-    # if request.user != instance.manager:
-    # return HttpResponseRedirect(redirectUrl)
+    if not (request.user in instance.manager.all() or request.user.is_superuser):
+        return Http404("page does not exist")
 
     if request.method == 'POST':
         form = ResidenceEditForm(request.POST, request.FILES)
