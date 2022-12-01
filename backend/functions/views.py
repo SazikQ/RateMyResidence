@@ -628,6 +628,7 @@ def delete_reply(request, pk):
     reply.delete()
     return HttpResponseRedirect(redirectUrl)
 
+@login_required
 def edit_reply(request, pk):
     reply = Reply.objects.get(pk=pk)
     review = reply.review
