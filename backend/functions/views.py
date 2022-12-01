@@ -4,13 +4,14 @@ from turtle import title
 from xml.etree.ElementInclude import default_loader
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
-from backend.functions.forms import ResidenceForm, ReviewForm, EditReview, DeleteReview, ResidenceEditForm, UpdateForm, RequestForm
+from backend.functions.forms import ResidenceForm, ReviewForm, EditReview, DeleteReview, ResidenceEditForm, UpdateForm, RequestForm, \
+        ReplyForm, EditReply
 from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from backend.user_profile.models import Residence, Review, Location, User, ResidenceImage, ReviewImage, \
-    ResidenceRequest, RequestFile
+    ResidenceRequest, RequestFile, Reply
 from django.db.models import Q, Count, Min
 from taggit.forms import *
 
@@ -53,36 +54,10 @@ def delete_review(request, pk):
     residence_info = review_form.belongedResidence
     redirectUrl = "/residence/" + str(residence_info.pk)
 
-    if request.user != review_form.reviewer:
+    if request.user == review_form.reviewer or request.user.is_superuser:
+        review_form.delete()
         return HttpResponseRedirect(redirectUrl)
-
-    review_form.delete()
     return HttpResponseRedirect(redirectUrl)
-
-    """
-    if request.method == 'POST':
-        form = DeleteReview(request.POST)
-        pk = request.session['pk']
-        if pk == '':
-            raise Http404
-        if form.is_valid():
-            if form.cleaned_data["isDelete"] == True and form.cleaned_data["notDelete"] == False:
-                review_form = Review.objects.get(pk=pk)
-                review_form.delete()
-                residence_info = review_form.belongedResidence
-                redirectUrl = "/residence/" + str(residence_info.pk)
-            else:
-                review_form = Review.objects.get(pk=pk)
-                residence_info = review_form.belongedResidence
-                redirectUrl = "/residence/" + str(residence_info.pk)
-            return HttpResponseRedirect(redirectUrl)
-    else:
-        if pk == '':
-            raise Http404
-        request.session['pk'] = pk
-        form = DeleteReview()
-    return render(request, 'deletereview.html', {'form': form.as_p()})
-    """
 
 @login_required
 def edit_review(request, pk):
@@ -579,3 +554,108 @@ def user_release_view(request, pk):
     targetUser.is_active = True
     targetUser.save()
     return redirect('user_list')
+
+@login_required
+def report_review(request, pk):
+    rev = Review.objects.get(pk=request.GET.get('review_id'))
+    redirectUrl = '/residence/' + str(pk)
+
+    if rev.isReported.filter(id=request.user.id).exists():
+        rev.isReported.remove(request.user)
+        return HttpResponseRedirect(redirectUrl)
+    else:
+        rev.isReported.add(request.user)
+    return HttpResponseRedirect(redirectUrl)
+
+@login_required
+def report_residence(request, pk):
+    rev = Residence.objects.get(pk=request.GET.get('residence_id'))
+    redirectUrl = '/residence/' + str(pk)
+
+    if rev.isReported.filter(id=request.user.id).exists():
+        rev.isReported.remove(request.user)
+        return HttpResponseRedirect(redirectUrl)
+    else:
+        rev.isReported.add(request.user)
+    return HttpResponseRedirect(redirectUrl)
+
+
+class ReviewDetailView(DetailView):
+    def get(self, request, pk, *args, **kwargs):
+        review = Review.objects.get(pk=pk)
+        form = ReplyForm()
+
+        replies = Reply.objects.filter(review=review).order_by('-publishTime')
+        context = {
+            'review' : review, 
+            'form' : form.as_p(),
+            'replies' : replies,
+        }
+        return render(request, 'reply_review.html', context)
+
+
+    def post(self, request, pk, *args, **kwargs):
+        review = Review.objects.get(pk=pk)
+        form = ReplyForm(request.POST)
+        residence_info = review.belongedResidence
+        redirectUrl = "/residence/" + str(residence_info.pk)
+
+
+        if form.is_valid():
+            reply = Reply(content=form.cleaned_data['content'], replier=request.user, review=Review.objects.get(pk=pk))
+            reply.save()
+
+        replies = Reply.objects.filter(review=review).order_by('-publishTime')
+
+        context = {
+            'review' : review, 
+            'form' : form.as_p(),
+            'replies' : replies,
+        }
+        return HttpResponseRedirect(redirectUrl)
+
+
+@login_required
+def delete_reply(request, pk):
+    reply = Reply.objects.get(pk=pk)
+    residence_info = reply.review.belongedResidence
+    redirectUrl = "/residence/" + str(residence_info.pk)
+
+    if request.user != reply.replier:
+        return HttpResponseRedirect(redirectUrl)
+
+    reply.delete()
+    return HttpResponseRedirect(redirectUrl)
+
+@login_required
+def edit_reply(request, pk):
+    reply = Reply.objects.get(pk=pk)
+    review = reply.review
+    residence_info = review.belongedResidence
+    redirectUrl = "/residence/" + str(residence_info.pk)
+
+    if request.user != reply.replier:
+        raise Http404("Page does not exist")
+
+    if request.method == 'POST':
+        form = EditReply(request.POST, request.FILES)
+        pk = request.session['pk']
+        if pk == '':
+            raise Http404
+        if form.is_valid():
+            reply.content = form.cleaned_data['content']
+            reply.save(update_fields=['content'])
+
+            return HttpResponseRedirect(redirectUrl)
+    else:
+        if pk == '':
+            raise Http404
+        request.session['pk'] = pk
+        form_e = EditReply()
+        context = {
+            'review' : review, 
+            'form_e' : form_e,
+            'reply' : reply,
+        }
+
+    return render(request, 'editReply.html', context)
