@@ -78,6 +78,20 @@
                     }
                     </script>
                 {% endif %}
+                <br>
+                {% if object.isReported.count > 0 %}
+                {% if object.isReported.count > 1 %}
+                   This residence is reported as inappropriate residence by {{ object.isReported.count }} verified users. 
+                {% else %}
+                    This residence is reported as inappropriate residence by {{ object.isReported.count }} verified user.
+                {% endif %}
+                {% endif %}
+                {% if user.isVerifiedUser %}
+                <form action="{% url 'reportResidence' object.pk %}">
+                    {% csrf_token %}
+                    <button type="submit", name="residence_id", value="{{ object.pk }}" class="btn btn-dark btn-sm">Report</button>
+                </form>
+                {% endif %}
           </div>
         </div>
     </div>
@@ -236,7 +250,7 @@
                             </div>
                         </div>
                     {% endfor %}
-                    {% if user == comment.reviewer%}
+                    {% if user == comment.reviewer or user.is_superuser %}
                         <form>
                             <button formaction="/changecomment/{{comment.pk}}/" class = "btn btn-primary btn-sm"> Update Comment</button>
                             <button formaction="/deletecomment/{{comment.pk}}" class = "btn btn-primary btn-sm">  Delete Comment</button>
@@ -256,6 +270,48 @@
                         <button type = "submit", name = "review_id", value = "{{ comment.id }}" class = "btn btn-primary btn-sm">Dislike</button>
                         <strong> {{ comment.dislikes.count }} Dislikes </strong>
                     </form>
+                    <br>
+                </div>
+                <form action="{% url 'reportReview' object.pk %}">
+                    {% csrf_token %}
+                    <button type="submit", name="review_id", value= "{{ comment.id }}" class = "btn btn-primary btn-sm">Report</button>
+                </form>
+                {% if comment.isReported.count > 0 %}
+                    <br>
+                    {% if comment.isReported.count > 1 %}
+                        <strong> This comment is reported as inappropriate comment by {{ comment.isReported.count }} users. </strong>
+                    {% else %}
+                    <strong> This comment is reported as inappropriate comment by {{ comment.isReported.count }} user. </strong>
+                    {% endif %}
+                    <br>
+
+                {% endif %}
+                <br>
+                {% if user in object.manager.all or user.is_superuser %}
+                <form>
+                    <button formaction="/replyReview/{{comment.pk}}/" class = "btn btn-primary btn-sm"> Reply Comment</button>
+                </form>
+                {% endif %}
+                <br>
+                <h5 class="mb-3">Manager Reply</h5>
+                {% if not comment.replies.all %}
+                    <small>No reply yet</small>
+                {% else %}
+                    {% for reply in comment.replies.all %}
+                    <p class="lead my-3">
+                    <div class="mb-1" style = "color: #9D968D">
+                    <p>{{ reply.replier }} | {{ reply.publishTime }}</p>
+                    <p>{{ reply.content }}</p>
+                    </div>
+                    {% if user == reply.replier %}
+                    <form>
+                        <button formaction="/changeReply/{{reply.pk}}/" class = "btn btn-primary btn-sm"> Update Reply</button>
+                        <button formaction="/deleteReply/{{reply.pk}}" class = "btn btn-primary btn-sm">  Delete Reply</button>
+                    </form>
+                    {% endif %}
+                    </p>
+                    {% endfor %}
+                {% endif %}
                 </p>
               </div>
             </div>

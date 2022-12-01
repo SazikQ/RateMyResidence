@@ -40,6 +40,7 @@ class Residence(models.Model):
     rent_min = models.FloatField(default=0)
     rent_max = models.FloatField(default=0)
     review_count = models.IntegerField(default=0)
+    isReported = models.ManyToManyField(User, related_name='report_residence', blank=True)
     
     class ParkingPolicy(models.TextChoices):
         NOPARK = 'NP', _('No Parking')
@@ -100,6 +101,7 @@ class Review(models.Model):
     location_rating = models.FloatField(default=0)
     quality_rating = models.FloatField(default=0)
     has_furniture = models.BooleanField(default=False)
+    isReported = models.ManyToManyField(User, related_name='report_review', blank=True)
 
     class RoomType(models.TextChoices):
         STUDIO = 'ST', _('Studio')
@@ -150,3 +152,9 @@ class ResidenceRequest(models.Model):
 class RequestFile(models.Model):
     file = models.FileField(upload_to='request_file')
     belonged_request = models.ForeignKey(ResidenceRequest, related_name='request_file', on_delete=models.CASCADE)
+
+class Reply(models.Model):
+    publishTime = models.DateTimeField(auto_now_add=True)
+    content = models.CharField(max_length=500)
+    replier = models.ForeignKey(User, on_delete=models.CASCADE)
+    review = models.ForeignKey(Review, related_name='replies',on_delete=models.CASCADE)
