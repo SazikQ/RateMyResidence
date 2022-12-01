@@ -126,30 +126,6 @@
     <br>
     <br>
 
-    <!-- <br>
-    <p><label for="id_room_type">Choose your room type</label>
-        <select id="id_room_type" name="room_type">
-            <option value="ST">Studio</option>
-            <option value="SH">Shared-room</option>
-            <option value="TO">Two-room</option>
-            <option value="TH">Three-room</option>
-            <option value="FR">Four-room</option>
-            <option value="UN">Unknown</option>
-        </select>
-    <p><label for="id_time_lived">Time Lived:</label>
-        <input id="id_time_lived" maxlength="5" name="time_lived" required type="number"><label> months</label></p>
-    <p><label for="id_live_again">Live Again:</label>
-        <input id="id_live_again" name="live_again" type="checkbox"></p>
-    <p><label for="id_rent">Rent ($ per month):</label>
-        <input id="id_rent" maxlength="5" name="rent" required type="number"></p>
-    <p><label for="id_title">Title:</label>
-        <input id="id_title" maxlength="100" name="title" required type="text" value = "{{ comment.title }}"></p>
-    <p><label for="id_content">Content:</label>
-        <textarea id="id_content" name="content" required>{{ comment.content }}</textarea></p>
-    <p><label for="id_is_anonymous">post review anonymously</label>
-        <input id="id_is_anonymous" name="isAnonymous" type="checkbox" {% if comment.isAnonymous %}checked{% endif %}/></p>
-    <button class='btn btn-secondary' type="submit">Add Comment</button> -->
-
     <div class="container">
         <div class="row g-3">
             <div class="row">
@@ -183,7 +159,9 @@
                         <label for="id_rent" class="form-label">Rent ($ per month)</label>
                         <div class="col-sm-4 offset-4">
                             <input style="text-align:center" type="number" class="form-control" id="id_rent" name="rent" value = "{{ comment.rent }}" maxlength="5" required>
+                            {{ form.rent.errors }}
                         </div>
+                        
                         <div class="invalid-feedback">
                             Please enter a valid street name.
                         </div>
@@ -200,6 +178,8 @@
                 <br>
                 <div class="col-sm-10 offset-1">
                     <input type="text" class="form-control" id="id_title" name="title" maxlength="100" value = "{{ comment.title }}" style="text-align:center" required>
+                    {{ form.title.errors }}
+                    
                     <br>
                 </div>
                 <div class="invalid-feedback">
@@ -214,6 +194,7 @@
                 <br>
                 <div class="col-sm-10 offset-1">
                     <textarea id="id_content" name="content" class="form-control" rows="7">{{ comment.content }}</textarea>
+                     {{ form.content.errors }}
                 </div>
                 
                 <div class="invalid-feedback">
