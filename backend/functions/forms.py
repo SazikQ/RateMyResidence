@@ -2,7 +2,7 @@ from email.policy import default
 from pickle import FALSE
 from django import forms
 from taggit.forms import *
-from backend.user_profile.models import Review, Residence
+from backend.user_profile.models import Review, Residence, Reply
 
 
 class ResidenceForm(forms.Form):
@@ -44,6 +44,12 @@ class ReviewForm(forms.Form):
     room_type = forms.ChoiceField(label="Select your room type", choices=Review.RoomType.choices)
     has_furniture = forms.BooleanField(label="Does this residence provide furniture", required=False)
     image = forms.ImageField(label="Upload images for your review", required=False, widget=forms.ClearableFileInput(attrs={'multiple': True}))
+
+class ReplyForm(forms.Form):
+    content = forms.CharField(max_length=500)
+
+class EditReply(forms.Form):
+    content = forms.CharField(max_length=500)
 
 
 class EditReview(forms.Form):

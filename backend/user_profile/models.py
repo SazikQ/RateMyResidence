@@ -128,6 +128,12 @@ class Review(models.Model):
         super(Review, self).save(*args, **kwargs)
         self.belongedResidence.update_review_fields()
 
+class Reply(models.Model):
+    publishTime = models.DateTimeField(auto_now_add=True)
+    content = models.CharField(max_length=500)
+    replier = models.ForeignKey(User, on_delete=models.CASCADE)
+    review = models.ForeignKey(Review, related_name='replies',on_delete=models.CASCADE)
+
 
 class ReviewImage(models.Model):
     photo = models.ImageField(upload_to='review_media')
