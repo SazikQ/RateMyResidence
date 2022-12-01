@@ -1,15 +1,121 @@
-<!-- templates/registration/login.html -->
 {% extends "base.html" %}
 
 {% block title %}Edit Residence{% endblock %}
-
 {% block content %}
-<h2>Edit Residence</h2>
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form }}
-  <label for="id_photo" class="form-label">Upload photos</label>
-  <input type="file" class="form-control" accept="image/*" id="id_photo" name="residence_photo" multiple>
-  <button type="submit">Update Residence</button>
+<form method="post" enctype="multipart/form-data" class="needs-validation">
+    {% csrf_token %}
+    <br>
+    <h4 class="mb-3">Edit Residence</h4>
+    <div class="container">
+        <div class="row g-3">
+            <div class="col-12">
+                <label for="id_name" class="form-label">Residence name</label>
+                <input type="text" class="form-control" id="id_name" name = "name" placeholder="Residence name" value="" required>
+                {{ form.name.errors }}
+                <div class="invalid-feedback">
+                    Please enter a valid Residence name.
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="id_streetNum" class="form-label">Street Number</label>
+                <input type="number" class="form-control" id="id_streetNum" name="streetNum" placeholder="610" required>
+                {{ form.streetNum.errors }}
+                <div class="invalid-feedback">
+                    Please enter a valid street number.
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="id_streetName" class="form-label">Street name</label>
+                <input type="text" class="form-control" id="id_streetName" name="streetName" placeholder="Purdue Mall" value="" required>
+                {{ form.streetName.errors }}
+                <div class="invalid-feedback">
+                    Please enter a valid street name.
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="id_zipcode" class="form-label">Zipcode</label>
+                <input type="number" class="form-control" id="id_zipcode" name="zipcode" placeholder="47907" required>
+                {{ form.zipcode.errors }}
+                <div class="invalid-feedback">
+                    Please enter a valid zipcode.
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="id_distance" class="form-label">Distance from Campus (mi)</label>
+                <input type="number" class="form-control" id="id_distance" name="distance" placeholder="20" required>
+                {{ form.distance.errors }}
+                <div class="invalid-feedback">
+                    Please enter a valid distance in miles.
+                </div>
+            </div>
+
+            <div class="col-12">
+              <label for="id_website" class="form-label">Residence Offical Website</label>
+              <input type="text" class="form-control" id="id_website" name="website" placeholder="" required>
+              {{ form.website.errors }}
+              <div class="invalid-feedback">
+                  Please enter a valid distance in miles.
+              </div>
+            </div>
+
+            <div class="col-12">
+                <label for="id_is_university">Is this property University Residence Hall?</label>
+                <input id="id_is_university" name="university" type="checkbox">
+                <div class="invalid-feedback">
+                    Please enter tags.
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="id_parking_policy" class="form-label">Parking Policy</label>
+                <br>
+                <select id="id_parking_policy" name="parking_policy">
+                    <option value="UN" selected>Unknown</option>
+                    <option value="NP">No Parking</option>
+                    <option value="PP">Paid Parking</option>
+                    <option value="RP">Reserved Parking</option>
+                    <option value="IP">Included Parking</option>
+                    <option value="OP">Other</option>
+                </select>
+            </div>
+
+            <div class="col-12">
+                <label for="id_pet_policy" class="form-label">Pet Policy</label>
+                <br>
+                <select id="id_pet_policy" name="pet_policy">
+                    <option value="UN" selected>Unknown</option>
+                    <option value="NP">No Pets</option>
+                    <option value="RP">Restricted Pets</option>
+                    <option value="PP">Increased Rent</option>
+                    <option value="OP">Other</option>
+                </select>
+            </div>
+
+            <div class="col-12">
+                <label for="id_tags" class="form-label">Residence tags</label>
+                <input type="text" class="form-control" id="id_tags" name="residence_tags" required>
+                {{ form.residence_tags.errors }}
+                <div class="invalid-feedback">
+                    Please enter tags.
+                </div>
+            </div>
+
+             <div class="col-12">
+                <label for="id_photo" class="form-label">Upload photos</label>
+                <input type="file" class="form-control" accept="image/*" id="id_photo" name="residence_photo" multiple>
+                {{ form.residence_photo.errors }}
+            </div>
+
+        </div>
+        <br>
+        <br>
+        <button class='btn btn-secondary' type="submit">Edit Residence</button>
+    </div>
+        
 </form>
+
 {% endblock %}

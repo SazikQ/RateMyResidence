@@ -1,28 +1,47 @@
 {% extends "base_without_popup.html" %}
 
-{% block title %}Residence List{% endblock %}
+{% block title %}Offf Campus List{% endblock %}
 
 {% block content %}
+{% load static %}
+{% load socialaccount %}
+
 {% if object_list %}
-<div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+<section id="about" class="about-section-padding">
 {% for Residence in object_list %}
-    <div class="col-md-4">
-        <a href = "{%url 'residence_info' Residence.pk%}" style="color: black; text-decoration: none;">
-        <div class="card mb-4 rounded-3 shadow-sm">
-        <div class="card-header py-3">
-            <h4 class="my-0 fw-normal">{{Residence.name}}</h4>
+    <div class="container">
+      <br>
+      <hr class = "mb-4" style = "color:#212529;">
+      <br>
+      <div class="row">
+        <div class="col-lg-4 cl-md-12 col-12">
+          {% if Residence.residence_image.first %}
+            <div class="about-img">
+              <img src="{{ Residence.residence_image.first.photo.url }}" class="img-fluid about-section-img ">
+            </div>
+          {% else %}
+            <div class="about-img">
+              <img src="{% get_media_prefix %}test_2.jpeg" alt="" class="img-fluid about-section-img ">
+            </div>
+          {% endif %}
         </div>
-        <div class="card-body">
-            Average Rating: {{Residence.rating_average}}<br>
-            Average Price: {{Residence.rent_average}}<br>
-            Distance from Campus: {{Residence.distance}} miles<br>
-            University Residence or not: {{Residence.university}}<br>
-            This is a placeholder for future photos
+        <div class="col-lg-8 col-md-12 col-12 ps-lg-5 mt-md-5">
+          <div class="about-text">
+            <h2>{{Residence.name}}</h2>
+            <p>Average Rating: {{Residence.rating_average}}<br>
+              Average Price: {{Residence.rent_average}}<br>
+              Distance from Campus: {{Residence.distance}} miles<br>
+            </p>
+            <a href = "{%url 'residence_info' Residence.pk%}"><button type = "button" class="btn btn-lg btn-dark">View Details</button></a>
+          </div>
         </div>
-        </div>
-        </a>
+      </div>
     </div>
 {% endfor %}
+<br>
+<br>
+</section>
+
 </div>
 {% else %}
 <h1>There are no residences that match your request!</h1>
