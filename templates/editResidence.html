@@ -54,6 +54,15 @@
             </div>
 
             <div class="col-12">
+              <label for="id_website" class="form-label">Residence Offical Website</label>
+              <input type="text" class="form-control" id="id_website" name="website" placeholder="" required>
+              {{ form.website.errors }}
+              <div class="invalid-feedback">
+                  Please enter a valid distance in miles.
+              </div>
+            </div>
+
+            <div class="col-12">
                 <label for="id_is_university">Is this property University Residence Hall?</label>
                 <input id="id_is_university" name="university" type="checkbox">
                 <div class="invalid-feedback">
