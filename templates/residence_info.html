@@ -235,7 +235,7 @@
                         by {{ comment.reviewer }}
                     {% endif %}
                     | {{ comment.publishTime }} <br>
-                    {% if user.isPurdueVerified %}
+                    {% if comment.reviewer.isPurdueVerified %}
                      &#10003; Verified Purdue User <br>
                     {% endif %}
                     <br>
