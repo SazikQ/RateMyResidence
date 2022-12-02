@@ -2,7 +2,7 @@ from email.policy import default
 from pickle import FALSE
 from django import forms
 from taggit.forms import *
-from backend.user_profile.models import Review, Residence
+from backend.user_profile.models import Review, Residence, Reply
 
 
 class ResidenceForm(forms.Form):
@@ -75,5 +75,10 @@ class ReviewPhotoForm(forms.Form):
 
 
 class RequestForm(forms.Form):
-    isApproved = forms.BooleanField(label='Approve the request?')
+    isApproved = forms.BooleanField(label='Approve the request?',  required=False)
 
+class ReplyForm(forms.Form):
+    content = forms.CharField(max_length=500)
+
+class EditReply(forms.Form):
+    content = forms.CharField(max_length=500)

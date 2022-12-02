@@ -54,9 +54,12 @@
         <div class = "col-md-6">
           Verification Status
         </div>
-        <div class = "col-md-6 v-icon">
+        <div class = "col-md-6">
           {{user.isVerifiedUser}} 
-          <img src="{% get_media_prefix %}purdue_logo2.png">
+          
+          <div style="height: 100px">
+            <img class="mw-100" style="width: 100px; height: 100px;" src="{% get_media_prefix %}purdue_logo2.png" alt="Max-width 100%">
+          </div>
         </div>
       </div>
 
