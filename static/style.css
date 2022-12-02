@@ -236,3 +236,6 @@ html,body{
 	cursor: pointer;
 }
 
+.res-info-img {
+	object-fit: cover;
+}

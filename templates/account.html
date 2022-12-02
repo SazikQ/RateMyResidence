@@ -21,6 +21,14 @@
       <div class="btn-group me-2">
         <button type="button" class="btn btn-sm btn-dark" onclick="window.location.href = '{% url 'editProfile' %}'">Edit Profile</button>
         <button type="button" class="btn btn-sm btn-dark" onclick="window.location.href = '{% url 'changePic' %}'">Upload Photo</button>
+        <!-- <button type="button" class="btn btn-sm btn-dark" onclick="window.location.href = '{% url 'user_list' %}'">Upload Photo</button> -->
+        {% if user.is_superuser %}
+          <button type="button" class="btn btn-sm btn-dark" onclick="window.location.href = '{% url 'user_list' %}'">User List</button>
+        {% endif %}
+        <!-- <button type="button" class="btn btn-sm btn-dark" onclick="window.location.href = '{% url 'request_list' %}'">Upload Photo</button> -->
+        {% if user.is_superuser %}
+          <button type="button" class="btn btn-sm btn-dark" onclick="window.location.href = '{% url 'request_list' %}'">Pending Manager Requests</button>
+        {% endif %}
       </div>
     </div>
     <div class = "row mt-2">
@@ -55,7 +63,7 @@
           Verification Status
         </div>
         <div class = "col-md-6">
-          {{user.isVerifiedUser}}
+          {{user.isVerifiedUser}} 
         </div>
       </div>
 
@@ -67,10 +75,10 @@
         </div>
         <div class = "col-md-6">
           {% if not user.residence_set.all %}
-          None
+            None
           {% endif %}
           {% for item in user.residence_set.all %}
-          {{item.name}}
+            {{item.name}};
           {% endfor %}
         </div>
       </div>
@@ -81,11 +89,18 @@
           Purdue Verification Status
         </div>
         <div class = "col-md-6">
-          {{user.isPurdueVerified}}
+          {% if user.isPurdueVerified %}
+          <div style="height: 100px">
+            <p>
+              <!-- {{user.isVerifiedUser}}  -->
+              <img style="width: 50px; height: 50px;" src="{% get_media_prefix %}purdue_logo2.png" alt="Max-width 100%">
+            </p>
+          </div>
+        {% else %}
+          {{user.isPurdueVerified}} 
+        {% endif %}
         </div>
       </div>
-
-
       <hr class = "my-3" style = "color:#212529;"> 
     </div>
 

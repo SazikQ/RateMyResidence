@@ -1,10 +1,13 @@
 <!-- templates/base.html -->
 <!DOCTYPE html>
 {% load static %}
+{% load static %}
+{% load socialaccount %}
 <link
   rel = "stylesheet"
   type = "text/css"
   href = "{% static 'css/bootstrap.css' %}">
+  
 <html>
 <head>
   <meta charset="utf-8">
@@ -38,7 +41,8 @@
               <li class="nav-item">
                 <a class="nav-link" href = "{%url 'top_ten'%}">Top Ten Residence</a>
               </li> -->
-              <li class="nav-item">
+
+              <!-- <li class="nav-item">
                 {% if user.is_superuser %}
                 <a class="nav-link" aria-current="page" href="{% url 'user_list' %}">User list </a>
                 {% endif %}
@@ -47,7 +51,8 @@
                 {% if user.is_superuser %}
                 <a class="nav-link" aria-current="page" href="{% url 'request_list' %}">Pending manager request </a>
                 {% endif %}
-              </li>
+              </li> -->
+
               <!-- <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="{% url 'worst_residence' %}">Worst Residence </a>
               </li> -->

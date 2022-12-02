@@ -15,7 +15,7 @@ class ResidenceForm(forms.Form):
     parking_policy = forms.ChoiceField(label="Select a parking policy", choices=Residence.ParkingPolicy.choices)
     pet_policy = forms.ChoiceField(label="Select a pet policy", choices=Residence.PetPolicy.choices)
     residence_tags = TagField()
-    image = forms.ImageField(label="Upload image for residence", required=False, widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    image = forms.ImageField(label="Upload image for residence", required=False, widget=forms.ClearableFileInput(attrs={'multiple': False}))
 
 class ResidenceEditForm(forms.Form):
     name = forms.CharField(label='Residence name', max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -48,7 +48,7 @@ class ReviewForm(forms.Form):
     quality_rating = forms.DecimalField(min_value=0, max_value=5)
     room_type = forms.ChoiceField(label="Select your room type", choices=Review.RoomType.choices)
     has_furniture = forms.BooleanField(label="Does this residence provide furniture", required=False)
-    image = forms.ImageField(label="Upload images for your review", required=False, widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    image = forms.ImageField(label="Upload images for your review", required=False, widget=forms.ClearableFileInput(attrs={'multiple': False}))
 
 
 class EditReview(forms.Form):
