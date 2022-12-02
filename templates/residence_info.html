@@ -19,77 +19,6 @@
 {% block content %}
 {% load static %}
 {% load socialaccount %}
-    <!-- <div class="container px-4 py-5">    
-        <div class="row row-cols-1 row-cols-md-2 align-items-md-center g-5 py-5">
-          <div class="d-flex flex-column align-items-start gap-2">
-            <h1 class="fw-bold">{{ object.name }}</h1>
-            <h4 class="fw-semibold mb-0"> Tags </h4>
-                {% for tag in tags %}
-                    <p class="mb-1 text-muted">{{tag}}</p>
-                {% endfor %}
-             <h4 class="fw-semibold mb-0"> Photos </h4>
-                <div class="container">
-                    <div class="image-container">
-                        {% for residenceImage in object.residence_image.all %}
-                            <a href="{{ residenceImage.photo.url }}" data-lightbox = ><img src="{{ residenceImage.photo.url }}" class="img-fluid about-section-img"></a>
-                        {% endfor %}
-                    </div>
-                </div>
-              
-                {% if object.manager.all %}
-                <h4 class="fw-semibold mb-0"> Residence managers </h4>
-                    {% for manager in object.manager.all %}    
-                    <p class="mb-1 text-muted">{{manager}}</p>
-                    {% endfor %}
-                {% endif %}
-
-                {% if object.university %}
-                    <p class="mb-1 text-muted">University Residence</p>
-                {% else %}
-                    <p class="mb-1 text-muted">Off Campus Residence</p>
-                {% endif %}
-
-                <h4 class="fw-semibold mb-0">Residence address</h4>
-                <p class="mb-1 text-muted">{{ object.location.streetNum }} {{ object.location.streetName }} {{ object.location.zipcode }}</p>
-
-                <h4 class="fw-semibold mb-0">Residence Website</h4>
-                {% if object.website == "None" %}
-                    <p class="mb-1 text-muted">None</p>
-                {% else %}
-                    <button onclick="window.location.href = '{{ object.website }}'" class="btn btn-dark btn-sm">Go to residence website</button>
-                {% endif %}
-
-                <h4 class="fw-semibold mb-0">Add a new review</h4>
-                <form>
-                    <button formaction="/addReview/{{object.pk}}" class="btn btn-dark btn-sm">Write a review</button>
-                </form>
-                {% if user in object.manager.all or user.is_superuser %}
-                    <h4 class="fw-semibold mb-0">Edit Residence</h4>
-                    <button onclick="Edit()" class="btn btn-dark btn-sm">Edit</button>
-                    <script language="JavaScript">
-                    function Edit() {
-                        window.location.href = "/residence/{{object.pk}}/edit";
-                    }
-                    </script>
-                {% endif %}
-                <br>
-                {% if object.isReported.count > 0 %}
-                {% if object.isReported.count > 1 %}
-                   This residence is reported as inappropriate residence by {{ object.isReported.count }} verified users. 
-                {% else %}
-                    This residence is reported as inappropriate residence by {{ object.isReported.count }} verified user.
-                {% endif %}
-                {% endif %}
-                {% if user.isVerifiedUser %}
-                <form action="{% url 'reportResidence' object.pk %}">
-                    {% csrf_token %}
-                    <button type="submit", name="residence_id", value="{{ object.pk }}" class="btn btn-dark btn-sm">Report</button>
-                </form>
-                {% endif %}
-          </div>
-        </div>
-    </div> -->
-
     <br>
     <br>
     <br>
@@ -97,26 +26,88 @@
     <div class="container">
         <div class="row">
             <div class="col-md-5">
-                <div class="col-md-4 text-center">
-                    {% if Residence.residence_image.first %}
-                        <div style="height: 100px">
-                            <img class="res-info-img " style="width: 300; height: 400px;" src="{{ Residence.residence_image.first.photo.url }}" alt="Max-width 100%">
-                        </div>
-                        <!-- <img src="{{ Residence.residence_image.first.photo.url }}" class="res-info-img"> -->
+                <div class="col-md-4">
+                    {% if object.residence_image %}
+                        {% for res in object.residence_image.all %}
+                            <a href="{{ res.photo.url }}" data-lightbox = >
+                                <img style="width: 400px; height: 400px; object-fit: cover;" src="{{ res.photo.url }}">
+                            </a>
+                        {% endfor %}
                     {% else %}
-                        <div style="height: 100px">
-                            <img class="res-info-img" style="width: 300; height: 400px;" src="{% get_media_prefix %}test_2.jpeg" alt="Max-width 100%">
-                        </div>
-                        <!-- <img src="{% get_media_prefix %}test_2.jpeg" class="res-info-img"> -->
+                        <img class="res-info-img" style="width: 400px; height: 400px; object-fit: contain;" src="{% get_media_prefix %}test_2.jpeg">
                     {% endif %}
-                </div>
 
+                    <br>
+                    <br>
+                </div>
+                {% if object.isReported.count == 1 %}
+                    <p class="col-md-6" style="background-color: #000000; font-size: 30px; color: #CEB888; text-align: center; width: 400px;">
+                        This residence is reported as inappropriate residence by {{ object.isReported.count }} verified user. 
+                    </p>
+                {% elif object.isReported.count > 1 %}
+                    <p class="col-md-6" style="background-color: #000000; font-size: 30px; color: #CEB888; text-align: center;">
+                        This residence is reported as inappropriate residence by {{ object.isReported.count }} verified users. 
+                    </p>
+                {% endif %}
             </div>
 
+
             <div class="col-md-7">
+                <h2 style="text-align: left">{{ object.name }}</h2>
+                <p style="text-align: left"><b>Tags: </b>
+                    {% for tag in tags %}
+                        <span style="background-color: #000000;
+                        font-size: 12px;
+                        color: #CEB888;
+                        text-align: left;">{{tag}}</span>
+                    {% endfor %}
+                </p>
+                {% if object.manager.all %}
+                <p style="text-align: left; font-size: 12px;"><b>Residence Managers: </b>
+                    {% for manager in object.manager.all %}    
+                        <span class="text-muted">{{manager}}</span>
+                    {% endfor %}
+                </p>
+                {% endif %}
+
+                <p style="text-align: left; font-size: 12px;"><b>Residence address: </b>
+                <span class="text-muted">{{ object.location.streetNum }} {{ object.location.streetName }} {{ object.location.zipcode }}</span>
+                </p>
+                {% if object.university %}
+                    <p style="background-color: #000000; font-size: 12px; color: #CEB888; text-align: center; width: 300px;">University Residence</p>
+                {% else %}
+                    <p style="background-color: #000000; font-size: 12px; color: #CEB888; text-align: center;">Off Campus Residence</p>
+                {% endif %}
+
+                <p style="text-align: left; font-size: 12px;"><b>Residence Website: </b>
+                    {% if object.website == "None" %}
+                        <span class="text-muted">None</p>
+                    {% else %}
+                        <button onclick="window.location.href = '{{ object.website }}'" class="btn btn-dark btn-sm">Go to residence website</button>
+                    {% endif %}
+                </p>
+
+                
+                <form>
+                    <p style="text-align: left; font-size: 12px;"><b>Add New Review: </b>
+                        <button formaction="/addReview/{{object.pk}}" class="btn btn-dark btn-sm">Write a review</button>
+                    </p>
+                </form>
+
+
+                {% if user.isVerifiedUser %}
+                    <form action="{% url 'reportResidence' object.pk %}">
+                        <p style="text-align: left; font-size: 12px;"><b>Report Residence</b>
+                                <!-- {% csrf_token %} -->
+                                <button type="submit", name="residence_id", value="{{ object.pk }}" class="btn btn-dark btn-sm">Report</button>
+                        </p>
+                    </form>
+                {% endif %}
+
                 {% if user in object.manager.all or user.is_superuser %}
-                    <h4 class="fw-semibold mb-0">Edit Residence</h4>
-                    <button onclick="Edit()" class="btn btn-dark btn-sm">Edit</button>
+                    <p style="text-align: left; font-size: 12px;"><b>Edit Residence: </b>
+                        <button onclick="Edit()" class="btn btn-dark btn-sm">Edit</button>
+                    </p>
                     <script language="JavaScript">
                     function Edit() {
                         window.location.href = "/residence/{{object.pk}}/edit";
@@ -127,40 +118,14 @@
         </div>
     </div>
 
-    <!-- <br>
     <br>
     <br>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-5">
-                <div class="col-md-4 text-center">
-                    {% if Residence.residence_image.first %}
-                        <img src="{{ Residence.residence_image.first.photo.url }}" class="res-info-img">
-                    {% else %}
-                        <img src="{% get_media_prefix %}test_2.jpeg" class="res-info-img">
-                    {% endif %}
-                </div>
-
-            </div>
-
-            <div class="col-md-7">
-                {% if user in object.manager.all or user.is_superuser %}
-                    <h4 class="fw-semibold mb-0">Edit Residence</h4>
-                    <button onclick="Edit()" class="btn btn-dark btn-sm">Edit</button>
-                    <script language="JavaScript">
-                    function Edit() {
-                        window.location.href = "/residence/{{object.pk}}/edit";
-                    }
-                    </script>
-                {% endif %}
-            </div>
-        </div>
-    </div> -->
+    <br>
+    <br>
 
 <div class="container">
     {% if not object.comments.all %}
-        <small>No comment yet</small>
+        <p style="font-family:verdana" style="text-align:center">No comment yet</p>
     {% else %}
         <br>
         <div class="container px-3 py-4">
@@ -328,6 +293,50 @@
                 </p>
               </div>
             </div>
+
+            <form action="{% url 'reportReview' object.pk %}">
+                {% csrf_token %}
+                <button type="submit", name="review_id", value= "{{ comment.id }}" class = "btn btn-primary btn-sm">Report</button>
+            </form>
+            {% if comment.isReported.count > 0 %}
+                <br>
+                {% if comment.isReported.count > 1 %}
+                    <strong> This comment is reported as inappropriate comment by {{ comment.isReported.count }} users. </strong>
+                {% else %}
+                <strong> This comment is reported as inappropriate comment by {{ comment.isReported.count }} user. </strong>
+                {% endif %}
+                <br>
+
+            {% endif %}
+            <br>
+            {% if user in object.manager.all or user.is_superuser %}
+            <form>
+                <button formaction="/replyReview/{{comment.pk}}/" class = "btn btn-primary btn-sm"> Reply Comment</button>
+            </form>
+            {% endif %}
+            <br>
+            <h5 class="mb-3">Manager Reply</h5>
+            {% if not comment.replies.all %}
+                <small>No reply yet</small>
+            {% else %}
+                {% for reply in comment.replies.all %}
+                <p class="lead my-3">
+                <div class="mb-1" style = "color: #9D968D">
+                <p>{{ reply.replier }} | {{ reply.publishTime }}</p>
+                <p>{{ reply.content }}</p>
+                </div>
+                {% if user == reply.replier %}
+                <form>
+                    <button formaction="/changeReply/{{reply.pk}}/" class = "btn btn-primary btn-sm"> Update Reply</button>
+                    <button formaction="/deleteReply/{{reply.pk}}" class = "btn btn-primary btn-sm">  Delete Reply</button>
+                </form>
+                {% endif %}
+                </p>
+                {% endfor %}
+            {% endif %}
+            </p>
+          </div>
+        </div>
         
         {% endfor %}
     </div>
