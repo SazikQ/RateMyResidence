@@ -56,6 +56,7 @@ def delete_review(request, pk):
 
     if request.user == review_form.reviewer or request.user.is_superuser:
         review_form.delete()
+        residence_info.update_review_fields()
         return HttpResponseRedirect(redirectUrl)
     return HttpResponseRedirect(redirectUrl)
 
