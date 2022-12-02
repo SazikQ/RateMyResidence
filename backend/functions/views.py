@@ -370,7 +370,7 @@ def edit_residence(request, pk):
             'pet_policy': instance.pet_policy,
             'residence_tags': tags_list
         })
-    return render(request, 'editResidence.html', {'form': form.as_p()})
+    return render(request, 'editResidence.html', {'form': form})
 
 
 class ResidenceListView(ListView):
