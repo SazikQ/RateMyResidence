@@ -56,6 +56,25 @@ def delete_review(request, pk):
 
     if request.user == review_form.reviewer or request.user.is_superuser:
         review_form.delete()
+        residence_info.update_review_fields()
+        # reviews = residence_info.comments.all()
+        # #reviews = Review.objects.filter(id=self.id)
+        # print(reviews)
+
+        # if (reviews.count() == 0):
+        #     residence_info.rating_average = 0
+        #     residence_info.rent_average = 0
+        #     residence_info.rent_min = 0
+        #     residence_info.rent_max = 0
+        #     residence_info.review_count = reviews.count()
+        #     residence_info.save(update_fields=['rating_average', 'rent_average','rent_min','rent_max','review_count'])
+        # else:
+        #     residence_info.rating_average = reviews.aggregate(models.Avg('rating')).get('rating__avg')
+        #     residence_info.rent_average = reviews.aggregate(models.Avg('rent')).get('rent__avg')
+        #     residence_info.rent_min = reviews.aggregate(models.Min('rent')).get('rent__min')
+        #     residence_info.rent_max = reviews.aggregate(models.Max('rent')).get('rent__max')
+        #     residence_info.review_count = reviews.count()
+        #     residence_info.save(update_fields=['rating_average', 'rent_average','rent_min','rent_max','review_count'])
         return HttpResponseRedirect(redirectUrl)
     return HttpResponseRedirect(redirectUrl)
 
