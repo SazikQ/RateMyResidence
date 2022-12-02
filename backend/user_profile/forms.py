@@ -10,4 +10,5 @@ class ProfilePhotoForm(forms.Form):
 
 
 class RequestForm(forms.Form):
-    selected_residence = forms.ModelChoiceField(queryset=Residence.objects.all(), empty_label=None)
+    selected_residence = forms.ModelChoiceField(queryset=Residence.objects.all(), empty_label=None, 
+                        widget=forms.Select(attrs={'class':'form-select'}))
