@@ -95,6 +95,23 @@
                   Request to be a residence manager
                 </a>
             </li>
+            {% if user.is_superuser %}
+              <li class="nav-item text-start">
+                <a class="nav-link active" aria-current="page" href="{% url 'user_list'%}">
+                  <span class="align-text-bottom"></span>
+                      User List
+                </a>
+              </li>
+            {% endif %}
+
+            {% if user.is_superuser %}
+              <li class="nav-item text-start">
+                <a class="nav-link active" aria-current="page" href="{% url 'request_list'%}">
+                  <span class="align-text-bottom"></span>
+                    Pending Manager Requests
+                </a>
+              </li>
+            {% endif %}
           </ul>
         </div>
       </nav>
