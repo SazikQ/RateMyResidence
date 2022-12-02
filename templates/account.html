@@ -22,13 +22,9 @@
         <button type="button" class="btn btn-sm btn-dark" onclick="window.location.href = '{% url 'editProfile' %}'">Edit Profile</button>
         <button type="button" class="btn btn-sm btn-dark" onclick="window.location.href = '{% url 'changePic' %}'">Upload Photo</button>
         <!-- <button type="button" class="btn btn-sm btn-dark" onclick="window.location.href = '{% url 'user_list' %}'">Upload Photo</button> -->
-        {% if user.is_superuser %}
-          <button type="button" class="btn btn-sm btn-dark" onclick="window.location.href = '{% url 'user_list' %}'">User List</button>
-        {% endif %}
+
         <!-- <button type="button" class="btn btn-sm btn-dark" onclick="window.location.href = '{% url 'request_list' %}'">Upload Photo</button> -->
-        {% if user.is_superuser %}
-          <button type="button" class="btn btn-sm btn-dark" onclick="window.location.href = '{% url 'request_list' %}'">Pending Manager Requests</button>
-        {% endif %}
+
       </div>
     </div>
     <div class = "row mt-2">
