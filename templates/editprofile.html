@@ -11,10 +11,10 @@
 <p class="text-start text-dark fst-italic"> Edit your profile here!</p>
 <hr class = "mb-4" style = "color:#212529;">
 
-
+<div class="container">
 <form method="post">
 {% csrf_token %}
-  <div class="col-md-8 col-lg-10">
+  <div class="col-md-7 col-lg-8">
     {{ edit_form.non_field_errors }}
     <div class="row d-flex align-items-start">
       <div class="row mb-3 d-flex align-items-start">
@@ -62,7 +62,7 @@
     </div> 
   </div>
 </form>
-
+</div>
 {% endblock %}
     
   
