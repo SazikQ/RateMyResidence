@@ -34,6 +34,11 @@
                 <a class="nav-link" aria-current="page" href="{% url 'user_list' %}">User list </a>
                 {% endif %}
               </li>
+              <li class="nav-item">
+                {% if user.is_superuser %}
+                <a class="nav-link" aria-current="page" href="{% url 'request_list' %}">Pending manager request </a>
+                {% endif %}
+              </li>
             </ul>
             <div class="col-md-4 offset-md-6">
                 {% if user.is_authenticated %}

@@ -10,7 +10,8 @@
         <div class="row g-3">
             <div class="col-12">
                 <label for="id_name" class="form-label">Residence name</label>
-                <input type="text" class="form-control" id="id_name" name = "name" placeholder="Residence name" value="" required>
+                <div>{{form.name}}</div>
+                <!--input type="text" class="form-control" id="id_name" name = "name" placeholder="Residence name" value="" required-->
                 {{ form.name.errors }}
                 <div class="invalid-feedback">
                     Please enter a valid Residence name.
@@ -19,7 +20,8 @@
 
             <div class="col-12">
                 <label for="id_streetNum" class="form-label">Street Number</label>
-                <input type="number" class="form-control" id="id_streetNum" name="streetNum" placeholder="610" required>
+                <div>{{form.streetNum}}</div>
+                <!--input type="number" class="form-control" id="id_streetNum" name="streetNum" placeholder="610" required-->
                 {{ form.streetNum.errors }}
                 <div class="invalid-feedback">
                     Please enter a valid street number.
@@ -28,7 +30,8 @@
 
             <div class="col-12">
                 <label for="id_streetName" class="form-label">Street name</label>
-                <input type="text" class="form-control" id="id_streetName" name="streetName" placeholder="Purdue Mall" value="" required>
+                <div>{{form.streetName}}<div>
+                <!--input type="text" class="form-control" id="id_streetName" name="streetName" placeholder="Purdue Mall" value="" required!-->
                 {{ form.streetName.errors }}
                 <div class="invalid-feedback">
                     Please enter a valid street name.
@@ -37,7 +40,8 @@
 
             <div class="col-12">
                 <label for="id_zipcode" class="form-label">Zipcode</label>
-                <input type="number" class="form-control" id="id_zipcode" name="zipcode" placeholder="47907" required>
+                <div>{{form.zipcode}}</div>
+                <!--input type="number" class="form-control" id="id_zipcode" name="zipcode" placeholder="47907" required-->
                 {{ form.zipcode.errors }}
                 <div class="invalid-feedback">
                     Please enter a valid zipcode.
@@ -46,7 +50,8 @@
 
             <div class="col-12">
                 <label for="id_distance" class="form-label">Distance from Campus (mi)</label>
-                <input type="number" class="form-control" id="id_distance" name="distance" placeholder="20" required>
+                <!--input type="number" class="form-control" id="id_distance" name="distance" placeholder="20" required-->
+                <div>{{form.distance}}</div>
                 {{ form.distance.errors }}
                 <div class="invalid-feedback">
                     Please enter a valid distance in miles.
@@ -54,8 +59,9 @@
             </div>
 
             <div class="col-12">
-              <label for="id_website" class="form-label">Residence Offical Website</label>
-              <input type="text" class="form-control" id="id_website" name="website" placeholder="" required>
+              <label for="id_website" class="form-label">Residence Official Website</label>
+              <!--input type="text" class="form-control" id="id_website" name="website" placeholder="" required-->
+              <div>{{form.website}}</div>
               {{ form.website.errors }}
               <div class="invalid-feedback">
                   Please enter a valid distance in miles.
@@ -64,7 +70,8 @@
 
             <div class="col-12">
                 <label for="id_is_university">Is this property University Residence Hall?</label>
-                <input id="id_is_university" name="university" type="checkbox">
+                <!--input id="id_is_university" name="university" type="checkbox"-->
+                <div>{{form.university}}</div>
                 <div class="invalid-feedback">
                     Please enter tags.
                 </div>
@@ -73,31 +80,34 @@
             <div class="col-12">
                 <label for="id_parking_policy" class="form-label">Parking Policy</label>
                 <br>
-                <select id="id_parking_policy" name="parking_policy">
+                <div>{{form.parking_policy}}</div>
+                <!--select id="id_parking_policy" name="parking_policy">
                     <option value="UN" selected>Unknown</option>
                     <option value="NP">No Parking</option>
                     <option value="PP">Paid Parking</option>
                     <option value="RP">Reserved Parking</option>
                     <option value="IP">Included Parking</option>
                     <option value="OP">Other</option>
-                </select>
+                </select-->
             </div>
 
             <div class="col-12">
                 <label for="id_pet_policy" class="form-label">Pet Policy</label>
                 <br>
-                <select id="id_pet_policy" name="pet_policy">
+                <div>{{form.pet_policy}}</div>
+                <!--select id="id_pet_policy" name="pet_policy">
                     <option value="UN" selected>Unknown</option>
                     <option value="NP">No Pets</option>
                     <option value="RP">Restricted Pets</option>
                     <option value="PP">Increased Rent</option>
                     <option value="OP">Other</option>
-                </select>
+                </select-->
             </div>
 
             <div class="col-12">
                 <label for="id_tags" class="form-label">Residence tags</label>
-                <input type="text" class="form-control" id="id_tags" name="residence_tags" required>
+                <!--input type="text" class="form-control" id="id_tags" name="residence_tags" required-->
+                <div>{{form.residence_tags}}</div>
                 {{ form.residence_tags.errors }}
                 <div class="invalid-feedback">
                     Please enter tags.
