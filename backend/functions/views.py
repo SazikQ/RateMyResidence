@@ -524,7 +524,7 @@ class RequestDetailView(DetailView):
     def get(self, request, pk):
         form = RequestForm()
         targetRequest = ResidenceRequest.objects.get(pk=pk)
-        context = { 'object': targetRequest, 'form': form.as_p()}
+        context = { 'object': targetRequest, 'form': form}
         return render(request, 'request_detail.html', context)
 
 
