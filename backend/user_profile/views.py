@@ -108,12 +108,6 @@ def manager_request(request):
         form = RequestForm(request.POST)
         if form.is_valid():
             selectedResidence = form.cleaned_data['selected_residence']
-            try:
-                previous_reqeust = ResidenceRequest.objects.get(requestResidence=selectedResidence, belonged_user=request.user)
-                previous_reqeust.delete()
-            except ObjectDoesNotExist:
-                pass
-
             residence_request = ResidenceRequest.objects.create(requestResidence=selectedResidence, belonged_user=request.user)
             files = request.FILES.getlist('request_file')
             for file in files:

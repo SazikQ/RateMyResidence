@@ -55,13 +55,6 @@
             <div class="col-md-4 offset-md-6">
                 {% if user.is_authenticated %}
                     <a style="color:#CEB888;"> Hi {{ user.username }}!</a>
-                {% if user.profile_image.all %}
-                {% with user.profile_image.all|first as image %}
-                     <img src="{{ image.photo.url }}" width="35" height="35" />
-                    {% endwith %}
-                    {% else %}
-                    <img src="{% get_media_prefix %}default_avatar.png" width="35" height="35"/>
-                    {% endif %}
                     <a class = "btn btn-primary btn-sm" href = "{% url 'profile'%}" role = "button">Account</a>
                     <a class="btn btn-outline-primary me-2 btn-sm" href = "{% url 'logout' %}" role = "button">Log Out</a>
                 {% else %}

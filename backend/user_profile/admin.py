@@ -10,7 +10,7 @@ class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     model = User
     fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ("isVerifiedUser",)}),
+        (None, {'fields': ("isVerifiedUser", "isResidenceManager")}),
     )
 
 
