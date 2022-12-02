@@ -11,22 +11,21 @@ html,body{
 	height: 100%;
 }
 
-body{
-	font-family: Arial, sans-serif;
-}
 
 .container{
 	display: flex;
-	align-items: left;
-	justify-content: left;
+	align-items: center;
+	justify-content: center;
 	height: 100%;
+
 }
 
 .rating-wrap{
 
 	padding: 15px;
 	box-shadow: 0 0 3px 0 rgba(0,0,0,.2);
-	text-align: left;
+	text-align: center;
+	width: 110%;
 }
 
 .center{
@@ -37,7 +36,7 @@ body{
 .left {
   position: absolute;
   left: 0px;
-  width: 300px;
+  width: 250px;
   border: 3px solid #73AD21;
   padding: 10px;
 }
@@ -45,7 +44,7 @@ body{
 .right {
   position: absolute;
   right: 0px;
-  width: 300px;
+  width: 250px;
   border: 3px solid #73AD21;
   padding: 10px;
 }
@@ -226,11 +225,6 @@ body{
 
 .search-bar button img {
 	width: 25px;
-}
-
-.tinytiny {
-    height: 35px;
-    width: 35px;
 }
 
 .search-bar button {
