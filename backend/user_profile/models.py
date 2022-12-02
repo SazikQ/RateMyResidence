@@ -76,12 +76,18 @@ class Residence(models.Model):
 
     def update_review_fields(self):
         reviews = self.comments.all()
-        #reviews = Review.objects.filter(id=self.id)
-        self.rating_average = reviews.aggregate(models.Avg('rating')).get('rating__avg')
-        self.rent_average = reviews.aggregate(models.Avg('rent')).get('rent__avg')
-        self.rent_min = reviews.aggregate(models.Min('rent')).get('rent__min')
-        self.rent_max = reviews.aggregate(models.Max('rent')).get('rent__max')
-        self.review_count = reviews.count()
+        if reviews.count() == 0:
+            self.rating_average = 0
+            self.rent_average = 0
+            self.rent_min = 0
+            self.rent_max = 0
+            self.review_count = 0
+        else:
+            self.rating_average = reviews.aggregate(models.Avg('rating')).get('rating__avg')
+            self.rent_average = reviews.aggregate(models.Avg('rent')).get('rent__avg')
+            self.rent_min = reviews.aggregate(models.Min('rent')).get('rent__min')
+            self.rent_max = reviews.aggregate(models.Max('rent')).get('rent__max')
+            self.review_count = reviews.count()
         self.save(update_fields=['rating_average', 'rent_average','rent_min','rent_max','review_count'])
 
 class Review(models.Model):
