@@ -80,7 +80,8 @@ class ReviewPhotoForm(forms.Form):
 
 
 class RequestForm(forms.Form):
-    isApproved = forms.BooleanField(label='Approve the request?',  required=False)
+    isApproved = forms.BooleanField(label='Approve the request?',  required=False, 
+                    widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
 
 class ReplyForm(forms.Form):
     content = forms.CharField(max_length=500)

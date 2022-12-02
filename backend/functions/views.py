@@ -238,10 +238,10 @@ class SearchResultsView(ListView):
             q_objects &= Q(comments__in=valid)
         
         if (order and order != "None"):
-            return Residence.objects.filter(q_objects).order_by(order)
+            return Residence.objects.filter(q_objects).order_by(order).distinct()
         # Conduct query without order
         else:
-            return Residence.objects.filter(q_objects)
+            return Residence.objects.filter(q_objects).distinct()
 
     
     def get_context_data(self, **kwargs):
@@ -524,7 +524,7 @@ class RequestDetailView(DetailView):
     def get(self, request, pk):
         form = RequestForm()
         targetRequest = ResidenceRequest.objects.get(pk=pk)
-        context = { 'object': targetRequest, 'form': form.as_p()}
+        context = { 'object': targetRequest, 'form': form}
         return render(request, 'request_detail.html', context)
 
 

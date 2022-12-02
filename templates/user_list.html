@@ -3,6 +3,14 @@
 {% block title %}Residence List{% endblock %}
 
 {% block content %}
+
+<br>
+<div>
+  <h2 class="text-start text-dark">Manage Non-admin Users</h2>
+</div>
+<p class="text-start text-dark fst-italic"> Ban users from logging in and promote users to be admin</p>
+<hr class = "mb-4" style = "color:#212529;">
+
 {% if object_list %}
 <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
 {% for User in object_list %}
@@ -13,17 +21,17 @@
       </div>
        <div class="card-body">
          {% if User.is_active %}
-         <button onclick="window.location.href='{% url 'user_ban' User.pk %}'"> Ban user </button>
+         <button onclick="window.location.href='{% url 'user_ban' User.pk %}'" class = "btn btn-secondary"> Ban user </button>
           {% else %}
-        <button onclick="window.location.href='{% url 'user_release' User.pk %}'"> Release user </button>
+        <button onclick="window.location.href='{% url 'user_release' User.pk %}'" class = "btn btn-secondary"> Release user </button>
            {% endif %}
-           <button onclick="window.location.href='{% url 'user_promote' User.pk %}'"> Promote user </button>
+           <button onclick="window.location.href='{% url 'user_promote' User.pk %}'" class = "btn btn-secondary"> Promote user </button>
        </div>
       </div>
   </div>
 {% endfor %}
 </div>
 {% else %}
-<h3> No non-admin user yet</h3>
+<h5 class = "text-start"> No non-admin user yet</h5>
 {% endif %}
 {% endblock %}

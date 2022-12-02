@@ -3,13 +3,56 @@
 {% block title %}Request Page{% endblock %}
 
 {% block content %}
-<div class="p-3 p-md-3 mb-5 rounded text-bg-dark">
+<br>
+<div>
+  <h2 class="text-start text-dark">Request Detail </h2>
+</div>
+<p class="text-start text-dark fst-italic"> View manager request details</p>
+<hr class = "mb-4" style = "color:#212529;">
+
+<div class="row d-flex align-items-start">
+  <div class="row mb-3 d-flex flex-column">
+      <div class="mb-3 text-start"><h4>Request User:</h4></div>
+      <div class="mb-3 text-start "><p class="font-weight-bold">{{ object.belonged_user.username }}</p></div>
+  </div>
+  <div class="row mb-3 d-flex flex-column">
+    <div class="mb-3 text-start"><h4>Request Residence:</h4></div>
+    <div class="mb-3 text-start "><p class="font-weight-bold">{{ object.requestResidence.name }}</p></div>
+  </div>
+  <div class="row mb-3 d-flex flex-column">
+    <div class="mb-3 text-start"><h4>Submitted Files:</h4></div>
+    {% for requestFile in object.request_file.all %}
+    <div class="mb-3 text-start "><a href="{{requestFile.file.url}}"> {{ requestFile.file.name }} </a></div>
+    {% endfor %}
+  </div>
+
+  <form method="post"  enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-outline mb-4">
+      <div class="d-flex flex-row">
+        <label for="id_isApproved" class ="text-start">Approve the request?</label>
+        <div class="mb-3 text-start ">{{ form.isApproved }} </a></div> 
+      </div>
+
+      <div class="row mb-3 d-flex align-items-start">
+          <div class="btn-group me-2 col-md-2 col-lg-4">
+            <button class='btn btn-dark' type="submit">submit</button>
+            <button type="button" class="btn btn-dark" onclick="window.location.href = '{% url 'request_list' %}'">Cancel</button>
+          </div>
+      </div>
+      
+    </div>
+    
+  </form>
+</div>
+
+<!--div class="p-3 p-md-3 mb-5 rounded text-bg-dark">
     <div class="col-md-12 px-0">
       <h1 class="display-4 fst-italic">{{ object.belonged_user.username }} request to be manager of {{object.requestResidence.name}}</h1>
       <p class="lead my-3">
           <div class="mb-1 text-muted">
         {% for requestFile in object.request_file.all %}
-        <a href="{{requestFile.file.url}}"> Get verification file </a>
+        <a href="{{requestFile.file.url}}"> {{ object.requestFile.file.name }} </a>
         {% endfor %}
           </div>
         <form method="post"  enctype="multipart/form-data">
@@ -21,5 +64,5 @@
         </form>
       </p>
     </div>
-  </div>
+  </div-->
 {% endblock %}

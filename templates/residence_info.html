@@ -76,7 +76,7 @@
                 {% if object.university %}
                     <p style="background-color: #000000; font-size: 12px; color: #CEB888; text-align: center; width: 300px;">University Residence</p>
                 {% else %}
-                    <p style="background-color: #000000; font-size: 12px; color: #CEB888; text-align: center;">Off Campus Residence</p>
+                    <p style="background-color: #000000; font-size: 12px; color: #CEB888; text-align: center; width: 300px;">Off Campus Residence</p>
                 {% endif %}
 
                 <p style="text-align: left; font-size: 12px;"><b>Residence Website: </b>
@@ -208,141 +208,133 @@
         <div id = "original">
             {% for comment in reviews.all %}
                 <div class="p-3 p-md-3 mb-5 rounded text-bg-dark">
-                <div class="col-md-12 px-0">
-                    <h1 class="display-4 fst-italic">{{ comment.title }}</h1>
-                    <p class="lead my-3">
-                        <div class="mb-1" style = "color: #9D968D">
+                    <div class="col-md-12 px-0">
+                        <h1 class="display-4 fst-italic">{{ comment.title }}</h1>
+                        <p class="lead my-3">
+                            <div class="mb-1" style = "color: #9D968D">
 
-                            {% if comment.room_type == 'ST' %}
-                                Room type: <strong>Studio</strong>
-                            {% elif comment.room_type == 'SH' %}
-                                Room type: <strong>Shared-room </strong>
-                            {% elif comment.room_type == 'TO' %}
-                                Room type: <strong>Two-room</strong>
-                            {% elif comment.room_type == 'TH' %}
-                                Room type: <strong>Three-room</strong>
-                            {% elif comment.room_type == 'FR' %}
-                                Room type: <strong>Four-room</strong>
-                            {% elif comment.room_type == 'UN' %}
-                                Room type: <strong>Unknown</strong>
-                            {% endif %}
+                                {% if comment.room_type == 'ST' %}
+                                    Room type: <strong>Studio</strong>
+                                {% elif comment.room_type == 'SH' %}
+                                    Room type: <strong>Shared-room </strong>
+                                {% elif comment.room_type == 'TO' %}
+                                    Room type: <strong>Two-room</strong>
+                                {% elif comment.room_type == 'TH' %}
+                                    Room type: <strong>Three-room</strong>
+                                {% elif comment.room_type == 'FR' %}
+                                    Room type: <strong>Four-room</strong>
+                                {% elif comment.room_type == 'UN' %}
+                                    Room type: <strong>Unknown</strong>
+                                {% endif %}
 
-                        Time lived: <strong>{{ comment.time_lived }} months</strong> 
-                            Rent: <strong>$ {{comment.rent }} / month</strong>
-                            {% if comment.live_again %}
-                                Would live again: <strong>Yes</strong>
+                            Time lived: <strong>{{ comment.time_lived }} months</strong> 
+                                Rent: <strong>$ {{comment.rent }} / month</strong>
+                                {% if comment.live_again %}
+                                    Would live again: <strong>Yes</strong>
+                                {% else %}
+                                    Would live again: <strong>No</strong>
+                                {% endif %}
+
+                                {% if comment.has_furniture %}
+                                Furniture: <strong>Yes</strong>
+                                {% else %}
+                                    Furniture: <strong>No</strong>
+                                {% endif %}<br>
+
+                                Overall rating: <strong>{{ comment.rating }}</strong>
+                                Location rating: <strong>{{ comment.location_rating }}</strong>
+                                Quietness rating: <strong>{{ comment.quietness_rating }}</strong>
+                                Quality rating: <strong>{{ comment.quality_rating }}</strong>
+                            </div>
+                            <br>
+
+                            <h3>{{ comment.content }}</h3><br>
+                            {% if comment.isAnonymous and comment.reviewer != user %}
+                                by Anonymous User
                             {% else %}
-                                Would live again: <strong>No</strong>
+                                by {{ comment.reviewer }}
                             {% endif %}
-
-                            {% if comment.has_furniture %}
-                            Furniture: <strong>Yes</strong>
-                            {% else %}
-                                Furniture: <strong>No</strong>
-                            {% endif %}<br>
-
-                            Overall rating: <strong>{{ comment.rating }}</strong>
-                            Location rating: <strong>{{ comment.location_rating }}</strong>
-                            Quietness rating: <strong>{{ comment.quietness_rating }}</strong>
-                            Quality rating: <strong>{{ comment.quality_rating }}</strong>
-                        </div>
-                        <br>
-
-                        <h3>{{ comment.content }}</h3><br>
-                        {% if comment.isAnonymous and comment.reviewer != user %}
-                            by Anonymous User
-                        {% else %}
-                            by {{ comment.reviewer }}
-                        {% endif %}
-                        | {{ comment.publishTime }} <br>
-                        {% if comment.reviewer.isPurdueVerified %}
-                        &#10003; Verified Purdue User <br>
-                        {% endif %}
-                        <br>
-                        {% for reviewImage in comment.review_image.all %}
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-4 cl-md-12 col-12">
-                                        <div class="about-img">
-                                            <img src="{{ reviewImage.photo.url }}" class="img-fluid about-section-img">
+                            | {{ comment.publishTime }} <br>
+                            {% if comment.reviewer.isPurdueVerified %}
+                            &#10003; Verified Purdue User <br>
+                            {% endif %}
+                            <br>
+                            {% for reviewImage in comment.review_image.all %}
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-4 cl-md-12 col-12">
+                                            <div class="about-img">
+                                                <img src="{{ reviewImage.photo.url }}" class="img-fluid about-section-img">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        {% endfor %}
-                        {% if user == comment.reviewer or user.is_superuser %}
-                            <form>
-                                <button formaction="/changecomment/{{comment.pk}}/" class = "btn btn-primary btn-sm"> Update Comment</button>
-                                <button formaction="/deletecomment/{{comment.pk}}" class = "btn btn-primary btn-sm">  Delete Comment</button>
+                            {% endfor %}
+                            {% if user == comment.reviewer or user.is_superuser %}
+                                <form>
+                                    <button formaction="/changecomment/{{comment.pk}}/" class = "btn btn-primary btn-sm"> Update Comment</button>
+                                    <button formaction="/deletecomment/{{comment.pk}}" class = "btn btn-primary btn-sm">  Delete Comment</button>
+                                    {% if user in object.manager.all or user.is_superuser %}
+                                        <button formaction="/replyReview/{{comment.pk}}/" class = "btn btn-primary btn-sm"> Reply Comment</button>
+                                    {% endif %}
+                                </form>
+                            {% endif %}
+
+                            <!-- <form action="{% url 'reportReview' object.pk %}">
+                                {% csrf_token %}
+                                <button type="submit", name="review_id", value= "{{ comment.id }}" class = "btn btn-primary btn-sm">Report</button>
+                            </form> -->
+
+                            <br>
+                            
+                            <form action = "{% url 'likeReview' object.pk %}">
+                                {% csrf_token %}
+                                <button type = "submit", name = "review_id", value = "{{ comment.id }}" class = "btn btn-primary btn-sm">Like</button>
+                                <strong> {{ comment.likes.count }} likes </strong>
                             </form>
+                            <br>
+                            <form action = "{% url 'dislikeReview' object.pk %}">
+                                {% csrf_token %}
+                                <button type = "submit", name = "review_id", value = "{{ comment.id }}" class = "btn btn-primary btn-sm">Dislike</button>
+                                <strong> {{ comment.dislikes.count }} Dislikes </strong>
+                            </form>
+                            <br>
+                            <form action="{% url 'reportReview' object.pk %}">
+                                {% csrf_token %}
+                                <button type="submit", name="review_id", value= "{{ comment.id }}" class = "btn btn-primary btn-sm">Report</button>
+                                <strong> {{ comment.isReported.count }} Reports </strong>
+                            </form>
+                        </p>
+                    </div>
+
+
+                    {% if not comment.replies.all %}
+                        <!-- <p class="lead my-3">No reply yet</p> -->
+                    {% else %}
+                        {% for reply in comment.replies.all %}
+                        <p class="lead my-3">
+                        <div class="mb-1" style = "color: #9D968D">
+                        <p>{{ reply.replier }} | {{ reply.publishTime }}</p>
+                        <p>{{ reply.content }}</p>
+                        </div>
+                        {% if user == reply.replier %}
+                        <form>
+                            <button formaction="/changeReply/{{reply.pk}}/" class = "btn btn-primary btn-sm"> Update Reply</button>
+                            <button formaction="/deleteReply/{{reply.pk}}" class = "btn btn-primary btn-sm">  Delete Reply</button>
+                        </form>
                         {% endif %}
-
-                    <br>
-                    
-                    <form action = "{% url 'likeReview' object.pk %}">
-                        {% csrf_token %}
-                        <button type = "submit", name = "review_id", value = "{{ comment.id }}" class = "btn btn-primary btn-sm">Like</button>
-                        <strong> {{ comment.likes.count }} likes </strong>
-                    </form>
-                    <br>
-                    <form action = "{% url 'dislikeReview' object.pk %}">
-                        {% csrf_token %}
-                        <button type = "submit", name = "review_id", value = "{{ comment.id }}" class = "btn btn-primary btn-sm">Dislike</button>
-                        <strong> {{ comment.dislikes.count }} Dislikes </strong>
-                    </form>
-                </p>
-              </div>
-            </div>
-
-            <form action="{% url 'reportReview' object.pk %}">
-                {% csrf_token %}
-                <button type="submit", name="review_id", value= "{{ comment.id }}" class = "btn btn-primary btn-sm">Report</button>
-            </form>
-            {% if comment.isReported.count > 0 %}
-                <br>
-                {% if comment.isReported.count > 1 %}
-                    <strong> This comment is reported as inappropriate comment by {{ comment.isReported.count }} users. </strong>
-                {% else %}
-                <strong> This comment is reported as inappropriate comment by {{ comment.isReported.count }} user. </strong>
-                {% endif %}
-                <br>
-
-            {% endif %}
-            <br>
-            {% if user in object.manager.all or user.is_superuser %}
-            <form>
-                <button formaction="/replyReview/{{comment.pk}}/" class = "btn btn-primary btn-sm"> Reply Comment</button>
-            </form>
-            {% endif %}
-            <br>
-            <h5 class="mb-3">Manager Reply</h5>
-            {% if not comment.replies.all %}
-                <small>No reply yet</small>
-            {% else %}
-                {% for reply in comment.replies.all %}
-                <p class="lead my-3">
-                <div class="mb-1" style = "color: #9D968D">
-                <p>{{ reply.replier }} | {{ reply.publishTime }}</p>
-                <p>{{ reply.content }}</p>
+                        </p>
+                        {% endfor %}
+                    {% endif %}
+                    </p>
+                  </div>
                 </div>
-                {% if user == reply.replier %}
-                <form>
-                    <button formaction="/changeReply/{{reply.pk}}/" class = "btn btn-primary btn-sm"> Update Reply</button>
-                    <button formaction="/deleteReply/{{reply.pk}}" class = "btn btn-primary btn-sm">  Delete Reply</button>
-                </form>
-                {% endif %}
-                </p>
-                {% endfor %}
-            {% endif %}
-            </p>
-          </div>
+            
+            {% endfor %}
         </div>
-        
-        {% endfor %}
+        {% endif %}
     </div>
-    {% endif %}
-</div>
-{% endblock %}
+    {% endblock %}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </html>

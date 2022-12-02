@@ -3,6 +3,13 @@
 {% block title %}Request List{% endblock %}
 
 {% block content %}
+<br>
+<div>
+  <h2 class="text-start text-dark">Pending Manager Request List </h2>
+</div>
+<p class="text-start text-dark fst-italic"> See a list of pending manager request here!</p>
+<hr class = "mb-4" style = "color:#212529;">
+
 {% if object_list %}
 <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
 {% for object in object_list %}
@@ -21,6 +28,6 @@
 {% endfor %}
 </div>
 {% else %}
-<h1>There are no pending request </h1>
+<h5 class = "text-start">There are no pending request </h1>
 {% endif %}
 {% endblock %}
