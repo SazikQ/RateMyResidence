@@ -24,7 +24,7 @@ class ResidenceEditForm(forms.Form):
     zipcode = forms.CharField(max_length=6)
     university = forms.BooleanField(label = "university residence", initial=False, required=False)
     distance = forms.FloatField(min_value=0)
-    website = forms.CharField(max_length=150)
+    website = forms.CharField(max_length=150, required=False)
     parking_policy = forms.ChoiceField(label="Select a parking policy", choices=Residence.ParkingPolicy.choices)
     pet_policy = forms.ChoiceField(label="Select a pet policy", choices=Residence.PetPolicy.choices)
     residence_tags = TagField()
