@@ -24,7 +24,7 @@ class ResidenceEditForm(forms.Form):
     zipcode = forms.CharField(max_length=6, widget=forms.TextInput(attrs={'class': 'form-control'}))
     university = forms.BooleanField(label = "university residence", initial=False, required=False, widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
     distance = forms.FloatField(min_value=0, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    website = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'class': 'form-control'}), required=False)
+    website = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'class': 'form-control'}))
     parking_policy = forms.ChoiceField(label="Select a parking policy", choices=Residence.ParkingPolicy.choices, widget=forms.Select(attrs={'class': 'form-select'}))
     pet_policy = forms.ChoiceField(label="Select a pet policy", choices=Residence.PetPolicy.choices, widget=forms.Select(attrs={'class': 'form-select'}))
     residence_tags = TagField()
