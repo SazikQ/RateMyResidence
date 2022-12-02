@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block title %}Edit Comment{% endblock %}
+
+{% block content %}
+
+{% load static %}
+<link href=" {% static 'style.css' %} " rel="stylesheet" type="text/css">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Reply</title>
+</head>
+<body>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+<br>
+<h4 class="mb-3">Reply Review</h4>
+<div class="p-3 p-md-3 mb-5 rounded text-bg-dark">
+  <div class="col-md-12 px-0">
+    <h1 class="display-4 fst-italic">{{ review.title }}</h1>
+    <p class="lead my-3">
+        <div class="mb-1" style = "color: #9D968D">
+
+            {% if review.room_type == 'ST' %}
+                Room type: <strong>Studio</strong>
+            {% elif review.room_type == 'SH' %}
+                Room type: <strong>Shared-room </strong>
+            {% elif review.room_type == 'TO' %}
+                Room type: <strong>Two-room</strong>
+            {% elif review.room_type == 'TH' %}
+                Room type: <strong>Three-room</strong>
+            {% elif review.room_type == 'FR' %}
+                Room type: <strong>Four-room</strong>
+            {% elif review.room_type == 'UN' %}
+                Room type: <strong>Unknown</strong>
+            {% endif %}
+
+        Time lived: <strong>{{ review.time_lived }} months</strong> 
+            Rent: <strong>$ {{review.rent }} / month</strong>
+            {% if review.live_again %}
+                Would live again: <strong>Yes</strong>
+            {% else %}
+                Would live again: <strong>No</strong>
+            {% endif %}
+
+            {% if review.has_furniture %}
+               Furniture: <strong>Yes</strong>
+            {% else %}
+                Furniture: <strong>No</strong>
+            {% endif %}<br>
+
+            Overall rating: <strong>{{ review.rating }}</strong>
+            Location rating: <strong>{{ review.location_rating }}</strong>
+            Quietness rating: <strong>{{ review.quietness_rating }}</strong>
+            Quality rating: <strong>{{ review.quality_rating }}</strong>
+        </div>
+        <br>
+
+        <h3>{{ review.content }}</h3><br>
+        {% if review.isAnonymous and review.reviewer != user %}
+            by Anonymous User
+        {% else %}
+            by {{ review.reviewer }}
+        {% endif %}
+        | {{ review.publishTime }} <br>
+        {% if user.isPurdueVerified %}
+         &#10003; Verified Purdue User <br>
+        {% endif %}
+        <br>
+        {% for reviewImage in review.review_image.all %}
+            <img src="{{ reviewImage.photo.url }}">
+        {% endfor %}
+        <br>
+        {% csrf_token %}
+    <div class="form-group row">
+      <label for="id_content" class="form-label">Content</label>
+      <br>
+      <div class="col-sm-10 offset-1">
+          <textarea id="id_content" name="content" class="form-control" rows="7">{{ reply.content }}</textarea>
+      </div>
+  </div>
+  <br>
+    <button class='btn btn-secondary' type="submit">Update Reply</button>
+</form>
+</body>
+</html>
+{% endblock %}
