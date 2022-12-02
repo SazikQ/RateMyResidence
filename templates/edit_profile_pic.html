@@ -13,7 +13,7 @@
 
   <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
-    <div class="row d-flex align-items-start">
+    <div class="col-md-7 col-lg-5 col-xl-5"><div class="row d-flex align-items-start">
       <div class="row align-items-start pl-0">
         <div><input class="form-control" type="file" name="image" accept="image/*" required id="id_image"></div>
         {{ photo_form.non_field_errors }}
@@ -23,7 +23,7 @@
             <button type="button" class="btn btn-dark" onclick="window.location.href = '{% url 'profile' %}'">Cancel</button>
           </div>
         </div>
-      </div>
+      </div></div>
     </div>
   </form>
 

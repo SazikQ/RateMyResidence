@@ -149,9 +149,9 @@
               {% if Residence.isReported.count >= 1 %}
                 <i class="material-icons" style="font-size:24px;color:red">flag</i>
               {% endif %}
-              <p>Average Rating: {{Residence.rating_average}}<br>
-                Average Price: {{Residence.rent_average}}<br>
-                Distance from Campus: {{Residence.distance}} miles<br>
+              <p>Average Rating: {{Residence.rating_average|floatformat:2}}<br>
+                Average Price: {{Residence.rent_average|floatformat:2}}<br>
+                Distance from Campus: {{Residence.distance|floatformat:2}} miles<br>
               </p>
               <a href = "{%url 'residence_info' Residence.pk%}"><button type = "button" class="btn btn-lg btn-dark">View Details</button></a>
             </div>
