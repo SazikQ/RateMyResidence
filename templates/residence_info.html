@@ -27,16 +27,15 @@
         <div class="row">
             <div class="col-md-5">
                 <div class="col-md-4">
-                    {% if object.residence_image %}
+                    {% if object.residence_image.all %}
                         {% for res in object.residence_image.all %}
                             <a href="{{ res.photo.url }}" data-lightbox = >
                                 <img style="width: 400px; height: 400px; object-fit: cover;" src="{{ res.photo.url }}">
                             </a>
                         {% endfor %}
                     {% else %}
-                        <img class="res-info-img" style="width: 400px; height: 400px; object-fit: contain;" src="{% get_media_prefix %}test_2.jpeg">
+                        <img style="width: 400px; height: 400px; object-fit: cover;" src="{% get_media_prefix %}test_2.jpeg">
                     {% endif %}
-
                     <br>
                     <br>
                 </div>
@@ -71,13 +70,26 @@
                 {% endif %}
 
                 <p style="text-align: left; font-size: 12px;"><b>Residence address: </b>
-                <span class="text-muted">{{ object.location.streetNum }} {{ object.location.streetName }} {{ object.location.zipcode }}</span>
+                    <span class="text-muted">{{ object.location.streetNum }} {{ object.location.streetName }} {{ object.location.zipcode }}</span>
                 </p>
+
+                <p style="text-align: left; font-size: 12px;"><b>Average Rating: </b>
+                    <span class="text-muted">{{object.rating_average|floatformat:2}}</span>
+                </p>
+                
+                <p style="text-align: left; font-size: 12px;"><b>Average Price: </b>
+                    <span class="text-muted">${{object.rent_average|floatformat:2}}</span>
+                </p>
+                
+                <p style="text-align: left; font-size: 12px;"><b>Distance from Campus: </b>
+                    <span class="text-muted">{{object.distance|floatformat:2}} miles</span>
+                </p>
+
                 {% if object.university %}
                     <p style="background-color: #000000; font-size: 12px; color: #CEB888; text-align: center; width: 300px;">University Residence</p>
                 {% else %}
                     <p style="background-color: #000000; font-size: 12px; color: #CEB888; text-align: center; width: 300px;">Off Campus Residence</p>
-                {% endif %}
+                {% endif %}                 
 
                 <p style="text-align: left; font-size: 12px;"><b>Residence Website: </b>
                     {% if object.website == "None" %}
@@ -261,15 +273,17 @@
                             {% for reviewImage in comment.review_image.all %}
                                 <div class="container">
                                     <div class="row">
-                                        <div class="col-lg-4 cl-md-12 col-12">
+                                        <!-- <div class="col-lg-4 cl-md-12 col-12"> -->
+                                        <div class="col-md-6 offset-md-3">
                                             <div class="about-img">
-                                                <img src="{{ reviewImage.photo.url }}" class="img-fluid about-section-img">
+                                                <img src="{{ reviewImage.photo.url }}" style="width: 400px; height: 400px; object-fit: cover;">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             {% endfor %}
-                            {% if user == comment.reviewer or user.is_superuser %}
+                            <br>
+                            {% if user == comment.reviewer or user.is_superuser or user in object.manager.all %}
                                 <form>
                                     <button formaction="/changecomment/{{comment.pk}}/" class = "btn btn-primary btn-sm"> Update Comment</button>
                                     <button formaction="/deletecomment/{{comment.pk}}" class = "btn btn-primary btn-sm">  Delete Comment</button>
